@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geapp/app/components/drawer_item.dart';
+import 'package:geapp/modules/login/screens/login_screen.dart';
 import 'package:geapp/routes/routes.dart';
 import 'package:geapp/themes/color.dart';
 import 'package:geapp/themes/extension.dart';
@@ -56,7 +57,9 @@ class TDrawer extends StatelessWidget {
                 exitApp: true,
                 title: "Sair",
                 icon: Icons.exit_to_app_outlined,
-                onClick: () {},
+                onClick: () {
+                  context.pushAndRemoveUntil(const LoginScreen());
+                },
               ),
             ],
           ),
