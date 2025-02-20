@@ -54,7 +54,10 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
             child: Padding(
               padding: const EdgeInsets.only(right: 10),
               child: IconButton(
-                icon: const Icon(Icons.menu_outlined),
+                icon: const Icon(
+                  Icons.menu_outlined,
+                  size: 22,
+                ),
                 color: TColor.text.primary,
                 onPressed: () => Scaffold.of(context).openEndDrawer(),
               ),
