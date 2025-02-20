@@ -9,6 +9,17 @@ import 'package:uuid/uuid.dart';
 enum ToastType { success, error, info }
 
 class Utils {
+  static String? formatDouble(double? value) {
+    return value?.toStringAsFixed(2).replaceAll('.', ',');
+  }
+
+  static double? parseDouble(String? value) {
+    final cleaned = value?.replaceAll('.', '').replaceAll(',', '.');
+    if (cleaned == null) return null;
+
+    return double.tryParse(cleaned) ?? 0.0;
+  }
+
   static String formatDate(DateTime? date) {
     if (date == null) return "";
     return DateFormat("dd/MM/yyyy").format(date);

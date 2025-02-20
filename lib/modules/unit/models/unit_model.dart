@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:uuid/uuid.dart';
+
 class UnitModel {
+  String? code;
   String? productCode;
   String? unit;
   double? stock;
@@ -9,6 +12,7 @@ class UnitModel {
   String updatedAt;
 
   UnitModel({
+    this.code,
     this.productCode,
     this.unit,
     this.stock,
@@ -19,6 +23,7 @@ class UnitModel {
         updatedAt = updatedAt ?? DateTime.now().toIso8601String();
 
   UnitModel copyWith({
+    String? code,
     String? productCode,
     String? unit,
     double? stock,
@@ -27,6 +32,7 @@ class UnitModel {
     String? updatedAt,
   }) {
     return UnitModel(
+      code: code ?? this.code,
       productCode: productCode ?? this.productCode,
       unit: unit ?? this.unit,
       stock: stock ?? this.stock,
@@ -37,7 +43,11 @@ class UnitModel {
   }
 
   Map<String, dynamic> toMap() {
+    var uuid = const Uuid();
+    String uniqueCode = code ?? uuid.v4();
+
     return <String, dynamic>{
+      'code': uniqueCode,
       'productCode': productCode,
       'unit': unit,
       'stock': stock,
@@ -49,6 +59,7 @@ class UnitModel {
 
   factory UnitModel.fromMap(Map<String, dynamic> map) {
     return UnitModel(
+      code: map['code'] != null ? map['code'] as String : null,
       productCode:
           map['productCode'] != null ? map['productCode'] as String : null,
       unit: map['unit'] != null ? map['unit'] as String : null,
@@ -66,14 +77,15 @@ class UnitModel {
 
   @override
   String toString() {
-    return 'UnitModel(productCode: $productCode, unit: $unit, stock: $stock, price: $price, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UnitModel(code: $code, productCode: $productCode, unit: $unit, stock: $stock, price: $price, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
   bool operator ==(covariant UnitModel other) {
     if (identical(this, other)) return true;
 
-    return other.productCode == productCode &&
+    return other.code == code &&
+        other.productCode == productCode &&
         other.unit == unit &&
         other.stock == stock &&
         other.price == price &&
@@ -83,7 +95,8 @@ class UnitModel {
 
   @override
   int get hashCode {
-    return productCode.hashCode ^
+    return code.hashCode ^
+        productCode.hashCode ^
         unit.hashCode ^
         stock.hashCode ^
         price.hashCode ^

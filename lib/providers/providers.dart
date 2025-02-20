@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geapp/modules/customer/providers/customer_providers.dart';
 import 'package:geapp/modules/product/providers/product_providers.dart';
-import 'package:geapp/modules/unit/providers/unit_provider.dart';
+import 'package:geapp/modules/unit/providers/unit_providers.dart';
 import 'package:provider/provider.dart';
 
 class Providers extends StatelessWidget {
@@ -15,7 +15,7 @@ class Providers extends StatelessWidget {
       providers: [
         ...CustomerProviders.providers(),
         ...ProductProviders.providers(),
-        ChangeNotifierProvider(create: (context) => UnitProvider()),
+        ...UnitProviders.providers(),
       ],
       child: child,
     );

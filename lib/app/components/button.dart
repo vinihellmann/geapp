@@ -43,8 +43,12 @@ class _ButtonState extends State<Button> {
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
-          splashColor: TColor.background.main,
-          highlightColor: TColor.background.main,
+          splashColor: widget.outlined == true
+              ? TColor.background.main
+              : TColor.primary.dark,
+          highlightColor: widget.outlined == true
+              ? TColor.background.main
+              : TColor.primary.dark,
           onTap: widget.isLoading != true && widget.onClick != null
               ? () => widget.onClick!()
               : null,

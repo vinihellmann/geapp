@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:geapp/app/components/option_tile.dart';
 import 'package:geapp/modules/product/models/product_model.dart';
 import 'package:geapp/modules/product/providers/product_form_provider.dart';
-import 'package:geapp/modules/unit/providers/unit_provider.dart';
+import 'package:geapp/modules/product/providers/product_list_provider.dart';
+import 'package:geapp/modules/unit/providers/unit_list_provider.dart';
 import 'package:geapp/routes/routes.dart';
 import 'package:geapp/themes/color.dart';
 import 'package:geapp/themes/extension.dart';
@@ -40,15 +41,23 @@ class ProductListItem extends StatelessWidget {
             title: "Editar",
             onPress: () async {
               await context.read<ProductFormProvider>().setEdit(item);
-              if (context.mounted) context.push(Routes.productForm);
+
+              if (context.mounted) {
+                context.pop();
+                context.push(Routes.productForm);
+              }
             },
           ),
           SizedBox(height: 10),
           OptionTile(
             title: "Unidades",
             onPress: () async {
-              await context.read<UnitProvider>().init(item);
-              if (context.mounted) context.push(Routes.unit);
+              await context.read<UnitListProvider>().init(item);
+
+              if (context.mounted) {
+                context.pop();
+                context.push(Routes.unitList);
+              }
             },
           ),
         ],
@@ -67,17 +76,10 @@ class ProductListItem extends StatelessWidget {
             horizontal: 20,
             vertical: 10,
           ),
-          titleAlignment: ListTileTitleAlignment.titleHeight,
-          leading: SizedBox(
-            height: 60,
-            width: 60,
-            child: item.image != null
-                ? Image.network(item.image!)
-                : Image.asset(noImageUrl),
-          ),
-          title: Text(item.name?.toUpperCase() ?? "", style: TText.ml),
-          subtitle: Column(
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(item.name?.toUpperCase() ?? "", style: TText.ml),
               SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,37 +99,31 @@ class ProductListItem extends StatelessWidget {
               if (item.units.isNotEmpty) ...[
                 const SizedBox(height: 10),
                 InkWell(
-                  onTap: item.setUnit,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.sync_alt_outlined,
-                                color: TColor.primary.light,
-                                size: 20,
-                              ),
-                              const SizedBox(width: 10),
-                              Text(
-                                "Est.: ${item.stock} ${item.unit}",
-                                style: TText.xs,
-                              ),
-                            ],
-                          ),
+                  onTap: () async {
+                    await context.read<ProductListProvider>().setUnit(item);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Estoque: ${Utils.formatDouble(item.stock)} ${item.unit.toUpperCase()}",
+                          style: TText.xs,
                         ),
-                        Expanded(
-                          child: Text(
-                            "Preço: ${item.price}",
-                            style: TText.xs,
-                            textAlign: TextAlign.end,
-                          ),
+                      ),
+                      Icon(
+                        Icons.change_circle_outlined,
+                        color: TColor.primary.light,
+                        size: 20,
+                      ),
+                      Expanded(
+                        child: Text(
+                          "Preço: R\$${Utils.formatDouble(item.price)}",
+                          style: TText.xs,
+                          textAlign: TextAlign.end,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ],

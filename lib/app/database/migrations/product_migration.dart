@@ -31,6 +31,7 @@ class ProductMigration {
     await db.execute('''
       CREATE TABLE IF NOT EXISTS $tableNameUnit (
         id INTEGER PRIMARY KEY,
+        code TEXT NOT NULL,
         productCode TEXT NOT NULL,
         unit TEXT NOT NULL,
         stock FLOAT NOT NULL,
