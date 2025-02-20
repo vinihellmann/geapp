@@ -5,21 +5,12 @@ import 'package:geapp/app/models/query_result.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBService {
-  createTable(
-    Database db,
-    String table,
-    Map<String, String> columns,
-  ) async {
-    final data = columns.entries.map((e) => '${e.key} ${e.value}').join(',');
-
-    final query = 'CREATE TABLE IF NOT EXISTS $table ($data)';
-    await db.execute(query);
-  }
-
   Future<bool> login(String user, String password) async {
     final db = await GEDatabase().db;
-    final userQuery = await db.rawQuery(
-      "SELECT * FROM USUARIOS WHERE user = '$user' AND password = '$password'",
+    final userQuery = await db.query(
+      "USUARIOS",
+      where: "user = ? AND password = ?",
+      whereArgs: [user, password],
     );
 
     return userQuery.isNotEmpty;
