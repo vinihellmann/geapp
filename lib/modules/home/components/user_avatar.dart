@@ -12,11 +12,11 @@ class UserAvatar extends StatelessWidget {
         SizedBox(width: 20),
         CircleAvatar(
           backgroundColor: TColor.text.primary,
-          radius: 22,
+          radius: 20,
           child: Text(
             "Usuário"[0].toUpperCase(),
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
               color: TColor.primary.light,
             ),

@@ -11,7 +11,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
     required this.title,
     this.actions,
     this.bottom,
-  }) : preferredSize = Size.fromHeight(bottom != null ? 120 : 90);
+  }) : preferredSize = Size.fromHeight(bottom != null ? 120 : 80);
 
   @override
   final Size preferredSize;
@@ -29,7 +29,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
         scrolledUnderElevation: 0,
         elevation: 0,
         titleSpacing: 0,
-        toolbarHeight: bottom != null ? 120 : 90,
+        toolbarHeight: bottom != null ? 120 : 80,
         backgroundColor: Colors.transparent,
         bottom: bottom,
         leading: leading ??

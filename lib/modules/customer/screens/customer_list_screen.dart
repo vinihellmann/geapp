@@ -70,10 +70,18 @@ class CustomerListScreen extends StatelessWidget {
                       item: item,
                       onClick: onClick,
                       children: [
-                        Text("Número: ${item.addressNumber}", style: TText.sm),
-                        Text("Bairro: ${item.addressNeighborhood}",
-                            style: TText.sm),
-                        Text("Endereço: ${item.addressName}", style: TText.sm),
+                        Text(
+                          "Número: ${item.addressNumber}",
+                          style: TText.sm,
+                        ),
+                        Text(
+                          "Bairro: ${item.addressNeighborhood}",
+                          style: TText.sm,
+                        ),
+                        Text(
+                          "Endereço: ${item.addressName}",
+                          style: TText.sm,
+                        ),
                       ],
                     );
                   },
