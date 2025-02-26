@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 
 abstract class Provider<T> with ChangeNotifier {
   Provider() {
-    getData();
+    changeIsLoading();
+    getData().then((_) => changeIsLoading());
   }
 
   String get orderBy;
+
+  get totalItemsShown {
+    int previousRecords = (page - 1) * limit;
+    return previousRecords + items.length;
+  }
 
   int totalItems = 0;
   int totalPages = 1;
@@ -17,7 +23,7 @@ abstract class Provider<T> with ChangeNotifier {
   List<T> items = <T>[];
 
   @required
-  void getData();
+  Future<void> getData();
 
   void previousPage() {
     if (page > 1) {

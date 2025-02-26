@@ -44,7 +44,7 @@ class UnitListScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              "${provider.items.length} de ${provider.totalItems} itens",
+                              "${provider.totalItemsShown} de ${provider.totalItems} itens",
                               style: TText.ss,
                             ),
                             const Spacer(),

@@ -15,8 +15,6 @@ class ProductListProvider extends Provider<ProductModel> {
 
   @override
   Future<void> getData() async {
-    changeIsLoading();
-
     try {
       final itemList = <ProductModel>[];
       final result = await repository.search(null, null, page, limit, orderBy);
@@ -36,8 +34,6 @@ class ProductListProvider extends Provider<ProductModel> {
     } catch (e) {
       log("ProductListProvider::getData - $e");
       Utils.showToast(e.toString(), ToastType.error);
-    } finally {
-      changeIsLoading();
     }
   }
 

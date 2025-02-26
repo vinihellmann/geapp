@@ -79,17 +79,20 @@ class ProductListItem extends StatelessWidget {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(item.name?.toUpperCase() ?? "", style: TText.ml),
+              Text(
+                "${item.barCode} - ${item.name?.toUpperCase()}",
+                style: TText.ml,
+              ),
               SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Text("Marca: ${item.brand ?? ""}", style: TText.xs),
+                    child: Text("Marca: ${item.brand}", style: TText.xs),
                   ),
                   Expanded(
                     child: Text(
-                      "Grupo: ${item.groupName ?? ""}",
+                      "Grupo: ${item.groupName}",
                       style: TText.xs,
                       textAlign: TextAlign.end,
                     ),
