@@ -6,9 +6,10 @@ class RobotHeadPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()..color = TColor.text.primary;
     final eyePaint = Paint()..color = TColor.primary.dark.withAlpha(255);
-    final antennaPaint = Paint()
-      ..color = TColor.text.primary
-      ..strokeWidth = 4;
+    final antennaPaint =
+        Paint()
+          ..color = TColor.text.primary
+          ..strokeWidth = 4;
 
     // Cabeça
     final headRect = Rect.fromLTWH(15, 20, 40, 40);
@@ -42,12 +43,7 @@ class LogoGEApp extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CustomPaint(
-          size: Size(70, 70),
-          painter: RobotHeadPainter(),
-        ),
-      ],
+      children: [CustomPaint(size: Size(70, 70), painter: RobotHeadPainter())],
     );
   }
 }

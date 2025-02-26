@@ -59,10 +59,9 @@ class ProductListScreen extends StatelessWidget {
               Expanded(
                 child: ListView.separated(
                   itemCount: provider.items.length,
-                  separatorBuilder: (c, i) => Divider(
-                    color: TColor.background.border,
-                    height: 1,
-                  ),
+                  separatorBuilder:
+                      (c, i) =>
+                          Divider(color: TColor.background.border, height: 1),
                   itemBuilder: (context, i) {
                     final item = provider.items[i];
                     return ProductListItem(item: item);

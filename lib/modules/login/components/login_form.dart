@@ -52,7 +52,7 @@ class LoginForm extends StatelessWidget {
                       context.pushAndRemoveUntil(const HomeScreen());
                     }
                   },
-                )
+                ),
               ],
             ),
           ),

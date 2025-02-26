@@ -32,11 +32,7 @@ class UnitListScreen extends StatelessWidget {
                 labelStyle: TText.ml,
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorColor: TColor.background.main,
-                tabs: [
-                  Tab(
-                    text: provider.product?.name?.toUpperCase(),
-                  ),
-                ],
+                tabs: [Tab(text: provider.product?.name?.toUpperCase())],
               ),
               body: TabBarView(
                 children: [
@@ -75,10 +71,11 @@ class UnitListScreen extends StatelessWidget {
                       Expanded(
                         child: ListView.separated(
                           itemCount: provider.items.length,
-                          separatorBuilder: (c, i) => Divider(
-                            color: TColor.background.border,
-                            height: 1,
-                          ),
+                          separatorBuilder:
+                              (c, i) => Divider(
+                                color: TColor.background.border,
+                                height: 1,
+                              ),
                           itemBuilder: (context, i) {
                             final item = provider.items[i];
                             return UnitItem(item: item);

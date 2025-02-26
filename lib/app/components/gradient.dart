@@ -15,10 +15,7 @@ class TGradient extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            TColor.primary.light,
-            TColor.primary.dark,
-          ],
+          colors: [TColor.primary.light, TColor.primary.dark],
         ),
       ),
       child: child,

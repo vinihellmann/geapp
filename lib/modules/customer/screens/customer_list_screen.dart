@@ -59,10 +59,9 @@ class CustomerListScreen extends StatelessWidget {
               Expanded(
                 child: ListView.separated(
                   itemCount: provider.items.length,
-                  separatorBuilder: (c, i) => Divider(
-                    color: TColor.background.border,
-                    height: 1,
-                  ),
+                  separatorBuilder:
+                      (c, i) =>
+                          Divider(color: TColor.background.border, height: 1),
                   itemBuilder: (context, i) {
                     final item = provider.items[i];
 
@@ -70,18 +69,12 @@ class CustomerListScreen extends StatelessWidget {
                       item: item,
                       onClick: onClick,
                       children: [
-                        Text(
-                          "Número: ${item.addressNumber}",
-                          style: TText.sm,
-                        ),
+                        Text("Número: ${item.addressNumber}", style: TText.sm),
                         Text(
                           "Bairro: ${item.addressNeighborhood}",
                           style: TText.sm,
                         ),
-                        Text(
-                          "Endereço: ${item.addressName}",
-                          style: TText.sm,
-                        ),
+                        Text("Endereço: ${item.addressName}", style: TText.sm),
                       ],
                     );
                   },

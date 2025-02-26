@@ -7,12 +7,18 @@ import 'package:geapp/modules/product/models/product_model.dart';
 class ProductRepository extends Repository<ProductModel> {
   final DBService dbService;
   ProductRepository(this.dbService);
-  
+
   @override
   String get tableName => ProductMigration.tableName;
 
   @override
-  Future<QueryResult> search(String? where, List<dynamic>? whereArgs, int page, int limit, String orderBy) async {
+  Future<QueryResult> search(
+    String? where,
+    List<dynamic>? whereArgs,
+    int page,
+    int limit,
+    String orderBy,
+  ) async {
     try {
       return await dbService.getData(
         page: page,
@@ -30,10 +36,7 @@ class ProductRepository extends Repository<ProductModel> {
   @override
   Future<int?> create(ProductModel item) async {
     try {
-      return await dbService.insert(
-        tableName: tableName,
-        data: item.toMap(),
-      );
+      return await dbService.insert(tableName: tableName, data: item.toMap());
     } catch (e) {
       rethrow;
     }

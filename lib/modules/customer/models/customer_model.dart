@@ -43,8 +43,8 @@ class CustomerModel {
     this.addressNeighborhood,
     String? createdAt,
     String? updatedAt,
-  })  : createdAt = createdAt ?? DateTime.now().toIso8601String(),
-        updatedAt = updatedAt ?? DateTime.now().toIso8601String();
+  }) : createdAt = createdAt ?? DateTime.now().toIso8601String(),
+       updatedAt = updatedAt ?? DateTime.now().toIso8601String();
 
   CustomerModel copyWith({
     bool? isLegal,
@@ -119,11 +119,12 @@ class CustomerModel {
 
   factory CustomerModel.fromMap(Map<String, dynamic> map) {
     return CustomerModel(
-      isLegal: map['isLegal'] != null
-          ? map['isLegal'] == 1
-              ? true
-              : false
-          : null,
+      isLegal:
+          map['isLegal'] != null
+              ? map['isLegal'] == 1
+                  ? true
+                  : false
+              : null,
       code: map['code'] != null ? map['code'] as String : null,
       cpf: map['cpf'] != null ? map['cpf'] as String : null,
       cnpj: map['cnpj'] != null ? map['cnpj'] as String : null,
@@ -141,15 +142,18 @@ class CustomerModel {
           map['addressName'] != null ? map['addressName'] as String : null,
       addressNumber:
           map['addressNumber'] != null ? map['addressNumber'] as String : null,
-      addressZipCode: map['addressZipCode'] != null
-          ? map['addressZipCode'] as String
-          : null,
-      addressComplement: map['addressComplement'] != null
-          ? map['addressComplement'] as String
-          : null,
-      addressNeighborhood: map['addressNeighborhood'] != null
-          ? map['addressNeighborhood'] as String
-          : null,
+      addressZipCode:
+          map['addressZipCode'] != null
+              ? map['addressZipCode'] as String
+              : null,
+      addressComplement:
+          map['addressComplement'] != null
+              ? map['addressComplement'] as String
+              : null,
+      addressNeighborhood:
+          map['addressNeighborhood'] != null
+              ? map['addressNeighborhood'] as String
+              : null,
       createdAt: map['createdAt'] as String,
       updatedAt: map['updatedAt'] as String,
     );

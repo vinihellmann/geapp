@@ -7,12 +7,18 @@ import 'package:geapp/modules/unit/models/unit_model.dart';
 class UnitRepository extends Repository<UnitModel> {
   final DBService dbService;
   UnitRepository(this.dbService);
-  
+
   @override
   String get tableName => ProductMigration.tableNameUnit;
 
   @override
-  Future<QueryResult> search(String? where, List<dynamic>? whereArgs, int page, int limit, String orderBy) async {
+  Future<QueryResult> search(
+    String? where,
+    List<dynamic>? whereArgs,
+    int page,
+    int limit,
+    String orderBy,
+  ) async {
     try {
       return await dbService.getData(
         page: page,
@@ -30,10 +36,7 @@ class UnitRepository extends Repository<UnitModel> {
   @override
   Future<int?> create(UnitModel item) async {
     try {
-      return await dbService.insert(
-        tableName: tableName,
-        data: item.toMap(),
-      );
+      return await dbService.insert(tableName: tableName, data: item.toMap());
     } catch (e) {
       rethrow;
     }

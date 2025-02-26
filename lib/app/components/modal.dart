@@ -30,9 +30,10 @@ class Modal extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: TColor.background.main,
-      titlePadding: onClear != null
-          ? const EdgeInsets.fromLTRB(16, 5, 5, 10)
-          : const EdgeInsets.all(16),
+      titlePadding:
+          onClear != null
+              ? const EdgeInsets.fromLTRB(16, 5, 5, 10)
+              : const EdgeInsets.all(16),
       contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
       actionsPadding: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -45,12 +46,9 @@ class Modal extends StatelessWidget {
             visible: onClear != null,
             child: IconButton(
               onPressed: onClear,
-              icon: Icon(
-                Icons.block,
-                color: TColor.primary.light,
-              ),
+              icon: Icon(Icons.block, color: TColor.primary.light),
             ),
-          )
+          ),
         ],
       ),
       content: SizedBox(
@@ -80,7 +78,7 @@ class Modal extends StatelessWidget {
                   },
                 ),
               ),
-            ]
+            ],
           ],
         ),
       ],

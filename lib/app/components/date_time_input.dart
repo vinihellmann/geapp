@@ -3,10 +3,7 @@ import 'package:geapp/themes/color.dart';
 import 'package:geapp/themes/text.dart';
 import 'package:geapp/utils/utils.dart';
 
-enum DateTimeFieldType {
-  date,
-  time,
-}
+enum DateTimeFieldType { date, time }
 
 class DateTimeInput extends StatefulWidget {
   const DateTimeInput({
@@ -37,11 +34,12 @@ class _DateTimeInputState extends State<DateTimeInput> {
   void initState() {
     super.initState();
     _controller = TextEditingController(
-      text: widget.initialValue != null
-          ? widget.type == DateTimeFieldType.date
-              ? Utils.formatDate(widget.initialValue!)
-              : Utils.formatTime(widget.initialValue!)
-          : '',
+      text:
+          widget.initialValue != null
+              ? widget.type == DateTimeFieldType.date
+                  ? Utils.formatDate(widget.initialValue!)
+                  : Utils.formatTime(widget.initialValue!)
+              : '',
     );
   }
 
@@ -88,12 +86,13 @@ class _DateTimeInputState extends State<DateTimeInput> {
     TimeOfDay? selectedTime = await showTimePicker(
       context: context,
       barrierDismissible: false,
-      initialTime: widget.initialValue != null
-          ? TimeOfDay(
-              hour: widget.initialValue!.hour,
-              minute: widget.initialValue!.minute,
-            )
-          : TimeOfDay.now(),
+      initialTime:
+          widget.initialValue != null
+              ? TimeOfDay(
+                hour: widget.initialValue!.hour,
+                minute: widget.initialValue!.minute,
+              )
+              : TimeOfDay.now(),
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -143,14 +142,15 @@ class _DateTimeInputState extends State<DateTimeInput> {
         child: TextFormField(
           readOnly: true,
           controller: _controller,
-          validator: widget.isRequired
-              ? (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Campo Obrigatório!';
+          validator:
+              widget.isRequired
+                  ? (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Campo Obrigatório!';
+                    }
+                    return null;
                   }
-                  return null;
-                }
-              : null,
+                  : null,
           cursorColor: TColor.primary.light,
           style: TText.md,
           decoration: InputDecoration(
@@ -164,33 +164,23 @@ class _DateTimeInputState extends State<DateTimeInput> {
             hintStyle: TText.ss,
             filled: true,
             fillColor: TColor.background.light,
-            floatingLabelStyle: TextStyle(
-              color: TColor.primary.light,
-            ),
+            floatingLabelStyle: TextStyle(color: TColor.primary.light),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: TColor.background.border,
-              ),
+              borderSide: BorderSide(color: TColor.background.border),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: TColor.error.main,
-              ),
+              borderSide: BorderSide(color: TColor.error.main),
             ),
             errorStyle: TextStyle(color: TColor.error.main),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: TColor.primary.light,
-              ),
+              borderSide: BorderSide(color: TColor.primary.light),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: TColor.primary.light,
-              ),
+              borderSide: BorderSide(color: TColor.primary.light),
             ),
             contentPadding: const EdgeInsets.symmetric(
               vertical: 10,

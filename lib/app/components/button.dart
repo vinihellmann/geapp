@@ -34,35 +34,41 @@ class _ButtonState extends State<Button> {
         width: widget.width ?? MediaQuery.sizeOf(context).width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: widget.outlined == true
-              ? TColor.background.main
-              : widget.bgColor ?? TColor.button.primary,
-          border: widget.outlined == true
-              ? Border.all(color: TColor.button.primary)
-              : null,
+          color:
+              widget.outlined == true
+                  ? TColor.background.main
+                  : widget.bgColor ?? TColor.button.primary,
+          border:
+              widget.outlined == true
+                  ? Border.all(color: TColor.button.primary)
+                  : null,
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
-          splashColor: widget.outlined == true
-              ? TColor.background.main
-              : TColor.primary.dark,
-          highlightColor: widget.outlined == true
-              ? TColor.background.main
-              : TColor.primary.dark,
-          onTap: widget.isLoading != true && widget.onClick != null
-              ? () => widget.onClick!()
-              : null,
+          splashColor:
+              widget.outlined == true
+                  ? TColor.background.main
+                  : TColor.primary.dark,
+          highlightColor:
+              widget.outlined == true
+                  ? TColor.background.main
+                  : TColor.primary.dark,
+          onTap:
+              widget.isLoading != true && widget.onClick != null
+                  ? () => widget.onClick!()
+                  : null,
           child: Center(
-            child: widget.isLoading == true
-                ? SizedBox(
-                    width: 15,
-                    height: 15,
-                    child: CircularProgressIndicator(
-                      color: TColor.text.primary,
-                      strokeWidth: 2,
-                    ),
-                  )
-                : Text(widget.label, style: TText.ml),
+            child:
+                widget.isLoading == true
+                    ? SizedBox(
+                      width: 15,
+                      height: 15,
+                      child: CircularProgressIndicator(
+                        color: TColor.text.primary,
+                        strokeWidth: 2,
+                      ),
+                    )
+                    : Text(widget.label, style: TText.ml),
           ),
         ),
       ),

@@ -7,13 +7,17 @@ import 'package:geapp/modules/login/models/login_model.dart';
 class LoginRepository extends Repository<LoginModel> {
   final DBService dbService;
   LoginRepository(this.dbService);
-  
+
   @override
   String get tableName => UserMigration.tableName;
 
   Future<bool> login(String user, String password) async {
     try {
-      final result =  await dbService.query(table: tableName, where: "user = ? AND password = ?", whereArgs: [user, password]);
+      final result = await dbService.query(
+        table: tableName,
+        where: "user = ? AND password = ?",
+        whereArgs: [user, password],
+      );
       return result.isNotEmpty;
     } catch (e) {
       rethrow;
@@ -21,7 +25,13 @@ class LoginRepository extends Repository<LoginModel> {
   }
 
   @override
-  Future<QueryResult> search(String? where, List<dynamic>? whereArgs, int page, int limit, String orderBy) {
+  Future<QueryResult> search(
+    String? where,
+    List<dynamic>? whereArgs,
+    int page,
+    int limit,
+    String orderBy,
+  ) {
     throw UnimplementedError();
   }
 

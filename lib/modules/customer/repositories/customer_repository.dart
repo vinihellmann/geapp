@@ -8,12 +8,18 @@ import 'package:geapp/modules/customer/models/customer_model.dart';
 class CustomerRepository extends Repository<CustomerModel> {
   final DBService dbService;
   CustomerRepository(this.dbService);
-  
+
   @override
   String get tableName => CustomerMigration.tableName;
 
   @override
-  Future<QueryResult> search(String? where, List<dynamic>? whereArgs, int page, int limit, String orderBy) async {
+  Future<QueryResult> search(
+    String? where,
+    List<dynamic>? whereArgs,
+    int page,
+    int limit,
+    String orderBy,
+  ) async {
     try {
       return await dbService.getData(
         page: page,
@@ -31,10 +37,7 @@ class CustomerRepository extends Repository<CustomerModel> {
   @override
   Future<int?> create(CustomerModel item) async {
     try {
-      return await dbService.insert(
-        tableName: tableName,
-        data: item.toMap(),
-      );
+      return await dbService.insert(tableName: tableName, data: item.toMap());
     } catch (e) {
       rethrow;
     }
@@ -70,10 +73,14 @@ class CustomerRepository extends Repository<CustomerModel> {
   Future<List<SelectObject>> getStates() async {
     try {
       final result = await dbService.query(table: "ESTADOS");
-      return result.map((uf) => SelectObject(
-        key: int.parse(uf['id'].toString()), 
-        value: uf['sigla']))
-      .toList();
+      return result
+          .map(
+            (uf) => SelectObject(
+              key: int.parse(uf['id'].toString()),
+              value: uf['sigla'],
+            ),
+          )
+          .toList();
     } catch (e) {
       rethrow;
     }
@@ -81,11 +88,19 @@ class CustomerRepository extends Repository<CustomerModel> {
 
   Future<List<SelectObject>> getCities(int id) async {
     try {
-      final result = await dbService.query(table: "CIDADES", where: "estado_id = ?", whereArgs: [id]);
-      return result.map((city) => SelectObject(
-        key: int.parse(city['id_cidade'].toString()), 
-        value: city['nomeCidade']))
-      .toList();
+      final result = await dbService.query(
+        table: "CIDADES",
+        where: "estado_id = ?",
+        whereArgs: [id],
+      );
+      return result
+          .map(
+            (city) => SelectObject(
+              key: int.parse(city['id_cidade'].toString()),
+              value: city['nomeCidade'],
+            ),
+          )
+          .toList();
     } catch (e) {
       rethrow;
     }

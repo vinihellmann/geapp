@@ -7,7 +7,11 @@ class DBService {
   final Database db;
   DBService(this.db);
 
-  Future<List<dynamic>> query({required String table, String? where, List<dynamic>? whereArgs}) async {
+  Future<List<dynamic>> query({
+    required String table,
+    String? where,
+    List<dynamic>? whereArgs,
+  }) async {
     return await db.query(table, where: where, whereArgs: whereArgs);
   }
 
@@ -29,21 +33,24 @@ class DBService {
         offset: (page - 1) * limit,
       );
 
-      final count = Sqflite.firstIntValue(await db.rawQuery("SELECT COUNT(*) FROM $tableName ${where != null ? "WHERE $where" : ""}"));
+      final count = Sqflite.firstIntValue(
+        await db.rawQuery(
+          "SELECT COUNT(*) FROM $tableName ${where != null ? "WHERE $where" : ""}",
+        ),
+      );
       final totalPages = (count! / limit).ceil();
 
-      return QueryResult(
-        data: data,
-        totalItems: count,
-        totalPages: totalPages,
-      );
+      return QueryResult(data: data, totalItems: count, totalPages: totalPages);
     } catch (e) {
       log("DBService::getData - $e");
       rethrow;
     }
   }
 
-  Future<int?> insert({required String tableName, required Map<String, dynamic> data}) async {
+  Future<int?> insert({
+    required String tableName,
+    required Map<String, dynamic> data,
+  }) async {
     try {
       return await db.insert(tableName, data);
     } catch (e) {

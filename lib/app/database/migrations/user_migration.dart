@@ -24,10 +24,6 @@ class UserMigration {
   }
 
   static Future<void> populateTables(Database db) async {
-    await db.insert(tableName, {
-      'user': "demo",
-      'password': "1234",
-      'role': 1,
-    });
+    await db.insert(tableName, {'user': "demo", 'password': "1234", 'role': 1});
   }
 }

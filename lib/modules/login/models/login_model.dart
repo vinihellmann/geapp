@@ -4,15 +4,9 @@ class LoginModel {
   String user;
   String password;
 
-  LoginModel({
-    required this.user,
-    required this.password,
-  });
+  LoginModel({required this.user, required this.password});
 
-  LoginModel copyWith({
-    String? user,
-    String? password,
-  }) {
+  LoginModel copyWith({String? user, String? password}) {
     return LoginModel(
       user: user ?? this.user,
       password: password ?? this.password,
@@ -20,10 +14,7 @@ class LoginModel {
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'user': user,
-      'password': password,
-    };
+    return <String, dynamic>{'user': user, 'password': password};
   }
 
   factory LoginModel.fromMap(Map<String, dynamic> map) {

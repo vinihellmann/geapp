@@ -9,15 +9,20 @@ class ProductProviders {
     return [
       ProxyProvider<DBService, ProductRepository>(
         create: (context) => ProductRepository(context.read<DBService>()),
-        update: (context, dbService, repository) => ProductRepository(dbService),
+        update:
+            (context, dbService, repository) => ProductRepository(dbService),
       ),
       ChangeNotifierProxyProvider<ProductRepository, ProductListProvider>(
-        create: (context) => ProductListProvider(context.read<ProductRepository>()),
-        update: (context, repository, provider) => ProductListProvider(repository),
+        create:
+            (context) => ProductListProvider(context.read<ProductRepository>()),
+        update:
+            (context, repository, provider) => ProductListProvider(repository),
       ),
       ChangeNotifierProxyProvider<ProductRepository, ProductFormProvider>(
-        create: (context) => ProductFormProvider(context.read<ProductRepository>()),
-        update: (context, repository, provider) => ProductFormProvider(repository),
+        create:
+            (context) => ProductFormProvider(context.read<ProductRepository>()),
+        update:
+            (context, repository, provider) => ProductFormProvider(repository),
       ),
     ];
   }

@@ -12,22 +12,22 @@ class Floating extends StatelessWidget {
   Widget build(BuildContext context) {
     return isLoading
         ? FloatingActionButton(
-            onPressed: () {},
-            backgroundColor: TColor.background.success,
-            child: SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                color: TColor.text.primary,
-                strokeWidth: 2,
-              ),
+          onPressed: () {},
+          backgroundColor: TColor.background.success,
+          child: SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(
+              color: TColor.text.primary,
+              strokeWidth: 2,
             ),
-          )
+          ),
+        )
         : FloatingActionButton.extended(
-            onPressed: onClick,
-            backgroundColor: TColor.background.success,
-            label: Text("Salvar", style: TText.md),
-            icon: Icon(Icons.check_outlined, color: TColor.text.primary),
-          );
+          onPressed: onClick,
+          backgroundColor: TColor.background.success,
+          label: Text("Salvar", style: TText.md),
+          icon: Icon(Icons.check_outlined, color: TColor.text.primary),
+        );
   }
 }

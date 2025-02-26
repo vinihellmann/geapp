@@ -31,10 +31,7 @@ class Pagination extends StatelessWidget {
               color: TColor.button.primary,
             ),
           ),
-          Text(
-            "Página $page de $totalPages",
-            style: TText.ss,
-          ),
+          Text("Página $page de $totalPages", style: TText.ss),
           IconButton(
             onPressed: onRightPress,
             icon: Icon(

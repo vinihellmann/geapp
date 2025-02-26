@@ -12,7 +12,8 @@ class LoginProviders {
       ),
       ChangeNotifierProxyProvider<LoginRepository, LoginFormProvider>(
         create: (context) => LoginFormProvider(context.read<LoginRepository>()),
-        update: (context, repository, provider) => LoginFormProvider(repository),
+        update:
+            (context, repository, provider) => LoginFormProvider(repository),
       ),
     ];
   }

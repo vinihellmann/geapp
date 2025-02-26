@@ -34,13 +34,9 @@ class NavButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  icon,
-                  color: TColor.button.primary,
-                  size: 30,
-                ),
+                Icon(icon, color: TColor.button.primary, size: 30),
                 const SizedBox(width: 10),
-                Text(label, style: TText.md)
+                Text(label, style: TText.md),
               ],
             ),
           ),

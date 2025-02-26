@@ -29,7 +29,13 @@ class UnitListProvider extends Provider<UnitModel> {
       changeIsLoading();
 
       final itemList = <UnitModel>[];
-      final result = await repository.search("productCode = ?", [product?.code], page, limit, orderBy);
+      final result = await repository.search(
+        "productCode = ?",
+        [product?.code],
+        page,
+        limit,
+        orderBy,
+      );
 
       for (var item in result.data) {
         final object = UnitModel.fromMap(item);

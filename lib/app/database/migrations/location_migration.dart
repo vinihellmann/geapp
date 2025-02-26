@@ -35,8 +35,9 @@ class LocationMigration {
   }
 
   static Future<void> populateTables(Database db) async {
-    final String jsonString =
-        await rootBundle.loadString('assets/jsons/estados-com-cidades.json');
+    final String jsonString = await rootBundle.loadString(
+      'assets/jsons/estados-com-cidades.json',
+    );
     final Map<String, dynamic> data = jsonDecode(jsonString);
 
     for (var estado in data['estados']) {

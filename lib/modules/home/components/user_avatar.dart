@@ -23,7 +23,7 @@ class UserAvatar extends StatelessWidget {
           ),
         ),
         SizedBox(width: 10),
-        Text("Usuário".toUpperCase(), style: TText.ml)
+        Text("Usuário".toUpperCase(), style: TText.ml),
       ],
     );
   }

@@ -32,18 +32,19 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
         toolbarHeight: bottom != null ? 120 : 80,
         backgroundColor: Colors.transparent,
         bottom: bottom,
-        leading: leading ??
+        leading:
+            leading ??
             (backButton
                 ? Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: Icon(
-                        Icons.chevron_left_outlined,
-                        color: TColor.text.primary,
-                      ),
+                  padding: const EdgeInsets.only(left: 10),
+                  child: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: Icon(
+                      Icons.chevron_left_outlined,
+                      color: TColor.text.primary,
                     ),
-                  )
+                  ),
+                )
                 : null),
         title: title,
         centerTitle: true,
@@ -54,15 +55,12 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
             child: Padding(
               padding: const EdgeInsets.only(right: 10),
               child: IconButton(
-                icon: const Icon(
-                  Icons.menu_outlined,
-                  size: 22,
-                ),
+                icon: const Icon(Icons.menu_outlined, size: 22),
                 color: TColor.text.primary,
                 onPressed: () => Scaffold.of(context).openEndDrawer(),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
