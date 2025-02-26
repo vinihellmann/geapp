@@ -3,14 +3,15 @@ import 'dart:developer';
 import 'package:geapp/app/provider/provider.dart';
 import 'package:geapp/modules/product/models/product_model.dart';
 import 'package:geapp/modules/unit/models/unit_model.dart';
+import 'package:geapp/modules/unit/repositories/unit_repository.dart';
 import 'package:geapp/utils/utils.dart';
 
 class UnitListProvider extends Provider<UnitModel> {
+  final UnitRepository repository;
+  UnitListProvider(this.repository);
+
   ProductModel? product;
   UnitModel item = UnitModel();
-
-  @override
-  String tableName = "PRODUTOS_UNIDADE";
 
   @override
   String orderBy = "createdAt";
@@ -28,13 +29,7 @@ class UnitListProvider extends Provider<UnitModel> {
       changeIsLoading();
 
       final itemList = <UnitModel>[];
-      final result = await database.getData(
-        tableName: tableName,
-        limit: limit,
-        page: page,
-        orderBy: orderBy,
-        where: "productCode = '${product?.code}'",
-      );
+      final result = await repository.search("productCode = ?", [product?.code], page, limit, orderBy);
 
       for (var item in result.data) {
         final object = UnitModel.fromMap(item);

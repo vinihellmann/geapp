@@ -3,10 +3,14 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:geapp/app/provider/form_provider.dart';
 import 'package:geapp/modules/product/models/product_model.dart';
+import 'package:geapp/modules/product/repositories/product_repository.dart';
 
 class ProductFormProvider extends FormProvider<ProductModel> {
+  final ProductRepository repository;
+  ProductFormProvider(this.repository);
+
   @override
-  String get title => editMode ? "Editar Produto" : "Novo Produto";
+  String get title => isEditing ? "Editar Produto" : "Novo Produto";
 
   @override
   ProductModel item = ProductModel();
@@ -14,7 +18,7 @@ class ProductFormProvider extends FormProvider<ProductModel> {
 
   @override
   Future<void> setEdit(ProductModel object) async {
-    editMode = true;
+    isEditing = true;
     item = object.copyWith();
     notifyListeners();
   }
@@ -27,22 +31,12 @@ class ProductFormProvider extends FormProvider<ProductModel> {
       final valid = validateForm();
       if (!valid) return null;
 
-      if (editMode) {
-        final result = await database.update(
-          tableName: "PRODUTOS",
-          data: item.toMap(),
-          whereClause: "code = ?",
-          whereArgs: [item.code],
-        );
-
+      if (isEditing) {
+        final result = await repository.update(item);
         return result != null;
       }
 
-      final result = await database.insert(
-        tableName: "PRODUTOS",
-        data: item.toMap(),
-      );
-
+      final result = await repository.create(item);
       return result != null;
     } catch (e) {
       log("ProductFormProvider::save - $e");
@@ -57,12 +51,7 @@ class ProductFormProvider extends FormProvider<ProductModel> {
     try {
       changeIsLoading();
 
-      var result = await database.delete(
-        tableName: "PRODUTOS",
-        whereClause: "code = ?",
-        whereArgs: [item.code],
-      );
-
+      final result = await repository.delete(item);
       return result != null;
     } catch (e) {
       log("ProductFormProvider::delete - $e");
@@ -78,7 +67,7 @@ class ProductFormProvider extends FormProvider<ProductModel> {
 
   @override
   void clearData() {
-    editMode = false;
+    isEditing = false;
     item = ProductModel();
   }
 }

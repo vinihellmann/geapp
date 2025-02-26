@@ -2,11 +2,12 @@ import 'dart:developer';
 
 import 'package:geapp/app/provider/provider.dart';
 import 'package:geapp/modules/customer/models/customer_model.dart';
+import 'package:geapp/modules/customer/repositories/customer_repository.dart';
 import 'package:geapp/utils/utils.dart';
 
 class CustomerListProvider extends Provider<CustomerModel> {
-  @override
-  String tableName = "CLIENTES";
+  final CustomerRepository repository;
+  CustomerListProvider(this.repository);
 
   @override
   String orderBy = "name";
@@ -17,12 +18,7 @@ class CustomerListProvider extends Provider<CustomerModel> {
 
     try {
       final itemList = <CustomerModel>[];
-      final result = await database.getData(
-        tableName: tableName,
-        limit: limit,
-        page: page,
-        orderBy: orderBy,
-      );
+      final result = await repository.search(null, null, page, limit, orderBy);
 
       for (var item in result.data) {
         final customer = CustomerModel.fromMap(item);

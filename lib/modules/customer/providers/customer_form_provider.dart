@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:geapp/app/models/select_object.dart';
 import 'package:geapp/app/provider/form_provider.dart';
 import 'package:geapp/modules/customer/models/customer_model.dart';
+import 'package:geapp/modules/customer/repositories/customer_repository.dart';
 
 class CustomerFormProvider extends FormProvider<CustomerModel> {
-  CustomerFormProvider() {
+  final CustomerRepository repository;
+  CustomerFormProvider(this.repository) {
     getUFs();
   }
 
   @override
-  String get title => editMode ? "Editar Cliente" : "Novo Cliente";
+  String get title => isEditing ? "Editar Cliente" : "Novo Cliente";
 
   @override
   CustomerModel item = CustomerModel();
@@ -22,7 +24,7 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
 
   @override
   Future<void> setEdit(CustomerModel object) async {
-    editMode = true;
+    isEditing = true;
     item = object.copyWith();
     await getCities(object.addressUF ?? 0);
     notifyListeners();
@@ -36,22 +38,12 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
       final valid = validateForm();
       if (!valid) return null;
 
-      if (editMode) {
-        final result = await database.update(
-          tableName: "CLIENTES",
-          data: item.toMap(),
-          whereClause: "code = ?",
-          whereArgs: [item.code],
-        );
-
+      if (isEditing) {
+        final result = await repository.update(item);
         return result != null;
       }
 
-      final result = await database.insert(
-        tableName: "CLIENTES",
-        data: item.toMap(),
-      );
-
+      final result = await repository.create(item);
       return result != null;
     } catch (e) {
       log("CustomerFormProvider::save - $e");
@@ -66,12 +58,7 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
     try {
       changeIsLoading();
 
-      var result = await database.delete(
-        tableName: "CLIENTES",
-        whereClause: "code = ?",
-        whereArgs: [item.code],
-      );
-
+      final result = await repository.delete(item);
       return result != null;
     } catch (e) {
       log("CustomerFormProvider::delete - $e");
@@ -82,51 +69,17 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
   }
 
   Future<void> getUFs() async {
-    List<SelectObject> items = [];
-
-    final result = await database.query(table: "ESTADOS");
-    if (result.isEmpty) return;
-
-    for (var item in result) {
-      items.add(SelectObject(
-        key: int.parse(item['id'].toString()),
-        value: item['sigla'],
-      ));
-    }
-
-    ufs = items;
+    ufs = await repository.getStates();
     notifyListeners();
   }
 
   Future<void> getCities(int ufId) async {
-    List<SelectObject> items = [];
-
-    final result = await database.query(
-      table: "CIDADES",
-      where: "estado_id = ?",
-      whereArgs: [ufId],
-    );
-
-    if (result.isEmpty) return;
-    for (var item in result) {
-      items.add(SelectObject(
-        key: int.parse(item['id_cidade'].toString()),
-        value: item['nomeCidade'],
-      ));
-    }
-
-    cities = items;
+    cities = await repository.getCities(ufId);
     notifyListeners();
   }
 
   bool validateForm() {
     return formKey.currentState!.validate();
-  }
-
-  @override
-  void clearData() {
-    editMode = false;
-    item = CustomerModel();
   }
 
   void changeUF(int value) async {
@@ -145,5 +98,11 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
   void changeLegal() async {
     item.isLegal = !item.isLegal!;
     notifyListeners();
+  }
+
+  @override
+  void clearData() {
+    isEditing = false;
+    item = CustomerModel();
   }
 }

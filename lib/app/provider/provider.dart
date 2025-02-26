@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:geapp/app/services/db_service.dart';
 
 abstract class Provider<T> with ChangeNotifier {
   Provider() {
     getData();
   }
 
-  final DBService database = DBService();
-
-  String get tableName;
   String get orderBy;
 
   int totalItems = 0;

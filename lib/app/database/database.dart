@@ -23,7 +23,7 @@ class GEDatabase {
     return _db ??= await initialize();
   }
 
-  static Future<Database> initialize() async {
+  Future<Database> initialize() async {
     String dbPath = await getDatabasesPath();
     String finalPath = join(dbPath, "ge_database.db");
 

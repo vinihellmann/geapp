@@ -21,7 +21,7 @@ class UnitFormScreen extends StatelessWidget {
         return Layout(
           actions: [
             Visibility(
-              visible: provider.editMode,
+              visible: provider.isEditing,
               child: Padding(
                 padding: const EdgeInsets.only(right: 10),
                 child: IconButton(

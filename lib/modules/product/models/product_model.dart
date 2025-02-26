@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:geapp/app/services/db_service.dart';
 import 'package:geapp/modules/unit/models/unit_model.dart';
 import 'package:uuid/uuid.dart';
 
@@ -126,23 +125,6 @@ class ProductModel {
         createdAt.hashCode ^
         updatedAt.hashCode ^
         selectedUnit.hashCode;
-  }
-
-  //Inicializa o objeto aplicando as regras de negócio
-  Future<void> init() async {
-    await fetchUnits();
-    await setUnit();
-  }
-
-  //Busca as unidades cadastradas para o objeto
-  Future<void> fetchUnits() async {
-    final result = await DBService().query(
-      table: 'PRODUTOS_UNIDADE',
-      where: 'productCode = ?',
-      whereArgs: [code],
-    );
-
-    units = result.map((x) => UnitModel.fromMap(x)).toList();
   }
 
   //Inicia o objeto com uma unidade já cadastrada

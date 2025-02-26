@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:geapp/app/provider/form_provider.dart';
 import 'package:geapp/modules/unit/models/unit_model.dart';
 import 'package:geapp/modules/unit/providers/unit_list_provider.dart';
+import 'package:geapp/modules/unit/repositories/unit_repository.dart';
 import 'package:provider/provider.dart';
 
 class UnitFormProvider extends FormProvider<UnitModel> {
+  final UnitRepository repository;
+  UnitFormProvider(this.repository);
+
   @override
-  String get title => editMode ? "Editar Unidade" : "Nova Unidade";
+  String get title => isEditing ? "Editar Unidade" : "Nova Unidade";
 
   @override
   UnitModel item = UnitModel();
@@ -20,7 +24,7 @@ class UnitFormProvider extends FormProvider<UnitModel> {
 
   @override
   Future<void> setEdit(UnitModel object) async {
-    editMode = true;
+    isEditing = true;
     item = object.copyWith();
     notifyListeners();
   }
@@ -33,22 +37,12 @@ class UnitFormProvider extends FormProvider<UnitModel> {
       final valid = validateForm();
       if (!valid) return null;
 
-      if (editMode) {
-        final result = await database.update(
-          tableName: "PRODUTOS_UNIDADE",
-          data: item.toMap(),
-          whereClause: "code = ?",
-          whereArgs: [item.code],
-        );
-
+      if (isEditing) {
+        final result = await repository.update(item);
         return result != null;
       }
 
-      final result = await database.insert(
-        tableName: "PRODUTOS_UNIDADE",
-        data: item.toMap(),
-      );
-
+      final result = await repository.create(item);
       return result != null;
     } catch (e) {
       log("UnitFormProvider::save - $e");
@@ -63,12 +57,7 @@ class UnitFormProvider extends FormProvider<UnitModel> {
     try {
       changeIsLoading();
 
-      var result = await database.delete(
-        tableName: "PRODUTOS_UNIDADE",
-        whereClause: "code = ?",
-        whereArgs: [item.code],
-      );
-
+      final result = await repository.delete(item);
       return result != null;
     } catch (e) {
       log("UnitFormProvider::delete - $e");
@@ -84,7 +73,7 @@ class UnitFormProvider extends FormProvider<UnitModel> {
 
   @override
   void clearData() {
-    editMode = false;
+    isEditing = false;
     item = UnitModel();
   }
 }

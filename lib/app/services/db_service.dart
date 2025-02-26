@@ -1,53 +1,35 @@
 import 'dart:developer';
 
-import 'package:geapp/app/database/database.dart';
 import 'package:geapp/app/models/query_result.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBService {
-  Future<bool> login(String user, String password) async {
-    final db = await GEDatabase().db;
-    final userQuery = await db.query(
-      "USUARIOS",
-      where: "user = ? AND password = ?",
-      whereArgs: [user, password],
-    );
+  final Database db;
+  DBService(this.db);
 
-    return userQuery.isNotEmpty;
-  }
-
-  Future<List<dynamic>> query({
-    required String table,
-    String? where,
-    List<dynamic>? whereArgs,
-  }) async {
-    final db = await GEDatabase().db;
+  Future<List<dynamic>> query({required String table, String? where, List<dynamic>? whereArgs}) async {
     return await db.query(table, where: where, whereArgs: whereArgs);
   }
 
   Future<QueryResult> getData({
     required String tableName,
-    int limit = 10,
     int page = 1,
-    String orderBy = 'ID',
+    int limit = 10,
     String? where,
+    String orderBy = 'ID',
+    List<dynamic>? whereArgs,
   }) async {
     try {
-      final db = await GEDatabase().db;
-
       final data = await db.query(
         tableName,
-        where: where,
-        offset: (page - 1) * limit,
         limit: limit,
+        where: where,
         orderBy: orderBy,
+        whereArgs: whereArgs,
+        offset: (page - 1) * limit,
       );
 
-      final count = Sqflite.firstIntValue(
-        await db.rawQuery(
-            "SELECT COUNT(*) FROM $tableName ${where != null ? "WHERE $where" : ""}"),
-      );
-
+      final count = Sqflite.firstIntValue(await db.rawQuery("SELECT COUNT(*) FROM $tableName ${where != null ? "WHERE $where" : ""}"));
       final totalPages = (count! / limit).ceil();
 
       return QueryResult(
@@ -61,12 +43,8 @@ class DBService {
     }
   }
 
-  Future<int?> insert({
-    required String tableName,
-    required Map<String, dynamic> data,
-  }) async {
+  Future<int?> insert({required String tableName, required Map<String, dynamic> data}) async {
     try {
-      final db = await GEDatabase().db;
       return await db.insert(tableName, data);
     } catch (e) {
       log("DBService::insert - $e");
@@ -81,7 +59,6 @@ class DBService {
     required List<dynamic> whereArgs,
   }) async {
     try {
-      final db = await GEDatabase().db;
       return await db.update(
         tableName,
         data,
@@ -100,7 +77,6 @@ class DBService {
     List<dynamic>? whereArgs,
   }) async {
     try {
-      final db = await GEDatabase().db;
       return await db.delete(
         tableName,
         where: whereClause,
