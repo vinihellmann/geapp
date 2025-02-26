@@ -8,15 +8,9 @@ import 'package:geapp/themes/text.dart';
 import 'package:provider/provider.dart';
 
 class CustomerListItem extends StatefulWidget {
-  const CustomerListItem({
-    super.key,
-    required this.item,
-    required this.children,
-    this.onClick,
-  });
+  const CustomerListItem({super.key, required this.item, this.onClick});
 
   final CustomerModel item;
-  final List<Widget> children;
   final void Function(CustomerModel c)? onClick;
 
   @override
@@ -112,7 +106,20 @@ class _CustomerListItemState extends State<CustomerListItem>
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: widget.children,
+                    children: [
+                      Text(
+                        "Número: ${widget.item.addressNumber}",
+                        style: TText.sm,
+                      ),
+                      Text(
+                        "Bairro: ${widget.item.addressNeighborhood}",
+                        style: TText.sm,
+                      ),
+                      Text(
+                        "Endereço: ${widget.item.addressName}",
+                        style: TText.sm,
+                      ),
+                    ],
                   ),
                 ),
               ),
