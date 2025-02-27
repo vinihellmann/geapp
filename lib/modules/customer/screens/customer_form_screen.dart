@@ -28,11 +28,15 @@ class _CustomerFormScreenState extends State<CustomerFormScreen> {
   void initState() {
     super.initState();
 
-    if (widget.customer != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        await context.read<CustomerFormProvider>().setEdit(widget.customer!);
-      });
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final formProvider = context.read<CustomerFormProvider>();
+
+      if (widget.customer != null) {
+        await formProvider.setEdit(widget.customer!);
+      } else {
+        await formProvider.setCreate();
+      }
+    });
   }
 
   @override

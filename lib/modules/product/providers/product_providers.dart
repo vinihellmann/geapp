@@ -9,6 +9,10 @@ import 'package:provider/provider.dart';
 
 class ProductUnitProviders {
   static List providers() {
+    return [...repositoryProviders(), ...listProviders(), ...formProviders()];
+  }
+
+  static List repositoryProviders() {
     return [
       ProxyProvider<DBService, ProductRepository>(
         create: (ctx) => ProductRepository(ctx.read<DBService>()),
@@ -18,14 +22,11 @@ class ProductUnitProviders {
         create: (ctx) => UnitRepository(ctx.read<DBService>()),
         update: (ctx, db, repo) => UnitRepository(db),
       ),
-      ChangeNotifierProxyProvider<ProductRepository, ProductFormProvider>(
-        create: (ctx) => ProductFormProvider(ctx.read<ProductRepository>()),
-        update: (ctx, repo, provider) => ProductFormProvider(repo),
-      ),
-      ChangeNotifierProxyProvider<UnitRepository, UnitFormProvider>(
-        create: (ctx) => UnitFormProvider(ctx.read<UnitRepository>()),
-        update: (ctx, repo, provider) => UnitFormProvider(repo),
-      ),
+    ];
+  }
+
+  static List listProviders() {
+    return [
       ChangeNotifierProxyProvider<ProductRepository, ProductListProvider>(
         create: (ctx) => ProductListProvider(ctx.read<ProductRepository>()),
         update: (ctx, repo, provider) => provider!..updateRepository(repo),
@@ -39,6 +40,41 @@ class ProductUnitProviders {
         update: (ctx, unitProvider, provider) {
           provider!.getData();
           return provider;
+        },
+      ),
+    ];
+  }
+
+  static List formProviders() {
+    return [
+      ChangeNotifierProxyProvider2<
+        ProductRepository,
+        ProductListProvider,
+        ProductFormProvider
+      >(
+        create: (ctx) {
+          return ProductFormProvider(
+            ctx.read<ProductRepository>(),
+            ctx.read<ProductListProvider>(),
+          );
+        },
+        update: (ctx, repo, listProvider, provider) {
+          return ProductFormProvider(repo, listProvider);
+        },
+      ),
+      ChangeNotifierProxyProvider2<
+        UnitRepository,
+        UnitListProvider,
+        UnitFormProvider
+      >(
+        create: (ctx) {
+          return UnitFormProvider(
+            ctx.read<UnitRepository>(),
+            ctx.read<UnitListProvider>(),
+          );
+        },
+        update: (ctx, repo, listProvider, provider) {
+          return UnitFormProvider(repo, listProvider);
         },
       ),
     ];

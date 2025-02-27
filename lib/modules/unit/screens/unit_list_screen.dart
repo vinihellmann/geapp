@@ -40,7 +40,7 @@ class UnitListScreen extends StatelessWidget {
                       totalItems: provider.totalItems,
                       onTapFilter: () {},
                       onTapAdd: () async {
-                        context.read<UnitFormProvider>().clearData();
+                        context.read<UnitFormProvider>().setCreate();
                         context.push(Routes.unitForm);
                       },
                     ),

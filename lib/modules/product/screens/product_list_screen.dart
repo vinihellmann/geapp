@@ -31,7 +31,7 @@ class ProductListScreen extends StatelessWidget {
                 totalItemsShown: provider.totalItemsShown,
                 totalItems: provider.totalItems,
                 onTapAdd: () {
-                  context.read<ProductFormProvider>().clearData();
+                  context.read<ProductFormProvider>().setCreate();
                   context.push(Routes.productForm);
                 },
                 onTapFilter: () {},

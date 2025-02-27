@@ -23,12 +23,29 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
   List<SelectObject> cities = [];
 
   @override
+  Future<void> setCreate() async {
+    try {
+      changeIsLoading();
+
+      isEditing = false;
+      item = CustomerModel();
+
+      await Future.delayed(Duration(milliseconds: 50));
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      changeIsLoading();
+    }
+  }
+
+  @override
   Future<void> setEdit(CustomerModel object) async {
     try {
       changeIsLoading();
 
       isEditing = true;
       item = object.copyWith();
+
       await getCities(object.addressUF ?? 0);
     } catch (e) {
       log(e.toString());
@@ -103,11 +120,5 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
   void changeLegal() async {
     item.isLegal = !item.isLegal!;
     notifyListeners();
-  }
-
-  @override
-  void clearData() {
-    isEditing = false;
-    item = CustomerModel();
   }
 }
