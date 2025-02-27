@@ -7,11 +7,16 @@ import 'package:geapp/modules/unit/repositories/unit_repository.dart';
 import 'package:geapp/utils/utils.dart';
 
 class UnitListProvider extends Provider<UnitModel> {
-  final UnitRepository repository;
+  UnitRepository repository;
   UnitListProvider(this.repository);
 
   ProductModel? product;
   UnitModel item = UnitModel();
+
+  void updateRepository(UnitRepository newRepository) {
+    repository = newRepository;
+    notifyListeners();
+  }
 
   @override
   String orderBy = "createdAt";

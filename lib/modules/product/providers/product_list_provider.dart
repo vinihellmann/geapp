@@ -7,8 +7,13 @@ import 'package:geapp/modules/unit/models/unit_model.dart';
 import 'package:geapp/utils/utils.dart';
 
 class ProductListProvider extends Provider<ProductModel> {
-  final ProductRepository repository;
+  ProductRepository repository;
   ProductListProvider(this.repository);
+
+  void updateRepository(ProductRepository newRepository) {
+    repository = newRepository;
+    notifyListeners();
+  }
 
   @override
   String orderBy = "name";

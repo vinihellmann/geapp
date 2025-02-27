@@ -42,12 +42,15 @@ class UnitFormScreen extends StatelessWidget {
                       onConfirm: () async {
                         final value = await provider.delete();
                         if (context.mounted && value == true) {
-                          context.read<UnitListProvider>().getData();
-                          context.pop();
-                          Utils.showToast(
-                            "Registro deletado com sucesso",
-                            ToastType.info,
-                          );
+                          await context.read<UnitListProvider>().getData();
+
+                          if (context.mounted) {
+                            context.pop();
+                            Utils.showToast(
+                              "Registro deletado com sucesso",
+                              ToastType.info,
+                            );
+                          }
                         }
                       },
                     );

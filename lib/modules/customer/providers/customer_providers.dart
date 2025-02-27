@@ -8,23 +8,16 @@ class CustomerProviders {
   static List providers() {
     return [
       ProxyProvider<DBService, CustomerRepository>(
-        create: (context) => CustomerRepository(context.read<DBService>()),
-        update:
-            (context, dbService, repository) => CustomerRepository(dbService),
+        create: (ctx) => CustomerRepository(ctx.read<DBService>()),
+        update: (ctx, db, repo) => CustomerRepository(db),
       ),
       ChangeNotifierProxyProvider<CustomerRepository, CustomerListProvider>(
-        create:
-            (context) =>
-                CustomerListProvider(context.read<CustomerRepository>()),
-        update:
-            (context, repository, provider) => CustomerListProvider(repository),
+        create: (ctx) => CustomerListProvider(ctx.read<CustomerRepository>()),
+        update: (ctx, repo, provider) => CustomerListProvider(repo),
       ),
       ChangeNotifierProxyProvider<CustomerRepository, CustomerFormProvider>(
-        create:
-            (context) =>
-                CustomerFormProvider(context.read<CustomerRepository>()),
-        update:
-            (context, repository, provider) => CustomerFormProvider(repository),
+        create: (ctx) => CustomerFormProvider(ctx.read<CustomerRepository>()),
+        update: (ctx, repo, provider) => CustomerFormProvider(repo),
       ),
     ];
   }
