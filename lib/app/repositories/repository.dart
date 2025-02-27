@@ -10,6 +10,8 @@ abstract class Repository<T> {
     int limit,
     String orderBy,
   );
+
+  Future<int?> upsert(T item);
   Future<int?> create(T item);
   Future<int?> update(T item);
   Future<int?> delete(T item);

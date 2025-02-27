@@ -5,6 +5,7 @@ import 'package:geapp/modules/unit/models/unit_model.dart';
 import 'package:uuid/uuid.dart';
 
 class ProductModel {
+  int? id;
   String? barCode;
   String? code;
   String? name;
@@ -21,6 +22,7 @@ class ProductModel {
   List<UnitModel> units = [];
 
   ProductModel({
+    this.id,
     this.barCode,
     this.code,
     this.name,
@@ -34,6 +36,7 @@ class ProductModel {
        updatedAt = updatedAt ?? DateTime.now().toIso8601String();
 
   ProductModel copyWith({
+    int? id,
     String? barCode,
     String? code,
     String? name,
@@ -46,6 +49,7 @@ class ProductModel {
     UnitModel? selectedUnit,
   }) {
     return ProductModel(
+      id: id ?? this.id,
       barCode: barCode ?? this.barCode,
       code: code ?? this.code,
       name: name ?? this.name,
@@ -76,6 +80,7 @@ class ProductModel {
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
     return ProductModel(
+      id: map['id'] != null ? map['id'] as int : null,
       barCode: map['barCode'] != null ? map['barCode'] as String : null,
       code: map['code'] != null ? map['code'] as String : null,
       name: map['name'] != null ? map['name'] as String : null,
@@ -94,7 +99,7 @@ class ProductModel {
 
   @override
   String toString() {
-    return 'ProductModel(barCode: $barCode, code: $code, name: $name, brand: $brand, groupName: $groupName, image: $image, units: $units, selectedUnit: $selectedUnit, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'ProductModel(id: $id,barCode: $barCode, code: $code, name: $name, brand: $brand, groupName: $groupName, image: $image, units: $units, selectedUnit: $selectedUnit, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override

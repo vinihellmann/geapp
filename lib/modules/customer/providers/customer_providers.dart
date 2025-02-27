@@ -15,9 +15,20 @@ class CustomerProviders {
         create: (ctx) => CustomerListProvider(ctx.read<CustomerRepository>()),
         update: (ctx, repo, provider) => CustomerListProvider(repo),
       ),
-      ChangeNotifierProxyProvider<CustomerRepository, CustomerFormProvider>(
-        create: (ctx) => CustomerFormProvider(ctx.read<CustomerRepository>()),
-        update: (ctx, repo, provider) => CustomerFormProvider(repo),
+      ChangeNotifierProxyProvider2<
+        CustomerRepository,
+        CustomerListProvider,
+        CustomerFormProvider
+      >(
+        create: (ctx) {
+          return CustomerFormProvider(
+            ctx.read<CustomerRepository>(),
+            ctx.read<CustomerListProvider>(),
+          )..getUFs();
+        },
+        update: (ctx, repo, listProvider, provider) {
+          return CustomerFormProvider(repo, listProvider)..getUFs();
+        },
       ),
     ];
   }

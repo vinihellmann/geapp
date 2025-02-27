@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:uuid/uuid.dart';
 
 class CustomerModel {
+  int? id;
   bool? isLegal;
   String? code;
   String? cpf;
@@ -24,6 +25,7 @@ class CustomerModel {
   String updatedAt;
 
   CustomerModel({
+    this.id,
     this.isLegal = false,
     this.code,
     this.cpf,
@@ -47,6 +49,7 @@ class CustomerModel {
        updatedAt = updatedAt ?? DateTime.now().toIso8601String();
 
   CustomerModel copyWith({
+    int? id,
     bool? isLegal,
     String? code,
     String? cpf,
@@ -68,6 +71,7 @@ class CustomerModel {
     String? updatedAt,
   }) {
     return CustomerModel(
+      id: id ?? this.id,
       isLegal: isLegal ?? this.isLegal,
       code: code ?? this.code,
       cpf: cpf ?? this.cpf,
@@ -119,6 +123,7 @@ class CustomerModel {
 
   factory CustomerModel.fromMap(Map<String, dynamic> map) {
     return CustomerModel(
+      id: map['id'] != null ? map['id'] as int : null,
       isLegal:
           map['isLegal'] != null
               ? map['isLegal'] == 1
@@ -166,7 +171,7 @@ class CustomerModel {
 
   @override
   String toString() {
-    return 'CustomerModel(isLegal: $isLegal, code: $code, cpf: $cpf, cnpj: $cnpj, name: $name, phone: $phone, email: $email, fantasy: $fantasy, contact: $contact, inscription: $inscription, addressUF: $addressUF, addressCity: $addressCity, addressName: $addressName, addressNumber: $addressNumber, addressZipCode: $addressZipCode, addressComplement: $addressComplement, addressNeighborhood: $addressNeighborhood, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'CustomerModel(id: $id, isLegal: $isLegal, code: $code, cpf: $cpf, cnpj: $cnpj, name: $name, phone: $phone, email: $email, fantasy: $fantasy, contact: $contact, inscription: $inscription, addressUF: $addressUF, addressCity: $addressCity, addressName: $addressName, addressNumber: $addressNumber, addressZipCode: $addressZipCode, addressComplement: $addressComplement, addressNeighborhood: $addressNeighborhood, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -174,6 +179,7 @@ class CustomerModel {
     if (identical(this, other)) return true;
 
     return other.isLegal == isLegal &&
+        other.id == id &&
         other.code == code &&
         other.cpf == cpf &&
         other.cnpj == cnpj &&
@@ -197,6 +203,7 @@ class CustomerModel {
   @override
   int get hashCode {
     return isLegal.hashCode ^
+        id.hashCode ^
         code.hashCode ^
         cpf.hashCode ^
         cnpj.hashCode ^

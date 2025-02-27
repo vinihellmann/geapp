@@ -31,12 +31,7 @@ class ProductFormProvider extends FormProvider<ProductModel> {
       final valid = validateForm();
       if (!valid) return null;
 
-      if (isEditing) {
-        final result = await repository.update(item);
-        return result != null;
-      }
-
-      final result = await repository.create(item);
+      final result = await repository.upsert(item);
       return result != null;
     } catch (e) {
       log("ProductFormProvider::save - $e");

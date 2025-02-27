@@ -6,7 +6,6 @@ import 'package:geapp/app/components/select.dart';
 import 'package:geapp/app/components/switch.dart';
 import 'package:geapp/app/formatters/input_formatters.dart';
 import 'package:geapp/modules/customer/providers/customer_form_provider.dart';
-import 'package:geapp/modules/customer/providers/customer_list_provider.dart';
 import 'package:geapp/themes/color.dart';
 import 'package:geapp/themes/extension.dart';
 import 'package:geapp/themes/text.dart';
@@ -44,7 +43,6 @@ class CustomerFormScreen extends StatelessWidget {
                       onConfirm: () async {
                         final value = await provider.delete();
                         if (context.mounted && value == true) {
-                          context.read<CustomerListProvider>().getData();
                           context.pop();
                           Utils.showToast(
                             "Registro deletado com sucesso",
@@ -210,15 +208,11 @@ class CustomerFormScreen extends StatelessWidget {
             onClick: () async {
               final value = await provider.save();
               if (context.mounted && value == true) {
-                await context.read<CustomerListProvider>().getData();
-
-                if (context.mounted) {
-                  context.pop();
-                  Utils.showToast(
-                    "Registro salvo com sucesso",
-                    ToastType.success,
-                  );
-                }
+                context.pop();
+                Utils.showToast(
+                  "Registro salvo com sucesso",
+                  ToastType.success,
+                );
               }
             },
           ),

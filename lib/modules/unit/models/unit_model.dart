@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:uuid/uuid.dart';
 
 class UnitModel {
+  int? id;
   String? code;
   String? productCode;
   String? unit;
@@ -12,6 +13,7 @@ class UnitModel {
   String updatedAt;
 
   UnitModel({
+    this.id,
     this.code,
     this.productCode,
     this.unit,
@@ -23,6 +25,7 @@ class UnitModel {
        updatedAt = updatedAt ?? DateTime.now().toIso8601String();
 
   UnitModel copyWith({
+    int? id,
     String? code,
     String? productCode,
     String? unit,
@@ -32,6 +35,7 @@ class UnitModel {
     String? updatedAt,
   }) {
     return UnitModel(
+      id: id ?? this.id,
       code: code ?? this.code,
       productCode: productCode ?? this.productCode,
       unit: unit ?? this.unit,
@@ -59,6 +63,7 @@ class UnitModel {
 
   factory UnitModel.fromMap(Map<String, dynamic> map) {
     return UnitModel(
+      id: map['id'] != null ? map['id'] as int : null,
       code: map['code'] != null ? map['code'] as String : null,
       productCode:
           map['productCode'] != null ? map['productCode'] as String : null,
@@ -77,7 +82,7 @@ class UnitModel {
 
   @override
   String toString() {
-    return 'UnitModel(code: $code, productCode: $productCode, unit: $unit, stock: $stock, price: $price, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UnitModel(id: $id, code: $code, productCode: $productCode, unit: $unit, stock: $stock, price: $price, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override

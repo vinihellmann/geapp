@@ -34,6 +34,16 @@ class ProductRepository extends Repository<ProductModel> {
   }
 
   @override
+  Future<int?> upsert(ProductModel item) async {
+    try {
+      if (item.id != null) return await update(item);
+      return await create(item);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
   Future<int?> create(ProductModel item) async {
     try {
       return await dbService.insert(tableName: tableName, data: item.toMap());

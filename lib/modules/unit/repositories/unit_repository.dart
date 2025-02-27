@@ -34,6 +34,16 @@ class UnitRepository extends Repository<UnitModel> {
   }
 
   @override
+  Future<int?> upsert(UnitModel item) async {
+    try {
+      if (item.id != null) return await update(item);
+      return await create(item);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
   Future<int?> create(UnitModel item) async {
     try {
       return await dbService.insert(tableName: tableName, data: item.toMap());

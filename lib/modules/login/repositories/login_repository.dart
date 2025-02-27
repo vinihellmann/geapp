@@ -36,6 +36,11 @@ class LoginRepository extends Repository<LoginModel> {
   }
 
   @override
+  Future<int?> upsert(LoginModel item) {
+    throw UnimplementedError();
+  }
+
+  @override
   Future<int?> create(LoginModel item) {
     throw UnimplementedError();
   }
