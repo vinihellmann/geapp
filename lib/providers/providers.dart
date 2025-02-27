@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geapp/app/services/db_service.dart';
 import 'package:geapp/modules/customer/providers/customer_providers.dart';
 import 'package:geapp/modules/product/providers/product_providers.dart';
+import 'package:geapp/modules/unit/providers/unit_providers.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -16,8 +17,9 @@ class Providers extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<DBService>(create: (context) => DBService(database)),
-        ...CustomerProviders.providers(),
-        ...ProductUnitProviders.providers(),
+        ...CustomerProviders.all(),
+        ...UnitProviders.all(),
+        ...ProductProviders.all(),
       ],
       child: child,
     );

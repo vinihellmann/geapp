@@ -5,16 +5,26 @@ import 'package:geapp/modules/customer/repositories/customer_repository.dart';
 import 'package:provider/provider.dart';
 
 class CustomerProviders {
-  static List providers() {
+  static List repositoryProviders() {
     return [
       ProxyProvider<DBService, CustomerRepository>(
         create: (ctx) => CustomerRepository(ctx.read<DBService>()),
         update: (ctx, db, repo) => CustomerRepository(db),
       ),
+    ];
+  }
+
+  static List listProviders() {
+    return [
       ChangeNotifierProxyProvider<CustomerRepository, CustomerListProvider>(
         create: (ctx) => CustomerListProvider(ctx.read<CustomerRepository>()),
         update: (ctx, repo, provider) => CustomerListProvider(repo),
       ),
+    ];
+  }
+
+  static List formProviders() {
+    return [
       ChangeNotifierProxyProvider2<
         CustomerRepository,
         CustomerListProvider,
@@ -31,5 +41,9 @@ class CustomerProviders {
         },
       ),
     ];
+  }
+
+  static List all() {
+    return [...repositoryProviders(), ...listProviders(), ...formProviders()];
   }
 }
