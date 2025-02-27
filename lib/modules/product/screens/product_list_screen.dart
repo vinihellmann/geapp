@@ -9,8 +9,8 @@ import 'package:geapp/modules/product/models/product_model.dart';
 import 'package:geapp/modules/product/providers/product_form_provider.dart';
 import 'package:geapp/modules/product/providers/product_list_provider.dart';
 import 'package:geapp/routes/routes.dart';
-import 'package:geapp/themes/extension.dart';
 import 'package:geapp/themes/text.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class ProductListScreen extends StatelessWidget {

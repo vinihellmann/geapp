@@ -26,7 +26,7 @@ class ProductFormProvider extends FormProvider<ProductModel> {
   @override
   Future<bool?> save() async {
     try {
-      changeIsLoading();
+      changeIsSaving();
 
       final valid = validateForm();
       if (!valid) return null;
@@ -37,7 +37,7 @@ class ProductFormProvider extends FormProvider<ProductModel> {
       log("ProductFormProvider::save - $e");
       return null;
     } finally {
-      changeIsLoading();
+      changeIsSaving();
     }
   }
 

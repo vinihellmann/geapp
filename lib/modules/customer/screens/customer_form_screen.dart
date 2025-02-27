@@ -2,23 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:geapp/app/components/floating.dart';
 import 'package:geapp/app/components/input.dart';
 import 'package:geapp/app/components/layout.dart';
+import 'package:geapp/app/components/loading.dart';
 import 'package:geapp/app/components/select.dart';
 import 'package:geapp/app/components/switch.dart';
 import 'package:geapp/app/formatters/input_formatters.dart';
+import 'package:geapp/modules/customer/models/customer_model.dart';
 import 'package:geapp/modules/customer/providers/customer_form_provider.dart';
 import 'package:geapp/themes/color.dart';
-import 'package:geapp/themes/extension.dart';
 import 'package:geapp/themes/text.dart';
 import 'package:geapp/utils/utils.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class CustomerFormScreen extends StatelessWidget {
-  const CustomerFormScreen({super.key});
+class CustomerFormScreen extends StatefulWidget {
+  const CustomerFormScreen({super.key, required this.customer});
+
+  final CustomerModel? customer;
+
+  @override
+  State<CustomerFormScreen> createState() => _CustomerFormScreenState();
+}
+
+class _CustomerFormScreenState extends State<CustomerFormScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.customer != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await context.read<CustomerFormProvider>().setEdit(widget.customer!);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<CustomerFormProvider>(
       builder: (context, provider, _) {
+        if (provider.isLoading) return const Loading();
         return Layout(
           actions: [
             Visibility(
@@ -204,7 +225,7 @@ class CustomerFormScreen extends StatelessWidget {
             ),
           ),
           floating: Floating(
-            isLoading: provider.isLoading,
+            isLoading: provider.isSaving,
             onClick: () async {
               final value = await provider.save();
               if (context.mounted && value == true) {

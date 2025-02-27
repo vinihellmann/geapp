@@ -24,16 +24,23 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
 
   @override
   Future<void> setEdit(CustomerModel object) async {
-    isEditing = true;
-    item = object.copyWith();
-    await getCities(object.addressUF ?? 0);
-    notifyListeners();
+    try {
+      changeIsLoading();
+
+      isEditing = true;
+      item = object.copyWith();
+      await getCities(object.addressUF ?? 0);
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      changeIsLoading();
+    }
   }
 
   @override
   Future<bool?> save() async {
     try {
-      changeIsLoading();
+      changeIsSaving();
 
       final valid = validateForm();
       if (!valid) return null;
@@ -46,7 +53,7 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
       log("CustomerFormProvider::save - $e");
       return null;
     } finally {
-      changeIsLoading();
+      changeIsSaving();
     }
   }
 

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:geapp/app/components/floating.dart';
 import 'package:geapp/app/components/input.dart';
 import 'package:geapp/app/components/layout.dart';
+import 'package:geapp/app/components/loading.dart';
 import 'package:geapp/modules/product/providers/product_form_provider.dart';
 import 'package:geapp/modules/product/providers/product_list_provider.dart';
 import 'package:geapp/themes/color.dart';
-import 'package:geapp/themes/extension.dart';
 import 'package:geapp/themes/text.dart';
 import 'package:geapp/utils/utils.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class ProductFormScreen extends StatelessWidget {
@@ -17,6 +18,7 @@ class ProductFormScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ProductFormProvider>(
       builder: (context, provider, _) {
+        if (provider.isLoading) return const Loading();
         return Layout(
           actions: [
             Visibility(

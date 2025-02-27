@@ -32,11 +32,10 @@ class MainApp extends StatelessWidget {
 
     return Providers(
       database: database,
-      child: MaterialApp(
+      child: MaterialApp.router(
         title: 'GEApp',
-        routes: Routes.list,
         themeMode: ThemeMode.dark,
-        initialRoute: Routes.login,
+        routerConfig: Routes.router,
         debugShowCheckedModeBanner: false,
       ),
     );

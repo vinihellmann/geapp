@@ -15,7 +15,7 @@ class LoginFormProvider extends FormProvider<LoginModel> {
 
   @override
   Future<bool?> save() async {
-    changeIsLoading();
+    changeIsSaving();
 
     try {
       return await repository.login(item.user, item.password);
@@ -23,7 +23,7 @@ class LoginFormProvider extends FormProvider<LoginModel> {
       Utils.showToast("Ocorreu um erro desconhecido.", ToastType.error);
       return false;
     } finally {
-      changeIsLoading();
+      changeIsSaving();
     }
   }
 

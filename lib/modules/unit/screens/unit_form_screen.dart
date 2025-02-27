@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:geapp/app/components/floating.dart';
 import 'package:geapp/app/components/input.dart';
 import 'package:geapp/app/components/layout.dart';
+import 'package:geapp/app/components/loading.dart';
 import 'package:geapp/app/formatters/input_formatters.dart';
 import 'package:geapp/modules/unit/providers/unit_form_provider.dart';
 import 'package:geapp/modules/unit/providers/unit_list_provider.dart';
 import 'package:geapp/themes/color.dart';
-import 'package:geapp/themes/extension.dart';
 import 'package:geapp/themes/text.dart';
 import 'package:geapp/utils/utils.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class UnitFormScreen extends StatelessWidget {
@@ -18,6 +19,7 @@ class UnitFormScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<UnitFormProvider>(
       builder: (context, provider, _) {
+        if (provider.isLoading) return const Loading();
         return Layout(
           actions: [
             Visibility(
@@ -101,7 +103,7 @@ class UnitFormScreen extends StatelessWidget {
             ),
           ),
           floating: Floating(
-            isLoading: provider.isLoading,
+            isLoading: provider.isSaving,
             onClick: () async {
               provider.setProductCode(context);
               final value = await provider.save();

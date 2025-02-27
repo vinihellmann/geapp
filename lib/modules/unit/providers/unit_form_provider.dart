@@ -32,7 +32,7 @@ class UnitFormProvider extends FormProvider<UnitModel> {
   @override
   Future<bool?> save() async {
     try {
-      changeIsLoading();
+      changeIsSaving();
 
       final valid = validateForm();
       if (!valid) return null;
@@ -43,7 +43,7 @@ class UnitFormProvider extends FormProvider<UnitModel> {
       log("UnitFormProvider::save - $e");
       return null;
     } finally {
-      changeIsLoading();
+      changeIsSaving();
     }
   }
 

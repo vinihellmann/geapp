@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:geapp/app/components/button.dart';
 import 'package:geapp/themes/color.dart';
-import 'package:geapp/themes/extension.dart';
 import 'package:geapp/themes/text.dart';
-import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Modal extends StatelessWidget {
   const Modal({

@@ -3,7 +3,7 @@ import 'package:geapp/app/components/layout.dart';
 import 'package:geapp/modules/home/components/nav_button.dart';
 import 'package:geapp/modules/home/components/user_avatar.dart';
 import 'package:geapp/routes/routes.dart';
-import 'package:geapp/themes/extension.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

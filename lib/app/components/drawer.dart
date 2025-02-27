@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:geapp/app/components/drawer_item.dart';
-import 'package:geapp/modules/login/screens/login_screen.dart';
 import 'package:geapp/routes/routes.dart';
 import 'package:geapp/themes/color.dart';
-import 'package:geapp/themes/extension.dart';
+import 'package:go_router/go_router.dart';
 
 class TDrawer extends StatelessWidget {
   const TDrawer({super.key});
@@ -58,7 +57,7 @@ class TDrawer extends StatelessWidget {
                 title: "Sair",
                 icon: Icons.exit_to_app_outlined,
                 onClick: () {
-                  context.pushAndRemoveUntil(const LoginScreen());
+                  context.pushReplacement(Routes.login);
                 },
               ),
             ],

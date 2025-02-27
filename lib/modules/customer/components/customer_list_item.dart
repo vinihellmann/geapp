@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:geapp/modules/customer/models/customer_model.dart';
-import 'package:geapp/modules/customer/providers/customer_form_provider.dart';
 import 'package:geapp/routes/routes.dart';
 import 'package:geapp/themes/color.dart';
-import 'package:geapp/themes/extension.dart';
 import 'package:geapp/themes/text.dart';
-import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomerListItem extends StatefulWidget {
   const CustomerListItem({super.key, required this.item, this.onClick});
@@ -62,8 +60,7 @@ class _CustomerListItemState extends State<CustomerListItem>
           return;
         }
 
-        await context.read<CustomerFormProvider>().setEdit(widget.item);
-        if (context.mounted) context.push(Routes.customerForm);
+        context.push(Routes.customerForm, extra: widget.item);
       },
       child: Container(
         decoration: BoxDecoration(color: TColor.background.light),

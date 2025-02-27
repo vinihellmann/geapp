@@ -8,6 +8,7 @@ abstract class FormProvider<T> with ChangeNotifier {
   String get title;
   bool isEditing = false;
   bool isLoading = false;
+  bool isSaving = false;
 
   void clearData();
   void setEdit(T object);
@@ -28,6 +29,11 @@ abstract class FormProvider<T> with ChangeNotifier {
 
   void changeIsLoading() {
     isLoading = !isLoading;
+    notifyListeners();
+  }
+
+  void changeIsSaving() {
+    isSaving = !isSaving;
     notifyListeners();
   }
 }

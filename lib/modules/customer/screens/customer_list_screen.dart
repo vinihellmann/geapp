@@ -10,9 +10,9 @@ import 'package:geapp/modules/customer/models/customer_model.dart';
 import 'package:geapp/modules/customer/providers/customer_form_provider.dart';
 import 'package:geapp/modules/customer/providers/customer_list_provider.dart';
 import 'package:geapp/routes/routes.dart';
-import 'package:geapp/themes/extension.dart';
 import 'package:geapp/themes/text.dart';
 import 'package:geapp/utils/utils.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class CustomerListScreen extends StatelessWidget {

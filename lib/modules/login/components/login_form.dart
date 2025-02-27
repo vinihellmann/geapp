@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:geapp/app/components/button.dart';
 import 'package:geapp/app/components/input.dart';
-import 'package:geapp/modules/home/screens/home_screen.dart';
 import 'package:geapp/modules/login/providers/login_form_provider.dart';
+import 'package:geapp/routes/routes.dart';
 import 'package:geapp/themes/color.dart';
-import 'package:geapp/themes/extension.dart';
 import 'package:geapp/themes/text.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class LoginForm extends StatelessWidget {
@@ -45,11 +45,11 @@ class LoginForm extends StatelessWidget {
                 const SizedBox(height: 20),
                 Button(
                   label: "Acessar",
-                  isLoading: provider.isLoading,
+                  isLoading: provider.isSaving,
                   onClick: () async {
                     var result = await provider.save();
                     if (context.mounted && result == true) {
-                      context.pushAndRemoveUntil(const HomeScreen());
+                      context.pushReplacement(Routes.home);
                     }
                   },
                 ),
