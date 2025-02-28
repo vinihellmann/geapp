@@ -36,6 +36,7 @@ class DBService {
       final count = Sqflite.firstIntValue(
         await db.rawQuery(
           "SELECT COUNT(*) FROM $tableName ${where != null ? "WHERE $where" : ""}",
+          whereArgs,
         ),
       );
       final totalPages = (count! / limit).ceil();

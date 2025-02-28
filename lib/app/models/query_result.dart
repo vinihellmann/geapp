@@ -8,4 +8,8 @@ class QueryResult {
     required this.totalItems,
     required this.totalPages,
   });
+
+  @override
+  String toString() =>
+      'QueryResult(data: $data, totalItems: $totalItems, totalPages: $totalPages)';
 }

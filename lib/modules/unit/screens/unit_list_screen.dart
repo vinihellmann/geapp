@@ -41,7 +41,7 @@ class UnitListScreen extends StatelessWidget {
                     Header(
                       totalItemsShown: provider.totalItemsShown,
                       totalItems: provider.totalItems,
-                      onTapFilter: () {},
+                      onTapFilter: () async => await showModalFilters(context),
                       onTapAdd: () async {
                         context.read<UnitFormProvider>().init(context);
                         final needUpdate = await context.push(Routes.unitForm);
