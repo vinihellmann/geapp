@@ -64,7 +64,7 @@ class Modal extends StatelessWidget {
                 outlined: true,
                 label: "Fechar",
                 bgColor: TColor.background.main,
-                onClick: () => Navigator.pop(context),
+                onClick: () => context.pop(),
               ),
             ),
             if (showConfirm == true) ...[

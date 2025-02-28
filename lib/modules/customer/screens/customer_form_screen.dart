@@ -48,7 +48,7 @@ class CustomerFormScreen extends StatelessWidget {
                           context.pop();
                           Utils.showToast(
                             "Registro deletado com sucesso",
-                            ToastType.info,
+                            ToastType.success,
                           );
                         }
                       },

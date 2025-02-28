@@ -1,6 +1,7 @@
 import 'package:geapp/app/components/gradient.dart';
 import 'package:geapp/themes/color.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class NavBar extends StatelessWidget implements PreferredSizeWidget {
   NavBar({
@@ -38,7 +39,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                 ? Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: IconButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => context.pop(),
                     icon: Icon(
                       Icons.chevron_left_outlined,
                       color: TColor.text.primary,
