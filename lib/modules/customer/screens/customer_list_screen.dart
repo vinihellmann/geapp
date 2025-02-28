@@ -35,7 +35,10 @@ class CustomerListScreen extends StatelessWidget {
                 onTapFilter: () async => await showModalFilters(context),
                 onTapAdd: () async {
                   await context.read<CustomerFormProvider>().setCreate();
-                  if (context.mounted) context.push(Routes.customerForm);
+                  if (context.mounted) {
+                    final needUpdate = await context.push(Routes.customerForm);
+                    if (needUpdate == true) provider.getData();
+                  }
                 },
               ),
               Expanded(

@@ -8,8 +8,12 @@ class CustomerProviders {
   static List repositoryProviders() {
     return [
       ProxyProvider<DBService, CustomerRepository>(
-        create: (ctx) => CustomerRepository(ctx.read<DBService>()),
-        update: (ctx, db, repo) => CustomerRepository(db),
+        create: (ctx) {
+          return CustomerRepository(ctx.read<DBService>());
+        },
+        update: (ctx, db, repo) {
+          return CustomerRepository(db);
+        },
       ),
     ];
   }
@@ -17,27 +21,24 @@ class CustomerProviders {
   static List listProviders() {
     return [
       ChangeNotifierProxyProvider<CustomerRepository, CustomerListProvider>(
-        create: (ctx) => CustomerListProvider(ctx.read<CustomerRepository>()),
-        update: (ctx, repo, provider) => CustomerListProvider(repo),
+        create: (ctx) {
+          return CustomerListProvider(ctx.read<CustomerRepository>());
+        },
+        update: (ctx, repo, provider) {
+          return CustomerListProvider(repo);
+        },
       ),
     ];
   }
 
   static List formProviders() {
     return [
-      ChangeNotifierProxyProvider2<
-        CustomerRepository,
-        CustomerListProvider,
-        CustomerFormProvider
-      >(
+      ChangeNotifierProxyProvider<CustomerRepository, CustomerFormProvider>(
         create: (ctx) {
-          return CustomerFormProvider(
-            ctx.read<CustomerRepository>(),
-            ctx.read<CustomerListProvider>(),
-          )..getUFs();
+          return CustomerFormProvider(ctx.read<CustomerRepository>())..getUFs();
         },
-        update: (ctx, repo, listProvider, provider) {
-          return CustomerFormProvider(repo, listProvider)..getUFs();
+        update: (ctx, repo, provider) {
+          return CustomerFormProvider(repo)..getUFs();
         },
       ),
     ];

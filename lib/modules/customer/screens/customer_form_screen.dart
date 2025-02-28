@@ -45,7 +45,7 @@ class CustomerFormScreen extends StatelessWidget {
                       onConfirm: () async {
                         final value = await provider.delete();
                         if (context.mounted && value == true) {
-                          context.pop();
+                          context.pop(true);
                           Utils.showToast(
                             "Registro deletado com sucesso",
                             ToastType.success,
@@ -210,7 +210,7 @@ class CustomerFormScreen extends StatelessWidget {
             onClick: () async {
               final value = await provider.save();
               if (context.mounted && value == true) {
-                context.pop();
+                context.pop(true);
                 Utils.showToast(
                   "Registro salvo com sucesso",
                   ToastType.success,

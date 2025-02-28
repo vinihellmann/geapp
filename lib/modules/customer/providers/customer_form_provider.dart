@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:geapp/app/models/select_object.dart';
 import 'package:geapp/app/provider/form_provider.dart';
 import 'package:geapp/modules/customer/models/customer_model.dart';
-import 'package:geapp/modules/customer/providers/customer_list_provider.dart';
 import 'package:geapp/modules/customer/repositories/customer_repository.dart';
 
 class CustomerFormProvider extends FormProvider<CustomerModel> {
   final CustomerRepository repository;
-  final CustomerListProvider listProvider;
-  CustomerFormProvider(this.repository, this.listProvider);
+  CustomerFormProvider(this.repository);
 
   @override
   String get title => isEditing ? "Editar Cliente" : "Novo Cliente";
@@ -63,8 +61,6 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
       if (!valid) return null;
 
       final result = await repository.upsert(item);
-      listProvider.getData();
-
       return result != null;
     } catch (e) {
       log("CustomerFormProvider::save - $e");
@@ -80,7 +76,6 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
       changeIsLoading();
 
       final result = await repository.delete(item);
-      listProvider.getData();
       return result != null;
     } catch (e) {
       log("CustomerFormProvider::delete - $e");

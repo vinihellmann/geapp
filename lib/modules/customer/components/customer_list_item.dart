@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geapp/modules/customer/models/customer_model.dart';
 import 'package:geapp/modules/customer/providers/customer_form_provider.dart';
+import 'package:geapp/modules/customer/providers/customer_list_provider.dart';
 import 'package:geapp/routes/routes.dart';
 import 'package:geapp/themes/color.dart';
 import 'package:geapp/themes/text.dart';
@@ -54,6 +55,7 @@ class _CustomerListItemState extends State<CustomerListItem>
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.read<CustomerListProvider>();
     return InkWell(
       onTap: () async {
         if (widget.onClick != null) {
@@ -63,7 +65,10 @@ class _CustomerListItemState extends State<CustomerListItem>
         }
 
         await context.read<CustomerFormProvider>().setEdit(widget.item);
-        if (context.mounted) context.push(Routes.customerForm);
+        if (context.mounted) {
+          final needUpdate = await context.push(Routes.customerForm);
+          if (needUpdate == true) provider.getData();
+        }
       },
       child: Container(
         decoration: BoxDecoration(color: TColor.background.light),
