@@ -1,4 +1,4 @@
-import 'package:geapp/modules/customer/models/customer_model.dart';
+import 'package:geapp/app/components/transition.dart';
 import 'package:geapp/modules/customer/screens/customer_form_screen.dart';
 import 'package:geapp/modules/customer/screens/customer_list_screen.dart';
 import 'package:geapp/modules/home/screens/home_screen.dart';
@@ -25,37 +25,52 @@ class Routes {
   static final GoRouter router = GoRouter(
     initialLocation: Routes.login,
     routes: [
-      GoRoute(path: login, builder: (context, state) => const LoginScreen()),
-      GoRoute(path: home, builder: (context, state) => const HomeScreen()),
+      GoRoute(
+        path: login,
+        pageBuilder: (context, state) {
+          return Transition.pageTransition(state, LoginScreen());
+        },
+      ),
+      GoRoute(
+        path: home,
+        pageBuilder: (context, state) {
+          return Transition.pageTransition(state, HomeScreen());
+        },
+      ),
       GoRoute(
         path: customerList,
-        builder: (context, state) => const CustomerListScreen(),
+        pageBuilder: (context, state) {
+          return Transition.pageTransition(state, CustomerListScreen());
+        },
       ),
       GoRoute(
         path: customerForm,
-        builder: (context, state) {
-          final customer = state.extra as CustomerModel?;
-          return CustomerFormScreen(customer: customer);
+        pageBuilder: (context, state) {
+          return Transition.pageTransition(state, CustomerFormScreen());
         },
       ),
       GoRoute(
         path: productList,
-        builder: (context, state) => const ProductListScreen(),
+        pageBuilder: (context, state) {
+          return Transition.pageTransition(state, ProductListScreen());
+        },
       ),
       GoRoute(
         path: productForm,
-        builder: (context, state) {
-          return ProductFormScreen();
+        pageBuilder: (context, state) {
+          return Transition.pageTransition(state, ProductFormScreen());
         },
       ),
       GoRoute(
         path: unitList,
-        builder: (context, state) => const UnitListScreen(),
+        pageBuilder: (context, state) {
+          return Transition.pageTransition(state, UnitListScreen());
+        },
       ),
       GoRoute(
         path: unitForm,
-        builder: (context, state) {
-          return UnitFormScreen();
+        pageBuilder: (context, state) {
+          return Transition.pageTransition(state, UnitFormScreen());
         },
       ),
     ],
