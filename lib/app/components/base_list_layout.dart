@@ -18,15 +18,15 @@ class BaseListLayout<T extends ListProvider, E extends FormProvider>
     this.onTapAdd,
     required this.title,
     required this.addRoute,
-    required this.itemList,
+    required this.itemBuilder,
     required this.modalFilterContent,
   });
 
   final String title;
   final String addRoute;
-  final Widget itemList;
   final VoidCallback? onTapAdd;
   final List<Widget> modalFilterContent;
+  final Widget? Function(BuildContext, int) itemBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +56,7 @@ class BaseListLayout<T extends ListProvider, E extends FormProvider>
                 child: ListView.separated(
                   itemCount: provider.items.length,
                   separatorBuilder: (c, i) => ListDivider(),
-                  itemBuilder: (context, i) {
-                    return itemList;
-                  },
+                  itemBuilder: itemBuilder,
                 ),
               ),
               Pagination(
