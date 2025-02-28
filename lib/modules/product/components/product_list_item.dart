@@ -30,6 +30,7 @@ class ProductListItem extends StatelessWidget {
   }
 
   void handleOpenModal(BuildContext context) {
+    final provider = context.read<ProductListProvider>();
     Utils.showModal(
       context: context,
       icon: Icons.menu_outlined,
@@ -41,10 +42,10 @@ class ProductListItem extends StatelessWidget {
             title: "Editar",
             onPress: () async {
               await context.read<ProductFormProvider>().setEdit(item);
-
               if (context.mounted) {
                 context.pop();
-                context.push(Routes.productForm);
+                final needUpdate = await context.push(Routes.productForm);
+                if (needUpdate == true) provider.getData();
               }
             },
           ),

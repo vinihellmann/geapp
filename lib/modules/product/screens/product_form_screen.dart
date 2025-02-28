@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:geapp/app/components/delete.dart';
 import 'package:geapp/app/components/floating.dart';
 import 'package:geapp/app/components/input.dart';
 import 'package:geapp/app/components/layout.dart';
 import 'package:geapp/app/components/loading.dart';
 import 'package:geapp/modules/product/providers/product_form_provider.dart';
-import 'package:geapp/modules/product/providers/product_list_provider.dart';
-import 'package:geapp/themes/color.dart';
 import 'package:geapp/themes/text.dart';
 import 'package:geapp/utils/utils.dart';
 import 'package:go_router/go_router.dart';
@@ -21,40 +20,18 @@ class ProductFormScreen extends StatelessWidget {
         if (provider.isLoading) return const Loading();
         return Layout(
           actions: [
-            Visibility(
+            Delete(
               visible: provider.isEditing,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: IconButton(
-                  icon: Icon(Icons.delete_outlined, color: TColor.error.main),
-                  onPressed: () async {
-                    await Utils.showModal(
-                      context: context,
-                      showConfirm: true,
-                      title: "Excluir",
-                      icon: Icons.delete_outline,
-                      content: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Text(
-                          "Deseja realmente excluir o registro?",
-                          style: TText.sm,
-                        ),
-                      ),
-                      onConfirm: () async {
-                        final value = await provider.delete();
-                        if (context.mounted && value == true) {
-                          context.read<ProductListProvider>().getData();
-                          context.pop();
-                          Utils.showToast(
-                            "Registro deletado com sucesso",
-                            ToastType.info,
-                          );
-                        }
-                      },
-                    );
-                  },
-                ),
-              ),
+              onDelete: () async {
+                final value = await provider.delete();
+                if (context.mounted && value == true) {
+                  context.pop(true);
+                  Utils.showToast(
+                    "Registro deletado com sucesso",
+                    ToastType.success,
+                  );
+                }
+              },
             ),
           ],
           title: Text(provider.title, style: TText.xl),
@@ -107,15 +84,11 @@ class ProductFormScreen extends StatelessWidget {
             onClick: () async {
               final value = await provider.save();
               if (context.mounted && value == true) {
-                await context.read<ProductListProvider>().getData();
-
-                if (context.mounted) {
-                  context.pop();
-                  Utils.showToast(
-                    "Registro salvo com sucesso",
-                    ToastType.success,
-                  );
-                }
+                context.pop(true);
+                Utils.showToast(
+                  "Registro salvo com sucesso",
+                  ToastType.success,
+                );
               }
             },
           ),

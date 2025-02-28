@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:geapp/app/components/divider.dart';
 import 'package:geapp/app/components/header.dart';
+import 'package:geapp/app/components/input.dart';
 import 'package:geapp/app/components/layout.dart';
 import 'package:geapp/app/components/loading.dart';
 import 'package:geapp/app/components/pagination.dart';
+import 'package:geapp/modules/product/providers/product_list_provider.dart';
 import 'package:geapp/modules/unit/components/unit_item.dart';
 import 'package:geapp/modules/unit/providers/unit_form_provider.dart';
 import 'package:geapp/modules/unit/providers/unit_list_provider.dart';
 import 'package:geapp/routes/routes.dart';
 import 'package:geapp/themes/color.dart';
 import 'package:geapp/themes/text.dart';
+import 'package:geapp/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -40,8 +43,12 @@ class UnitListScreen extends StatelessWidget {
                       totalItems: provider.totalItems,
                       onTapFilter: () {},
                       onTapAdd: () async {
-                        context.read<UnitFormProvider>().setCreate();
-                        context.push(Routes.unitForm);
+                        context.read<UnitFormProvider>().init(context);
+                        final needUpdate = await context.push(Routes.unitForm);
+                        if (needUpdate == true && context.mounted) {
+                          context.read<ProductListProvider>().getData();
+                          provider.getData();
+                        }
                       },
                     ),
                     Expanded(
@@ -66,6 +73,38 @@ class UnitListScreen extends StatelessWidget {
             ),
           ),
         );
+      },
+    );
+  }
+
+  Future<void> showModalFilters(BuildContext context) async {
+    final provider = context.read<UnitListProvider>();
+
+    Utils.showModal(
+      context: context,
+      icon: Icons.filter_list,
+      title: "Filtros",
+      confirmText: "Filtrar",
+      showConfirm: true,
+      content: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 10,
+          children: [
+            Input(
+              label: "Unidade",
+              initialValue: provider.filters.unit,
+              onChanged: (v) => provider.filters.unit = v,
+            ),
+            SizedBox(height: 20),
+          ],
+        ),
+      ),
+      onConfirm: () async {
+        provider.changeIsLoading();
+        await provider.getData();
+        provider.changeIsLoading();
       },
     );
   }

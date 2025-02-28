@@ -2,19 +2,18 @@ import 'package:geapp/app/services/db_service.dart';
 import 'package:geapp/modules/product/providers/product_form_provider.dart';
 import 'package:geapp/modules/product/providers/product_list_provider.dart';
 import 'package:geapp/modules/product/repositories/product_repository.dart';
-import 'package:geapp/modules/unit/providers/unit_list_provider.dart';
 import 'package:provider/provider.dart';
 
 class ProductProviders {
-  static List all() {
-    return [...repositoryProviders(), ...listProviders(), ...formProviders()];
-  }
-
   static List repositoryProviders() {
     return [
       ProxyProvider<DBService, ProductRepository>(
-        create: (ctx) => ProductRepository(ctx.read<DBService>()),
-        update: (ctx, db, repo) => ProductRepository(db),
+        create: (ctx) {
+          return ProductRepository(ctx.read<DBService>());
+        },
+        update: (ctx, db, repo) {
+          return ProductRepository(db);
+        },
       ),
     ];
   }
@@ -22,14 +21,11 @@ class ProductProviders {
   static List listProviders() {
     return [
       ChangeNotifierProxyProvider<ProductRepository, ProductListProvider>(
-        create: (ctx) => ProductListProvider(ctx.read<ProductRepository>()),
-        update: (ctx, repo, provider) => provider!..updateRepository(repo),
-      ),
-      ChangeNotifierProxyProvider<UnitListProvider, ProductListProvider>(
-        create: (ctx) => ctx.read<ProductListProvider>(),
-        update: (ctx, unitProvider, provider) {
-          provider!.getData();
-          return provider;
+        create: (ctx) {
+          return ProductListProvider(ctx.read<ProductRepository>());
+        },
+        update: (ctx, repo, provider) {
+          return ProductListProvider(repo);
         },
       ),
     ];
@@ -37,21 +33,18 @@ class ProductProviders {
 
   static List formProviders() {
     return [
-      ChangeNotifierProxyProvider2<
-        ProductRepository,
-        ProductListProvider,
-        ProductFormProvider
-      >(
+      ChangeNotifierProxyProvider<ProductRepository, ProductFormProvider>(
         create: (ctx) {
-          return ProductFormProvider(
-            ctx.read<ProductRepository>(),
-            ctx.read<ProductListProvider>(),
-          );
+          return ProductFormProvider(ctx.read<ProductRepository>());
         },
-        update: (ctx, repo, listProvider, provider) {
-          return ProductFormProvider(repo, listProvider);
+        update: (ctx, repo, provider) {
+          return ProductFormProvider(repo);
         },
       ),
     ];
+  }
+
+  static List all() {
+    return [...repositoryProviders(), ...listProviders(), ...formProviders()];
   }
 }

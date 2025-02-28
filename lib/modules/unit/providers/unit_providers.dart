@@ -8,8 +8,12 @@ class UnitProviders {
   static List repositoryProviders() {
     return [
       ProxyProvider<DBService, UnitRepository>(
-        create: (ctx) => UnitRepository(ctx.read<DBService>()),
-        update: (ctx, db, repo) => UnitRepository(db),
+        create: (ctx) {
+          return UnitRepository(ctx.read<DBService>());
+        },
+        update: (ctx, db, repo) {
+          return UnitRepository(db);
+        },
       ),
     ];
   }
@@ -17,27 +21,24 @@ class UnitProviders {
   static List listProviders() {
     return [
       ChangeNotifierProxyProvider<UnitRepository, UnitListProvider>(
-        create: (ctx) => UnitListProvider(ctx.read<UnitRepository>()),
-        update: (ctx, repo, provider) => provider!..updateRepository(repo),
+        create: (ctx) {
+          return UnitListProvider(ctx.read<UnitRepository>());
+        },
+        update: (ctx, repo, provider) {
+          return UnitListProvider(repo);
+        },
       ),
     ];
   }
 
   static List formProviders() {
     return [
-      ChangeNotifierProxyProvider2<
-        UnitRepository,
-        UnitListProvider,
-        UnitFormProvider
-      >(
+      ChangeNotifierProxyProvider<UnitRepository, UnitFormProvider>(
         create: (ctx) {
-          return UnitFormProvider(
-            ctx.read<UnitRepository>(),
-            ctx.read<UnitListProvider>(),
-          );
+          return UnitFormProvider(ctx.read<UnitRepository>());
         },
-        update: (ctx, repo, listProvider, provider) {
-          return UnitFormProvider(repo, listProvider);
+        update: (ctx, repo, provider) {
+          return UnitFormProvider(repo);
         },
       ),
     ];

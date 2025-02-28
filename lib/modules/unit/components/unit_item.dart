@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:geapp/modules/product/providers/product_list_provider.dart';
 import 'package:geapp/modules/unit/models/unit_model.dart';
 import 'package:geapp/modules/unit/providers/unit_form_provider.dart';
+import 'package:geapp/modules/unit/providers/unit_list_provider.dart';
 import 'package:geapp/routes/routes.dart';
 import 'package:geapp/themes/color.dart';
 import 'package:geapp/themes/text.dart';
@@ -14,8 +16,14 @@ class UnitItem extends StatelessWidget {
   final UnitModel item;
 
   void handleOnTap(BuildContext context) async {
-    await context.read<UnitFormProvider>().setEdit(item);
-    if (context.mounted) context.push(Routes.unitForm);
+    context.read<UnitFormProvider>().setEdit(item);
+    if (context.mounted) {
+      final needUpdate = await context.push(Routes.unitForm);
+      if (needUpdate == true && context.mounted) {
+        context.read<ProductListProvider>().getData();
+        context.read<UnitListProvider>().getData();
+      }
+    }
   }
 
   @override

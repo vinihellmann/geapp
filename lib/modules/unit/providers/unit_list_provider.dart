@@ -2,21 +2,21 @@ import 'dart:developer';
 
 import 'package:geapp/app/provider/list_provider.dart';
 import 'package:geapp/modules/product/models/product_model.dart';
+import 'package:geapp/modules/unit/models/unit_filter_model.dart';
 import 'package:geapp/modules/unit/models/unit_model.dart';
 import 'package:geapp/modules/unit/repositories/unit_repository.dart';
 import 'package:geapp/utils/utils.dart';
 
 class UnitListProvider extends ListProvider<UnitModel> {
-  UnitRepository repository;
+  final UnitRepository repository;
   UnitListProvider(this.repository);
 
   ProductModel? product;
   UnitModel item = UnitModel();
 
-  void updateRepository(UnitRepository newRepository) {
-    repository = newRepository;
-    notifyListeners();
-  }
+  var filters = UnitFilterModel();
+  List<dynamic> whereArgs = [];
+  String? whereClause;
 
   @override
   String orderBy = "createdAt";
@@ -29,14 +29,15 @@ class UnitListProvider extends ListProvider<UnitModel> {
   @override
   Future<void> getData() async {
     if (product == null) return;
+    changeIsLoading();
 
     try {
-      changeIsLoading();
+      await generateWhere();
 
       final itemList = <UnitModel>[];
       final result = await repository.search(
-        "productCode = ?",
-        [product?.code],
+        whereClause,
+        whereArgs,
         page,
         limit,
         orderBy,
@@ -58,5 +59,21 @@ class UnitListProvider extends ListProvider<UnitModel> {
     } finally {
       changeIsLoading();
     }
+  }
+
+  Future<void> generateWhere() async {
+    List<String> whereList = [];
+    whereClause = null;
+    whereArgs.clear();
+
+    whereList.add("productCode = ?");
+    whereArgs.add(product?.code);
+
+    if (filters.unit != null && filters.unit != "") {
+      whereList.add("unit LIKE ?");
+      whereArgs.add("%${filters.unit}%");
+    }
+
+    whereClause = whereList.isNotEmpty ? whereList.join(' AND ') : null;
   }
 }

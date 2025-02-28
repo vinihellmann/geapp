@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 abstract class ListProvider<T> with ChangeNotifier {
   ListProvider() {
-    changeIsLoading();
-    getData().then((_) => changeIsLoading());
+    getData();
   }
 
   String get orderBy;

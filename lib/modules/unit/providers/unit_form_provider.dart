@@ -9,8 +9,7 @@ import 'package:provider/provider.dart';
 
 class UnitFormProvider extends FormProvider<UnitModel> {
   final UnitRepository repository;
-  final UnitListProvider listProvider;
-  UnitFormProvider(this.repository, this.listProvider);
+  UnitFormProvider(this.repository);
 
   @override
   String get title => isEditing ? "Editar Unidade" : "Nova Unidade";
@@ -19,43 +18,29 @@ class UnitFormProvider extends FormProvider<UnitModel> {
   UnitModel item = UnitModel();
   final formKey = GlobalKey<FormState>();
 
-  bool validateForm() {
-    return formKey.currentState!.validate();
-  }
-
-  void setProductCode(BuildContext context) {
-    item.productCode = context.read<UnitListProvider>().product?.code;
+  void init(BuildContext context) {
+    final code = context.read<UnitListProvider>().product?.code;
+    isEditing = false;
+    item = UnitModel(productCode: code);
   }
 
   @override
-  Future<void> setCreate() async {
+  void setCreate() {
     try {
-      changeIsLoading();
-
       isEditing = false;
       item = UnitModel();
-
-      await Future.delayed(Duration(milliseconds: 50));
     } catch (e) {
       log(e.toString());
-    } finally {
-      changeIsLoading();
     }
   }
 
   @override
-  Future<void> setEdit(UnitModel object) async {
+  void setEdit(UnitModel object) {
     try {
-      changeIsLoading();
-
       isEditing = true;
       item = object.copyWith();
-
-      await Future.delayed(Duration(milliseconds: 50));
     } catch (e) {
       log(e.toString());
-    } finally {
-      changeIsLoading();
     }
   }
 
@@ -90,5 +75,9 @@ class UnitFormProvider extends FormProvider<UnitModel> {
     } finally {
       changeIsLoading();
     }
+  }
+
+  bool validateForm() {
+    return formKey.currentState!.validate();
   }
 }

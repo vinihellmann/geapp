@@ -18,8 +18,8 @@ class Providers extends StatelessWidget {
       providers: [
         Provider<DBService>(create: (context) => DBService(database)),
         ...CustomerProviders.all(),
-        ...UnitProviders.all(),
         ...ProductProviders.all(),
+        ...UnitProviders.all(),
       ],
       child: child,
     );
