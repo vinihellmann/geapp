@@ -73,8 +73,8 @@ Siga os passos abaixo para rodar o projeto no Visual Studio Code:
 2. **Clone este repositório:**
 
    ```sh
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd seu-repositorio
+   git clone https://github.com/vinihellmann/geapp
+   cd geapp
    ```
 
 3. **Instale as dependências do projeto:**
