@@ -51,5 +51,5 @@ class LoginFormProvider extends FormProvider<LoginModel> {
   }
 
   @override
-  void setEdit(LoginModel object) {}
+  Future<void> setEdit(LoginModel object) async {}
 }

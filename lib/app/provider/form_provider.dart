@@ -10,8 +10,8 @@ abstract class FormProvider<T> with ChangeNotifier {
   bool isLoading = false;
   bool isSaving = false;
 
-  void setCreate();
-  void setEdit(T object);
+  Future<void> setCreate();
+  Future<void> setEdit(T object);
 
   Future<bool?> save();
 

@@ -25,7 +25,7 @@ class UnitFormProvider extends FormProvider<UnitModel> {
   }
 
   @override
-  void setCreate() {
+  Future<void> setCreate() async {
     try {
       isEditing = false;
       item = UnitModel();
@@ -35,7 +35,7 @@ class UnitFormProvider extends FormProvider<UnitModel> {
   }
 
   @override
-  void setEdit(UnitModel object) {
+  Future<void> setEdit(UnitModel object) async {
     try {
       isEditing = true;
       item = object.copyWith();
