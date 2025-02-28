@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-abstract class Provider<T> with ChangeNotifier {
-  Provider() {
+abstract class ListProvider<T> with ChangeNotifier {
+  ListProvider() {
     changeIsLoading();
     getData().then((_) => changeIsLoading());
   }

@@ -1,12 +1,12 @@
 import 'dart:developer';
 
-import 'package:geapp/app/provider/provider.dart';
+import 'package:geapp/app/provider/list_provider.dart';
 import 'package:geapp/modules/customer/models/customer_filter_model.dart';
 import 'package:geapp/modules/customer/models/customer_model.dart';
 import 'package:geapp/modules/customer/repositories/customer_repository.dart';
 import 'package:geapp/utils/utils.dart';
 
-class CustomerListProvider extends Provider<CustomerModel> {
+class CustomerListProvider extends ListProvider<CustomerModel> {
   final CustomerRepository repository;
   CustomerListProvider(this.repository);
 

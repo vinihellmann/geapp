@@ -6,7 +6,6 @@ import 'package:geapp/app/components/loading.dart';
 import 'package:geapp/app/components/select.dart';
 import 'package:geapp/app/components/switch.dart';
 import 'package:geapp/app/formatters/input_formatters.dart';
-import 'package:geapp/modules/customer/models/customer_model.dart';
 import 'package:geapp/modules/customer/providers/customer_form_provider.dart';
 import 'package:geapp/themes/color.dart';
 import 'package:geapp/themes/text.dart';
@@ -14,30 +13,8 @@ import 'package:geapp/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class CustomerFormScreen extends StatefulWidget {
-  const CustomerFormScreen({super.key, required this.customer});
-
-  final CustomerModel? customer;
-
-  @override
-  State<CustomerFormScreen> createState() => _CustomerFormScreenState();
-}
-
-class _CustomerFormScreenState extends State<CustomerFormScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final formProvider = context.read<CustomerFormProvider>();
-
-      if (widget.customer != null) {
-        await formProvider.setEdit(widget.customer!);
-      } else {
-        await formProvider.setCreate();
-      }
-    });
-  }
+class CustomerFormScreen extends StatelessWidget {
+  const CustomerFormScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

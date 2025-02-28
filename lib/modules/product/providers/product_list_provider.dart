@@ -1,12 +1,12 @@
 import 'dart:developer';
 
-import 'package:geapp/app/provider/provider.dart';
+import 'package:geapp/app/provider/list_provider.dart';
 import 'package:geapp/modules/product/models/product_model.dart';
 import 'package:geapp/modules/product/repositories/product_repository.dart';
 import 'package:geapp/modules/unit/models/unit_model.dart';
 import 'package:geapp/utils/utils.dart';
 
-class ProductListProvider extends Provider<ProductModel> {
+class ProductListProvider extends ListProvider<ProductModel> {
   ProductRepository repository;
   ProductListProvider(this.repository);
 

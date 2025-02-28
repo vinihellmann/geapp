@@ -7,6 +7,7 @@ import 'package:geapp/app/components/loading.dart';
 import 'package:geapp/app/components/pagination.dart';
 import 'package:geapp/modules/customer/components/customer_list_item.dart';
 import 'package:geapp/modules/customer/models/customer_model.dart';
+import 'package:geapp/modules/customer/providers/customer_form_provider.dart';
 import 'package:geapp/modules/customer/providers/customer_list_provider.dart';
 import 'package:geapp/routes/routes.dart';
 import 'package:geapp/themes/text.dart';
@@ -32,7 +33,10 @@ class CustomerListScreen extends StatelessWidget {
                 totalItemsShown: provider.totalItemsShown,
                 totalItems: provider.totalItems,
                 onTapFilter: () async => await showModalFilters(context),
-                onTapAdd: () => context.push(Routes.customerForm),
+                onTapAdd: () async {
+                  await context.read<CustomerFormProvider>().setCreate();
+                  if (context.mounted) context.push(Routes.customerForm);
+                },
               ),
               Expanded(
                 child: ListView.separated(
