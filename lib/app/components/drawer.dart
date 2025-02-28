@@ -15,40 +15,26 @@ class TDrawer extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
+            spacing: 10,
             children: [
               TDrawerItem(
                 title: "Clientes",
                 icon: Icons.person_outlined,
                 onClick: () => context.push(Routes.customerList),
               ),
-              const SizedBox(height: 10),
               TDrawerItem(
                 title: "Produtos",
                 icon: Icons.inventory_2_outlined,
                 onClick: () => context.push(Routes.productList),
               ),
-              const SizedBox(height: 10),
               TDrawerItem(
                 title: "Financeiro",
                 icon: Icons.attach_money_outlined,
                 onClick: () {},
               ),
-              const SizedBox(height: 10),
               TDrawerItem(
                 title: "Vendas",
                 icon: Icons.shopping_bag_outlined,
-                onClick: () {},
-              ),
-              const Spacer(),
-              TDrawerItem(
-                title: "GUID",
-                icon: Icons.key_outlined,
-                onClick: () {},
-              ),
-              const SizedBox(height: 10),
-              TDrawerItem(
-                title: "Configurações",
-                icon: Icons.settings_outlined,
                 onClick: () {},
               ),
               const Spacer(flex: 4),
