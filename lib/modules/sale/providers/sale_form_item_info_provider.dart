@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:geapp/modules/product/models/product_model.dart';
 import 'package:geapp/modules/sale/models/sale_item_model.dart';
@@ -6,31 +8,60 @@ import 'package:geapp/utils/utils.dart';
 class SaleFormItemInfoProvider with ChangeNotifier {
   late SaleItemModel item;
 
-  SaleFormItemInfoProvider(ProductModel product, List<SaleItemModel> items) {
+  SaleFormItemInfoProvider.fromProduct(
+    ProductModel product,
+    List<SaleItemModel> items,
+  ) {
     initializeSaleItem(product, items);
   }
 
-  void initializeSaleItem(ProductModel product, List<SaleItemModel> items) {
+  SaleFormItemInfoProvider.fromSaleItem(
+    SaleItemModel saleItem,
+    List<SaleItemModel> items,
+  ) {
+    initializeSaleItem(saleItem, items);
+  }
+
+  void initializeSaleItem<T extends Object>(
+    T itemData,
+    List<SaleItemModel> items,
+  ) {
+    if (itemData is ProductModel) {
+      SaleItemModel saleItem = SaleItemModel(
+        code: itemData.code,
+        productCode: itemData.code,
+        productName: itemData.name,
+        unitCode: itemData.selectedUnit?.code,
+        unitName: itemData.selectedUnit?.unit,
+        unitValue: itemData.selectedUnit?.price ?? 0,
+        quantity: 1,
+        discountValue: 0,
+        discountPercentage: 0,
+        finalValue: itemData.selectedUnit?.price ?? 0,
+        totalValue: itemData.selectedUnit?.price ?? 0,
+      );
+
+      _processSaleItem(saleItem, items);
+    } else if (itemData is SaleItemModel) {
+      _processSaleItem(itemData, items);
+    } else {
+      throw ArgumentError(
+        'O parâmetro itemData deve ser ProductModel ou SaleItemModel',
+      );
+    }
+  }
+
+  void _processSaleItem(SaleItemModel saleItem, List<SaleItemModel> items) {
     item = items.firstWhere(
       (i) =>
-          i.productCode == product.code &&
-          i.unitCode == product.selectedUnit?.code,
-      orElse:
-          () => SaleItemModel(
-            productCode: product.code,
-            productName: product.name,
-            unitCode: product.selectedUnit?.code,
-            unitName: product.selectedUnit?.unit,
-            unitValue: product.selectedUnit?.price ?? 0,
-            quantity: 1,
-            discountValue: 0,
-            discountPercentage: 0,
-            finalValue: product.selectedUnit?.price ?? 0,
-            totalValue: product.selectedUnit?.price ?? 0,
-          ),
+          i.productCode == saleItem.productCode &&
+          i.unitCode == saleItem.unitCode,
+      orElse: () => saleItem,
     );
 
-    originalValue = item.unitValue!;
+    log(item.toString());
+
+    originalValue = item.unitValue ?? 0;
     quantityController.text = Utils.formatCurrency(item.quantity);
     finalValueController.text = Utils.formatCurrency(item.unitValue);
     discountPercController.text = Utils.formatCurrency(item.discountPercentage);
@@ -132,9 +163,7 @@ class SaleFormItemInfoProvider with ChangeNotifier {
   }
 
   void updateValorTotal() {
-    double discountedUnitValue = finalValue - (discountValue / quantity);
-    String valueFixed = discountedUnitValue.toStringAsFixed(2);
-    double baseTotal = double.parse(valueFixed) * quantity;
+    double baseTotal = (finalValue * quantity) - discountValue;
 
     if (baseTotal > 0) {
       totalValue = baseTotal;
@@ -146,22 +175,19 @@ class SaleFormItemInfoProvider with ChangeNotifier {
   }
 
   void updateDiscountValue() {
-    double valorDescontado = finalValue * (discountPercentage / 100);
-    String valorDescontadoLimitado = valorDescontado.toStringAsFixed(2);
-    double valorDesconto = double.parse(valorDescontadoLimitado) * quantity;
+    double baseTotal = finalValue * quantity;
+    double valorDesconto = (discountPercentage / 100) * baseTotal;
 
-    if (valorDesconto > 0) {
-      discountValueController.text = Utils.formatCurrency(valorDesconto);
-    }
+    discountValueController.text = Utils.formatCurrency(valorDesconto);
 
     updateValorTotal();
   }
 
   void updateDiscountP() {
-    double baseTotal = quantity * finalValue;
-    double discountFromValue = (discountValue / baseTotal) * 100;
+    double baseTotal = finalValue * quantity;
 
-    if (discountFromValue >= 0) {
+    if (baseTotal > 0) {
+      double discountFromValue = (discountValue / baseTotal) * 100;
       discountPercController.text = Utils.formatCurrency(discountFromValue);
     }
 
@@ -169,11 +195,7 @@ class SaleFormItemInfoProvider with ChangeNotifier {
   }
 
   SaleItemModel getFilledItem() {
-    return SaleItemModel(
-      productCode: item.productCode,
-      productName: item.productName,
-      unitCode: item.unitCode,
-      unitName: item.unitName,
+    return item.copyWith(
       unitValue: finalValue,
       quantity: quantity,
       discountValue: discountValue,

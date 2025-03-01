@@ -99,11 +99,8 @@ class Routes {
       GoRoute(
         path: saleFormItemInfo,
         pageBuilder: (context, state) {
-          final item = state.extra as ProductModel;
-          return Transition.pageTransition(
-            state,
-            SaleFormItemInfo(product: item),
-          );
+          final item = state.extra as Object;
+          return Transition.pageTransition(state, SaleFormItemInfo(item: item));
         },
       ),
       GoRoute(

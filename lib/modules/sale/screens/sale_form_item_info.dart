@@ -4,6 +4,7 @@ import 'package:geapp/app/components/input_numeric.dart';
 import 'package:geapp/app/components/layout.dart';
 import 'package:geapp/app/formatters/input_formatters.dart';
 import 'package:geapp/modules/product/models/product_model.dart';
+import 'package:geapp/modules/sale/models/sale_item_model.dart';
 import 'package:geapp/modules/sale/providers/sale_form_item_info_provider.dart';
 import 'package:geapp/modules/sale/providers/sale_form_provider.dart';
 import 'package:geapp/themes/text.dart';
@@ -12,15 +13,27 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class SaleFormItemInfo extends StatelessWidget {
-  const SaleFormItemInfo({super.key, required this.product});
+  const SaleFormItemInfo({super.key, required this.item});
 
-  final ProductModel product;
+  final Object item;
 
   @override
   Widget build(BuildContext context) {
     final formProvider = context.read<SaleFormProvider>();
     return ChangeNotifierProvider(
-      create: (_) => SaleFormItemInfoProvider(product, formProvider.items),
+      create: (_) {
+        if (item is SaleItemModel) {
+          return SaleFormItemInfoProvider.fromSaleItem(
+            item as SaleItemModel,
+            formProvider.items,
+          );
+        } else if (item is ProductModel) {
+          return SaleFormItemInfoProvider.fromProduct(
+            item as ProductModel,
+            formProvider.items,
+          );
+        }
+      },
       child: Consumer<SaleFormItemInfoProvider>(
         builder: (context, provider, child) {
           return Layout(

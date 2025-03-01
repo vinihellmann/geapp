@@ -72,7 +72,9 @@ class SaleFormItems extends StatelessWidget {
                 itemBuilder: (context, i) {
                   final item = formProvider.items[i];
                   return InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      context.push(Routes.saleFormItemInfo, extra: item);
+                    },
                     child: Container(
                       decoration: BoxDecoration(color: TColor.background.light),
                       child: ListTile(
