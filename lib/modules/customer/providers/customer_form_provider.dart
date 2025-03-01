@@ -7,8 +7,13 @@ import 'package:geapp/modules/customer/models/customer_model.dart';
 import 'package:geapp/modules/customer/repositories/customer_repository.dart';
 
 class CustomerFormProvider extends FormProvider<CustomerModel> {
-  final CustomerRepository repository;
+  CustomerRepository repository;
   CustomerFormProvider(this.repository);
+
+  updateDependencies(CustomerRepository repo) {
+    repository = repo;
+    notifyListeners();
+  }
 
   @override
   String get title => isEditing ? "Editar Cliente" : "Novo Cliente";

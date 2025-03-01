@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'package:geapp/app/database/migrations/customer_migration.dart';
 import 'package:geapp/app/database/migrations/location_migration.dart';
 import 'package:geapp/app/database/migrations/product_migration.dart';
+import 'package:geapp/app/database/migrations/sale_item_migration.dart';
+import 'package:geapp/app/database/migrations/sale_migration.dart';
 import 'package:geapp/app/database/migrations/user_migration.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -41,6 +43,8 @@ class GEDatabase {
         CustomerMigration.execute(db),
         ProductMigration.execute(db),
         LocationMigration.execute(db),
+        SaleMigration.execute(db),
+        SaleItemMigration.execute(db),
       ]);
     } catch (e) {
       log('GEDatabase::onCreate - $e');

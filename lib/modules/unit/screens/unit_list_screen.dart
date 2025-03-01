@@ -82,7 +82,7 @@ class UnitListScreen extends StatelessWidget {
 
     Utils.showModal(
       context: context,
-      icon: Icons.filter_list,
+      icon: Icons.filter_list_outlined,
       title: "Filtros",
       confirmText: "Filtrar",
       showConfirm: true,

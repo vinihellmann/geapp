@@ -20,12 +20,6 @@ class TText {
     color: TColor.text.primary,
   );
 
-  static final ms = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    color: TColor.text.secondary,
-  );
-
   static final md = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,

@@ -8,8 +8,13 @@ import 'package:geapp/modules/unit/models/unit_model.dart';
 import 'package:geapp/utils/utils.dart';
 
 class ProductListProvider extends ListProvider<ProductModel> {
-  final ProductRepository repository;
+  ProductRepository repository;
   ProductListProvider(this.repository);
+
+  updateDependencies(ProductRepository repo) {
+    repository = repo;
+    notifyListeners();
+  }
 
   var filters = ProductFilterModel();
   List<dynamic> whereArgs = [];

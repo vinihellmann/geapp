@@ -16,8 +16,8 @@ class ProductMigration {
   static Future<void> createTables(Database db) async {
     await db.execute('''
       CREATE TABLE IF NOT EXISTS $tableName (
-        id INTEGER PRIMARY KEY,
-        code TEXT NOT NULL,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        code TEXT UNIQUE NOT NULL,
         barCode TEXT,
         name TEXT NOT NULL,
         brand TEXT,
@@ -30,8 +30,8 @@ class ProductMigration {
 
     await db.execute('''
       CREATE TABLE IF NOT EXISTS $tableNameUnit (
-        id INTEGER PRIMARY KEY,
-        code TEXT NOT NULL,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        code TEXT UNIQUE NOT NULL,
         productCode TEXT NOT NULL,
         unit TEXT NOT NULL,
         stock FLOAT NOT NULL,

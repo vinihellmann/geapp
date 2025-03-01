@@ -12,7 +12,8 @@ class ProductProviders {
           return ProductRepository(ctx.read<DBService>());
         },
         update: (ctx, db, repo) {
-          return ProductRepository(db);
+          repo?.updateDependencies(db);
+          return repo ?? ProductRepository(db);
         },
       ),
     ];
@@ -25,7 +26,9 @@ class ProductProviders {
           return ProductListProvider(ctx.read<ProductRepository>());
         },
         update: (ctx, repo, provider) {
-          return ProductListProvider(repo);
+          provider?.updateDependencies(repo);
+          provider?.getData();
+          return provider ?? ProductListProvider(repo);
         },
       ),
     ];
@@ -38,7 +41,8 @@ class ProductProviders {
           return ProductFormProvider(ctx.read<ProductRepository>());
         },
         update: (ctx, repo, provider) {
-          return ProductFormProvider(repo);
+          provider?.updateDependencies(repo);
+          return provider ?? ProductFormProvider(repo);
         },
       ),
     ];

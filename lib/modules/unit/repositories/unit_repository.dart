@@ -5,8 +5,12 @@ import 'package:geapp/app/services/db_service.dart';
 import 'package:geapp/modules/unit/models/unit_model.dart';
 
 class UnitRepository extends Repository<UnitModel> {
-  final DBService dbService;
+  DBService dbService;
   UnitRepository(this.dbService);
+
+  updateDependencies(DBService db) {
+    dbService = db;
+  }
 
   @override
   String get tableName => ProductMigration.tableNameUnit;

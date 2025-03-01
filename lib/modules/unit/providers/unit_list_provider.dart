@@ -8,8 +8,13 @@ import 'package:geapp/modules/unit/repositories/unit_repository.dart';
 import 'package:geapp/utils/utils.dart';
 
 class UnitListProvider extends ListProvider<UnitModel> {
-  final UnitRepository repository;
+  UnitRepository repository;
   UnitListProvider(this.repository);
+
+  updateDependencies(UnitRepository repo) {
+    repository = repo;
+    notifyListeners();
+  }
 
   ProductModel? product;
   UnitModel item = UnitModel();

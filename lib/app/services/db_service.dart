@@ -20,7 +20,7 @@ class DBService {
     int page = 1,
     int limit = 10,
     String? where,
-    String orderBy = 'ID',
+    String orderBy = 'id',
     List<dynamic>? whereArgs,
   }) async {
     try {

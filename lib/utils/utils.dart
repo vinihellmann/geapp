@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geapp/app/components/modal.dart';
 import 'package:geapp/app/services/local_storage_service.dart';
@@ -9,20 +10,36 @@ import 'package:uuid/uuid.dart';
 enum ToastType { success, error, info }
 
 class Utils {
-  static String? formatDouble(double? value) {
-    return value?.toStringAsFixed(2).replaceAll('.', ',');
+  static double parseDouble(String value) {
+    String numericString = value.replaceAll(RegExp(r'[^\d,]'), '');
+    numericString = numericString.replaceAll(',', '.');
+    double valueDouble = double.tryParse(numericString) ?? 0.0;
+    String finalValue = valueDouble.toStringAsFixed(2);
+    return double.parse(finalValue);
   }
 
-  static double? parseDouble(String? value) {
-    final cleaned = value?.replaceAll('.', '').replaceAll(',', '.');
-    if (cleaned == null) return null;
+  static String formatCurrency(double? value) {
+    if (value == null) return "";
 
-    return double.tryParse(cleaned) ?? 0.0;
+    return CurrencyInputFormatter(
+          thousandSeparator: ThousandSeparator.Period,
+          mantissaLength: 2,
+        )
+        .formatEditUpdate(
+          TextEditingValue.empty,
+          TextEditingValue(text: value.toStringAsFixed(2)),
+        )
+        .text;
   }
 
   static String formatDate(DateTime? date) {
     if (date == null) return "";
     return DateFormat("dd/MM/yyyy").format(date);
+  }
+
+  static String formatDatePtBr(String isoDate) {
+    DateTime dateTime = DateTime.parse(isoDate);
+    return DateFormat('dd/MM/yyyy').format(dateTime);
   }
 
   static String formatTime(DateTime? time) {

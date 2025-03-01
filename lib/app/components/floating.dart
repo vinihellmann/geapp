@@ -3,9 +3,19 @@ import 'package:geapp/themes/text.dart';
 import 'package:flutter/material.dart';
 
 class Floating extends StatelessWidget {
-  const Floating({super.key, required this.isLoading, required this.onClick});
+  const Floating({
+    super.key,
+    required this.isLoading,
+    required this.onClick,
+    this.label,
+    this.bgColor,
+    this.icon,
+  });
 
   final bool isLoading;
+  final IconData? icon;
+  final String? label;
+  final Color? bgColor;
   final VoidCallback onClick;
 
   @override
@@ -25,9 +35,13 @@ class Floating extends StatelessWidget {
         )
         : FloatingActionButton.extended(
           onPressed: onClick,
-          backgroundColor: TColor.background.success,
-          label: Text("Salvar", style: TText.md),
-          icon: Icon(Icons.check_outlined, color: TColor.text.primary),
+          backgroundColor: bgColor ?? TColor.background.success,
+          label: Text(label ?? "Salvar", style: TText.md),
+          icon: Icon(
+            icon ?? Icons.check_outlined,
+            color: TColor.text.primary,
+            size: 20,
+          ),
         );
   }
 }

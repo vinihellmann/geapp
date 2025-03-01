@@ -1,39 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:geapp/modules/product/providers/product_list_provider.dart';
-import 'package:geapp/modules/unit/models/unit_model.dart';
-import 'package:geapp/modules/unit/providers/unit_form_provider.dart';
-import 'package:geapp/modules/unit/providers/unit_list_provider.dart';
-import 'package:geapp/routes/routes.dart';
+import 'package:geapp/app/components/option_tile.dart';
+import 'package:geapp/modules/sale/models/sale_model.dart';
+import 'package:geapp/modules/sale/providers/sale_list_provider.dart';
 import 'package:geapp/themes/color.dart';
 import 'package:geapp/themes/text.dart';
 import 'package:geapp/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class UnitItem extends StatelessWidget {
-  const UnitItem({super.key, required this.item});
+class SaleListItem extends StatelessWidget {
+  const SaleListItem({super.key, required this.item});
 
-  final UnitModel item;
+  final SaleModel item;
 
-  void handleOnTap(BuildContext context) async {
-    context.read<UnitFormProvider>().setEdit(item);
-    if (context.mounted) {
-      final needUpdate = await context.push(Routes.unitForm);
-      if (needUpdate == true && context.mounted) {
-        context.read<ProductListProvider>().getData();
-        context.read<UnitListProvider>().getData();
-      }
-    }
+  void handleOpenModal(BuildContext context) {
+    final listProvider = context.read<SaleListProvider>();
+    Utils.showModal(
+      context: context,
+      icon: Icons.menu_outlined,
+      title: "Opções",
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          OptionTile(title: "Editar", onPress: () async {}),
+          OptionTile(
+            title: "Excluir",
+            onPress: () async {
+              context.pop();
+              await listProvider.delete(item);
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => handleOnTap(context),
+      onTap: () => handleOpenModal(context),
       child: Container(
         decoration: BoxDecoration(color: TColor.background.light),
         child: ListTile(
-          iconColor: TColor.primary.light,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 20,
             vertical: 10,
@@ -42,9 +50,8 @@ class UnitItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                item.unit?.toUpperCase() ?? "",
+                "${item.id} - ${item.customerName?.toUpperCase()}",
                 style: TText.ml,
-                overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: 10),
               Row(
@@ -52,13 +59,13 @@ class UnitItem extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      "Estoque: ${Utils.formatCurrency(item.stock!)}",
+                      "Data Entrega: ${Utils.formatDatePtBr(item.deliveryDate!)}",
                       style: TText.xs,
                     ),
                   ),
                   Expanded(
                     child: Text(
-                      "Preço: R\$${Utils.formatCurrency(item.price!)}",
+                      "Total: R\$${Utils.formatCurrency(item.totalValue!)}",
                       style: TText.xs,
                       textAlign: TextAlign.end,
                     ),

@@ -7,8 +7,13 @@ import 'package:geapp/modules/customer/repositories/customer_repository.dart';
 import 'package:geapp/utils/utils.dart';
 
 class CustomerListProvider extends ListProvider<CustomerModel> {
-  final CustomerRepository repository;
+  CustomerRepository repository;
   CustomerListProvider(this.repository);
+
+  updateDependencies(CustomerRepository repo) {
+    repository = repo;
+    notifyListeners();
+  }
 
   var filters = CustomerFilterModel();
   List<dynamic> whereArgs = [];
@@ -34,8 +39,8 @@ class CustomerListProvider extends ListProvider<CustomerModel> {
       );
 
       for (var item in result.data) {
-        final customer = CustomerModel.fromMap(item);
-        itemList.add(customer);
+        final object = CustomerModel.fromMap(item);
+        itemList.add(object);
       }
 
       items = itemList;

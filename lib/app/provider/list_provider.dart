@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
 abstract class ListProvider<T> with ChangeNotifier {
-  ListProvider() {
-    getData();
-  }
-
   String get orderBy;
 
   get totalItemsShown {

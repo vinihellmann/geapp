@@ -35,7 +35,7 @@ class TDrawer extends StatelessWidget {
               TDrawerItem(
                 title: "Vendas",
                 icon: Icons.shopping_bag_outlined,
-                onClick: () {},
+                onClick: () => context.push(Routes.saleList),
               ),
               const Spacer(flex: 4),
               TDrawerItem(

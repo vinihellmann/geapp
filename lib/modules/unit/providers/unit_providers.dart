@@ -12,7 +12,8 @@ class UnitProviders {
           return UnitRepository(ctx.read<DBService>());
         },
         update: (ctx, db, repo) {
-          return UnitRepository(db);
+          repo?.updateDependencies(db);
+          return repo ?? UnitRepository(db);
         },
       ),
     ];
@@ -25,7 +26,9 @@ class UnitProviders {
           return UnitListProvider(ctx.read<UnitRepository>());
         },
         update: (ctx, repo, provider) {
-          return UnitListProvider(repo);
+          provider?.updateDependencies(repo);
+          provider?.getData();
+          return provider ?? UnitListProvider(repo);
         },
       ),
     ];
@@ -38,7 +41,8 @@ class UnitProviders {
           return UnitFormProvider(ctx.read<UnitRepository>());
         },
         update: (ctx, repo, provider) {
-          return UnitFormProvider(repo);
+          provider?.updateDependencies(repo);
+          return provider ?? UnitFormProvider(repo);
         },
       ),
     ];

@@ -12,7 +12,8 @@ class CustomerProviders {
           return CustomerRepository(ctx.read<DBService>());
         },
         update: (ctx, db, repo) {
-          return CustomerRepository(db);
+          repo?.updateDependencies(db);
+          return repo ?? CustomerRepository(db);
         },
       ),
     ];
@@ -25,7 +26,9 @@ class CustomerProviders {
           return CustomerListProvider(ctx.read<CustomerRepository>());
         },
         update: (ctx, repo, provider) {
-          return CustomerListProvider(repo);
+          provider?.updateDependencies(repo);
+          provider?.getData();
+          return provider ?? CustomerListProvider(repo);
         },
       ),
     ];
@@ -35,10 +38,12 @@ class CustomerProviders {
     return [
       ChangeNotifierProxyProvider<CustomerRepository, CustomerFormProvider>(
         create: (ctx) {
-          return CustomerFormProvider(ctx.read<CustomerRepository>())..getUFs();
+          return CustomerFormProvider(ctx.read<CustomerRepository>());
         },
         update: (ctx, repo, provider) {
-          return CustomerFormProvider(repo)..getUFs();
+          provider?.updateDependencies(repo);
+          provider?.getUFs();
+          return provider ?? CustomerFormProvider(repo);
         },
       ),
     ];

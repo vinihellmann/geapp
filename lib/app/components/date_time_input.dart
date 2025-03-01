@@ -160,8 +160,8 @@ class _DateTimeInputState extends State<DateTimeInput> {
                   ? Icons.calendar_month_outlined
                   : Icons.access_time_outlined,
             ),
-            hintText: widget.label,
-            hintStyle: TText.ss,
+            labelText: widget.label,
+            labelStyle: TText.ss,
             filled: true,
             fillColor: TColor.background.light,
             floatingLabelStyle: TextStyle(color: TColor.primary.light),

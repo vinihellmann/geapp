@@ -40,7 +40,7 @@ class Layout extends StatelessWidget {
         actions: actions,
         bottom: bottom,
       ),
-      body: body,
+      body: Padding(padding: padding ?? EdgeInsets.all(0), child: body),
       floatingActionButton: floating,
     );
   }

@@ -6,19 +6,21 @@ class Button extends StatefulWidget {
   const Button({
     super.key,
     this.outlined = false,
-    required this.label,
+    this.label,
     this.width,
     this.bgColor,
     this.isLoading,
     this.onClick,
+    this.content,
   });
 
   final bool? outlined;
-  final String label;
+  final String? label;
   final double? width;
   final Color? bgColor;
   final bool? isLoading;
   final Function? onClick;
+  final Widget? content;
 
   @override
   State<Button> createState() => _ButtonState();
@@ -68,7 +70,10 @@ class _ButtonState extends State<Button> {
                         strokeWidth: 2,
                       ),
                     )
-                    : Text(widget.label, style: TText.ml),
+                    : (widget.label != null
+                            ? Text(widget.label!, style: TText.ml)
+                            : null) ??
+                        widget.content,
           ),
         ),
       ),

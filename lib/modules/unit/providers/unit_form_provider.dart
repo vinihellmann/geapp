@@ -8,8 +8,13 @@ import 'package:geapp/modules/unit/repositories/unit_repository.dart';
 import 'package:provider/provider.dart';
 
 class UnitFormProvider extends FormProvider<UnitModel> {
-  final UnitRepository repository;
+  UnitRepository repository;
   UnitFormProvider(this.repository);
+
+  updateDependencies(UnitRepository repo) {
+    repository = repo;
+    notifyListeners();
+  }
 
   @override
   String get title => isEditing ? "Editar Unidade" : "Nova Unidade";

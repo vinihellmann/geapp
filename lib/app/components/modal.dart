@@ -46,7 +46,7 @@ class Modal extends StatelessWidget {
             visible: onClear != null,
             child: IconButton(
               onPressed: onClear,
-              icon: Icon(Icons.block, color: TColor.primary.light),
+              icon: Icon(Icons.block_outlined, color: TColor.primary.light),
             ),
           ),
         ],

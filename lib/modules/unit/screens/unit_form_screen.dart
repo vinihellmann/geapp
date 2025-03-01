@@ -57,15 +57,16 @@ class UnitFormScreen extends StatelessWidget {
                     Input(
                       isRequired: true,
                       label: "Valor por Unidade",
-                      initialValue: Utils.formatDouble(provider.item.price),
+                      initialValue: Utils.formatCurrency(provider.item.price),
                       onChanged:
                           (nv) => provider.item.price = Utils.parseDouble(nv),
                       inputFormatters: [InputFormatters.currencyMask],
                     ),
                     const SizedBox(height: 10),
                     Input(
+                      isRequired: true,
                       label: "Estoque",
-                      initialValue: Utils.formatDouble(provider.item.stock),
+                      initialValue: Utils.formatCurrency(provider.item.stock),
                       onChanged:
                           (nv) => provider.item.stock = Utils.parseDouble(nv),
                       inputFormatters: [InputFormatters.currencyMask],

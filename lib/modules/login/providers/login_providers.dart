@@ -7,13 +7,18 @@ class LoginProviders {
   static List providers() {
     return [
       ProxyProvider<DBService, LoginRepository>(
-        create: (context) => LoginRepository(context.read<DBService>()),
-        update: (context, dbService, repository) => LoginRepository(dbService),
+        create: (ctx) => LoginRepository(ctx.read<DBService>()),
+        update: (ctx, db, repo) {
+          repo?.updateDependencies(db);
+          return repo ?? LoginRepository(db);
+        },
       ),
       ChangeNotifierProxyProvider<LoginRepository, LoginFormProvider>(
-        create: (context) => LoginFormProvider(context.read<LoginRepository>()),
-        update:
-            (context, repository, provider) => LoginFormProvider(repository),
+        create: (ctx) => LoginFormProvider(ctx.read<LoginRepository>()),
+        update: (ctx, repo, provider) {
+          provider?.updateDependencies(repo);
+          return provider ?? LoginFormProvider(repo);
+        },
       ),
     ];
   }

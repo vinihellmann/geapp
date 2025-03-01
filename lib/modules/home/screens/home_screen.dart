@@ -50,7 +50,7 @@ class HomeScreen extends StatelessWidget {
                 NavButton(
                   label: "Vendas",
                   icon: Icons.shopping_bag_outlined,
-                  onTap: () {},
+                  onTap: () => context.push(Routes.saleList),
                 ),
               ],
             ),

@@ -41,7 +41,7 @@ class TDrawerItem extends StatelessWidget {
             ),
             title: Text(title, style: TText.md),
             trailing: Icon(
-              Icons.chevron_right,
+              Icons.chevron_right_outlined,
               color: exitApp ? TColor.error.main : TColor.button.primary,
             ),
           ),

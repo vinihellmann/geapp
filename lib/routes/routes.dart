@@ -1,10 +1,15 @@
 import 'package:geapp/app/components/transition.dart';
+import 'package:geapp/modules/customer/models/customer_model.dart';
 import 'package:geapp/modules/customer/screens/customer_form_screen.dart';
 import 'package:geapp/modules/customer/screens/customer_list_screen.dart';
 import 'package:geapp/modules/home/screens/home_screen.dart';
 import 'package:geapp/modules/login/screens/login_screen.dart';
+import 'package:geapp/modules/product/models/product_model.dart';
 import 'package:geapp/modules/product/screens/product_form_screen.dart';
 import 'package:geapp/modules/product/screens/product_list_screen.dart';
+import 'package:geapp/modules/sale/screens/sale_form_item_info.dart';
+import 'package:geapp/modules/sale/screens/sale_form_screen.dart';
+import 'package:geapp/modules/sale/screens/sale_list_screen.dart';
 import 'package:geapp/modules/unit/screens/unit_form_screen.dart';
 import 'package:geapp/modules/unit/screens/unit_list_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -21,6 +26,12 @@ class Routes {
 
   static const String unitList = '/unit-list';
   static const String unitForm = '/unit-form';
+
+  static const String saleList = '/sale-list';
+  static const String saleForm = '/sale-form';
+  static const String saleFormItemInfo = '/sale-form/item-info';
+  static const String saleFormSelectCustomer = '/sale-form/select-customer';
+  static const String saleFormSelectProduct = '/sale-form/select-product';
 
   static final GoRouter router = GoRouter(
     initialLocation: Routes.login,
@@ -71,6 +82,48 @@ class Routes {
         path: unitForm,
         pageBuilder: (context, state) {
           return Transition.pageTransition(state, UnitFormScreen());
+        },
+      ),
+      GoRoute(
+        path: saleList,
+        pageBuilder: (context, state) {
+          return Transition.pageTransition(state, SaleListScreen());
+        },
+      ),
+      GoRoute(
+        path: saleForm,
+        pageBuilder: (context, state) {
+          return Transition.pageTransition(state, SaleFormScreen());
+        },
+      ),
+      GoRoute(
+        path: saleFormItemInfo,
+        pageBuilder: (context, state) {
+          final item = state.extra as ProductModel;
+          return Transition.pageTransition(
+            state,
+            SaleFormItemInfo(product: item),
+          );
+        },
+      ),
+      GoRoute(
+        path: saleFormSelectCustomer,
+        pageBuilder: (context, state) {
+          final onClick = state.extra as void Function(CustomerModel)?;
+          return Transition.pageTransition(
+            state,
+            CustomerListScreen(onClick: onClick),
+          );
+        },
+      ),
+      GoRoute(
+        path: saleFormSelectProduct,
+        pageBuilder: (context, state) {
+          final onClick = state.extra as void Function(ProductModel)?;
+          return Transition.pageTransition(
+            state,
+            ProductListScreen(onClick: onClick),
+          );
         },
       ),
     ],

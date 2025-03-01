@@ -1,20 +1,19 @@
-import 'package:geapp/app/database/migrations/customer_migration.dart';
+import 'package:geapp/app/database/migrations/sale_migration.dart';
 import 'package:geapp/app/models/query_result.dart';
-import 'package:geapp/app/models/select_object.dart';
 import 'package:geapp/app/repositories/repository.dart';
 import 'package:geapp/app/services/db_service.dart';
-import 'package:geapp/modules/customer/models/customer_model.dart';
+import 'package:geapp/modules/sale/models/sale_model.dart';
 
-class CustomerRepository extends Repository<CustomerModel> {
+class SaleRepository extends Repository<SaleModel> {
   DBService dbService;
-  CustomerRepository(this.dbService);
+  SaleRepository(this.dbService);
 
   updateDependencies(DBService db) {
     dbService = db;
   }
 
   @override
-  String get tableName => CustomerMigration.tableName;
+  String get tableName => SaleMigration.tableName;
 
   @override
   Future<QueryResult> search(
@@ -39,7 +38,7 @@ class CustomerRepository extends Repository<CustomerModel> {
   }
 
   @override
-  Future<int?> upsert(CustomerModel item) async {
+  Future<int?> upsert(SaleModel item) async {
     try {
       if (item.id != null) return await update(item);
       return await create(item);
@@ -49,7 +48,7 @@ class CustomerRepository extends Repository<CustomerModel> {
   }
 
   @override
-  Future<int?> create(CustomerModel item) async {
+  Future<int?> create(SaleModel item) async {
     try {
       return await dbService.insert(tableName: tableName, data: item.toMap());
     } catch (e) {
@@ -58,7 +57,7 @@ class CustomerRepository extends Repository<CustomerModel> {
   }
 
   @override
-  Future<int?> update(CustomerModel item) async {
+  Future<int?> update(SaleModel item) async {
     try {
       return await dbService.update(
         tableName: tableName,
@@ -72,49 +71,13 @@ class CustomerRepository extends Repository<CustomerModel> {
   }
 
   @override
-  Future<int?> delete(CustomerModel item) async {
+  Future<int?> delete(SaleModel item) async {
     try {
       return await dbService.delete(
         tableName: tableName,
         whereClause: "code = ?",
         whereArgs: [item.code],
       );
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<List<SelectObject>> getStates() async {
-    try {
-      final result = await dbService.query(table: "ESTADOS");
-      return result
-          .map(
-            (uf) => SelectObject(
-              key: int.parse(uf['id'].toString()),
-              value: uf['sigla'],
-            ),
-          )
-          .toList();
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<List<SelectObject>> getCities(int id) async {
-    try {
-      final result = await dbService.query(
-        table: "CIDADES",
-        where: "estado_id = ?",
-        whereArgs: [id],
-      );
-      return result
-          .map(
-            (city) => SelectObject(
-              key: int.parse(city['id_cidade'].toString()),
-              value: city['nomeCidade'],
-            ),
-          )
-          .toList();
     } catch (e) {
       rethrow;
     }

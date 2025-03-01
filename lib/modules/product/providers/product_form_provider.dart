@@ -6,8 +6,13 @@ import 'package:geapp/modules/product/models/product_model.dart';
 import 'package:geapp/modules/product/repositories/product_repository.dart';
 
 class ProductFormProvider extends FormProvider<ProductModel> {
-  final ProductRepository repository;
+  ProductRepository repository;
   ProductFormProvider(this.repository);
+
+  updateDependencies(ProductRepository repo) {
+    repository = repo;
+    notifyListeners();
+  }
 
   @override
   String get title => isEditing ? "Editar Produto" : "Novo Produto";

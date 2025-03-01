@@ -17,10 +17,10 @@ class ProductListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = context.watch<ProductListProvider>();
     return BaseListLayout<ProductListProvider, ProductFormProvider>(
-      title: "Produtos",
+      title: onClick != null ? "Selecione um Produto" : "Produtos",
       addRoute: Routes.productForm,
       itemBuilder: (context, i) {
-        return ProductListItem(item: provider.items[i]);
+        return ProductListItem(item: provider.items[i], onClick: onClick);
       },
       modalFilterContent: [
         Input(

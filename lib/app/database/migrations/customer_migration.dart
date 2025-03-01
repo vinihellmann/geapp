@@ -14,9 +14,9 @@ class CustomerMigration {
   static Future<void> createTables(Database db) async {
     await db.execute('''
       CREATE TABLE IF NOT EXISTS $tableName (
-        id INTEGER PRIMARY KEY,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        code TEXT UNIQUE NOT NULL,
         isLegal INTEGER NOT NULL,
-        code TEXT NOT NULL,
         cpf TEXT,
         cnpj TEXT,
         name TEXT NOT NULL,

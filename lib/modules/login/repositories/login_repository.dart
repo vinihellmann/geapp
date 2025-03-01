@@ -5,8 +5,12 @@ import 'package:geapp/app/services/db_service.dart';
 import 'package:geapp/modules/login/models/login_model.dart';
 
 class LoginRepository extends Repository<LoginModel> {
-  final DBService dbService;
+  DBService dbService;
   LoginRepository(this.dbService);
+
+  updateDependencies(DBService db) {
+    dbService = db;
+  }
 
   @override
   String get tableName => UserMigration.tableName;

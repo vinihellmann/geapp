@@ -17,12 +17,9 @@ class ProductListItem extends StatelessWidget {
   final ProductModel item;
   final void Function(ProductModel p)? onClick;
 
-  final String noImageUrl = "assets/images/no_image.png";
-
   void handleOnTap(BuildContext context) async {
     if (onClick != null) {
       onClick?.call(item);
-      context.pop();
       return;
     }
 
@@ -111,7 +108,7 @@ class ProductListItem extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          "Estoque: ${Utils.formatDouble(item.stock)} ${item.unit.toUpperCase()}",
+                          "Estoque: ${Utils.formatCurrency(item.stock)} ${item.unit.toUpperCase()}",
                           style: TText.xs,
                         ),
                       ),
@@ -122,7 +119,7 @@ class ProductListItem extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          "Preço: R\$${Utils.formatDouble(item.price)}",
+                          "Preço: R\$${Utils.formatCurrency(item.price)}",
                           style: TText.xs,
                           textAlign: TextAlign.end,
                         ),
