@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:geapp/app/components/option_tile.dart';
 import 'package:geapp/modules/sale/models/sale_model.dart';
+import 'package:geapp/modules/sale/providers/sale_form_provider.dart';
 import 'package:geapp/modules/sale/providers/sale_list_provider.dart';
+import 'package:geapp/routes/routes.dart';
 import 'package:geapp/themes/color.dart';
 import 'package:geapp/themes/text.dart';
 import 'package:geapp/utils/utils.dart';
@@ -14,7 +16,7 @@ class SaleListItem extends StatelessWidget {
   final SaleModel item;
 
   void handleOpenModal(BuildContext context) {
-    final listProvider = context.read<SaleListProvider>();
+    final provider = context.read<SaleListProvider>();
     Utils.showModal(
       context: context,
       icon: Icons.menu_outlined,
@@ -22,12 +24,21 @@ class SaleListItem extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          OptionTile(title: "Editar", onPress: () async {}),
+          OptionTile(
+            title: "Editar",
+            onPress: () async {
+              await context.read<SaleFormProvider>().setEdit(item);
+              if (context.mounted) {
+                final needUpdate = await context.push(Routes.saleForm);
+                if (needUpdate == true) provider.getData();
+              }
+            },
+          ),
           OptionTile(
             title: "Excluir",
             onPress: () async {
               context.pop();
-              await listProvider.delete(item);
+              await provider.delete(item);
             },
           ),
         ],

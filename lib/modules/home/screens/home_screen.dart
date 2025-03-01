@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 NavButton(
                   label: "Financeiro",
-                  icon: Icons.attach_money_outlined,
+                  icon: Icons.currency_exchange_outlined,
                   onTap: () {},
                 ),
                 const SizedBox(width: 20),

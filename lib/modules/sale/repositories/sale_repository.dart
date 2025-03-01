@@ -1,7 +1,9 @@
+import 'package:geapp/app/database/migrations/customer_migration.dart';
 import 'package:geapp/app/database/migrations/sale_migration.dart';
 import 'package:geapp/app/models/query_result.dart';
 import 'package:geapp/app/repositories/repository.dart';
 import 'package:geapp/app/services/db_service.dart';
+import 'package:geapp/modules/customer/models/customer_model.dart';
 import 'package:geapp/modules/sale/models/sale_model.dart';
 
 class SaleRepository extends Repository<SaleModel> {
@@ -78,6 +80,20 @@ class SaleRepository extends Repository<SaleModel> {
         whereClause: "code = ?",
         whereArgs: [item.code],
       );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<CustomerModel> searchCustomer(String? customerCode) async {
+    try {
+      final customer = await dbService.query(
+        table: CustomerMigration.tableName,
+        where: "code = ?",
+        whereArgs: [customerCode],
+      );
+
+      return CustomerModel.fromMap(customer[0]);
     } catch (e) {
       rethrow;
     }

@@ -63,8 +63,9 @@ class SaleFormProvider extends FormProvider<SaleModel> {
   Future<void> setEdit(SaleModel object) async {
     try {
       isEditing = true;
-      item = object.copyWith();
       items = object.items;
+      item = object.copyWith();
+      setCustomer(object.customer);
     } catch (e) {
       log("SaleFormProvider::setEdit - $e");
     }

@@ -41,6 +41,7 @@ class SaleListProvider extends ListProvider<SaleModel> {
 
       for (var item in result.data) {
         final object = SaleModel.fromMap(item);
+        object.customer = await repository.searchCustomer(object.customerCode);
         object.items = await itemRepository.searchBySale(object.code);
         itemList.add(object);
       }

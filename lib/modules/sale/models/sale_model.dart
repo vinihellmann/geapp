@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:geapp/modules/customer/models/customer_model.dart';
 import 'package:geapp/modules/sale/models/sale_item_model.dart';
 import 'package:uuid/uuid.dart';
 
@@ -24,6 +25,7 @@ class SaleModel {
   String updatedAt;
 
   List<SaleItemModel> items = [];
+  CustomerModel customer = CustomerModel();
 
   SaleModel({
     this.id,
@@ -45,9 +47,11 @@ class SaleModel {
     String? createdAt,
     String? updatedAt,
     List<SaleItemModel>? items,
+    CustomerModel? customer,
   }) : createdAt = createdAt ?? DateTime.now().toIso8601String(),
        updatedAt = updatedAt ?? DateTime.now().toIso8601String(),
        code = code ?? Uuid().v4(),
+       customer = customer ?? CustomerModel(),
        items = items ?? [];
 
   SaleModel copyWith({
@@ -70,6 +74,7 @@ class SaleModel {
     String? createdAt,
     String? updatedAt,
     List<SaleItemModel>? items,
+    CustomerModel? customer,
   }) {
     return SaleModel(
       id: id ?? this.id,
@@ -91,6 +96,7 @@ class SaleModel {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       items: items ?? this.items,
+      customer: customer ?? this.customer,
     );
   }
 
@@ -166,7 +172,7 @@ class SaleModel {
 
   @override
   String toString() {
-    return 'SaleModel(id: $id, code: $code, customerCode: $customerCode, customerName: $customerName, paymentMethod: $paymentMethod, paymentStatus: $paymentStatus, paymentCondition: $paymentCondition, totalValue: $totalValue, totalItems: $totalItems, discountValue: $discountValue, additionValue: $additionValue, shippingValue: $shippingValue, discountPercentage: $discountPercentage, additionPercentage: $additionPercentage, generalNotes: $generalNotes, deliveryDate: $deliveryDate, createdAt: $createdAt, updatedAt: $updatedAt, items: $items)';
+    return 'SaleModel(id: $id, code: $code, customerCode: $customerCode, customerName: $customerName, paymentMethod: $paymentMethod, paymentStatus: $paymentStatus, paymentCondition: $paymentCondition, totalValue: $totalValue, totalItems: $totalItems, discountValue: $discountValue, additionValue: $additionValue, shippingValue: $shippingValue, discountPercentage: $discountPercentage, additionPercentage: $additionPercentage, generalNotes: $generalNotes, deliveryDate: $deliveryDate, createdAt: $createdAt, updatedAt: $updatedAt, items: $items, customer: $customer)';
   }
 
   @override
@@ -191,7 +197,8 @@ class SaleModel {
         other.deliveryDate == deliveryDate &&
         other.createdAt == createdAt &&
         other.updatedAt == updatedAt &&
-        other.items == items;
+        other.items == items &&
+        other.customer == customer;
   }
 
   @override
@@ -214,6 +221,7 @@ class SaleModel {
         deliveryDate.hashCode ^
         createdAt.hashCode ^
         updatedAt.hashCode ^
-        items.hashCode;
+        items.hashCode ^
+        customer.hashCode;
   }
 }
