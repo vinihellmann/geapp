@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:geapp/modules/product/models/product_model.dart';
 import 'package:geapp/modules/sale/models/sale_item_model.dart';
@@ -58,8 +56,6 @@ class SaleFormItemInfoProvider with ChangeNotifier {
           i.unitCode == saleItem.unitCode,
       orElse: () => saleItem,
     );
-
-    log(item.toString());
 
     originalValue = item.unitValue ?? 0;
     quantityController.text = Utils.formatCurrency(item.quantity);

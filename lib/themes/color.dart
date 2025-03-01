@@ -14,8 +14,8 @@ class TextColors {
 }
 
 class PrimaryColors {
-  final Color dark = const Color.fromARGB(200, 60, 65, 185);
-  final Color light = const Color.fromARGB(255, 60, 65, 185);
+  final Color dark = const Color.fromARGB(200, 45, 80, 200);
+  final Color light = const Color.fromARGB(255, 45, 80, 200);
 }
 
 class ErrorColors {
