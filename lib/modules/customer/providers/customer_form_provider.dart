@@ -27,12 +27,8 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
 
   @override
   Future<void> setCreate() async {
-    try {
-      isEditing = false;
-      item = CustomerModel();
-    } catch (e) {
-      log(e.toString());
-    }
+    isEditing = false;
+    item = CustomerModel();
   }
 
   @override
@@ -43,7 +39,7 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
 
       await getCities(object.addressUF ?? 0);
     } catch (e) {
-      log(e.toString());
+      log("CustomerFormProvider::setEdit - $e");
     }
   }
 
@@ -81,13 +77,21 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
   }
 
   Future<void> getUFs() async {
-    ufs = await repository.getStates();
-    notifyListeners();
+    try {
+      ufs = await repository.getStates();
+      notifyListeners();
+    } catch (e) {
+      log("CustomerFormProvider::getUFs - $e");
+    }
   }
 
   Future<void> getCities(int ufId) async {
-    cities = await repository.getCities(ufId);
-    notifyListeners();
+    try {
+      cities = await repository.getCities(ufId);
+      notifyListeners();
+    } catch (e) {
+      log("CustomerFormProvider::getCities - $e");
+    }
   }
 
   bool validateForm() {

@@ -31,15 +31,6 @@ class SaleListProvider extends ListProvider<SaleModel> {
       await generateWhere();
 
       final itemList = <SaleModel>[];
-      final teste = await itemRepository.search(
-        null,
-        null,
-        page,
-        99999,
-        orderBy,
-      );
-      log(teste.toString());
-
       final result = await repository.search(
         whereClause,
         whereArgs,

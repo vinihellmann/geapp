@@ -31,22 +31,14 @@ class UnitFormProvider extends FormProvider<UnitModel> {
 
   @override
   Future<void> setCreate() async {
-    try {
-      isEditing = false;
-      item = UnitModel();
-    } catch (e) {
-      log(e.toString());
-    }
+    isEditing = false;
+    item = UnitModel();
   }
 
   @override
   Future<void> setEdit(UnitModel object) async {
-    try {
-      isEditing = true;
-      item = object.copyWith();
-    } catch (e) {
-      log(e.toString());
-    }
+    isEditing = true;
+    item = object.copyWith();
   }
 
   @override

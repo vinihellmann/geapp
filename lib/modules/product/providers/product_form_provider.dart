@@ -23,22 +23,14 @@ class ProductFormProvider extends FormProvider<ProductModel> {
 
   @override
   Future<void> setCreate() async {
-    try {
-      isEditing = false;
-      item = ProductModel();
-    } catch (e) {
-      log(e.toString());
-    }
+    isEditing = false;
+    item = ProductModel();
   }
 
   @override
   Future<void> setEdit(ProductModel object) async {
-    try {
-      isEditing = true;
-      item = object.copyWith();
-    } catch (e) {
-      log(e.toString());
-    }
+    isEditing = true;
+    item = object.copyWith();
   }
 
   @override

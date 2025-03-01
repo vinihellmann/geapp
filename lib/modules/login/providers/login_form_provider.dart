@@ -30,7 +30,7 @@ class LoginFormProvider extends FormProvider<LoginModel> {
 
       await Future.delayed(Duration(milliseconds: 50));
     } catch (e) {
-      log(e.toString());
+      log("LoginFormProvider::setCreate - $e");
     } finally {
       changeIsLoading();
     }
