@@ -7,13 +7,14 @@ import 'package:geapp/modules/sale/models/sale_item_model.dart';
 import 'package:geapp/modules/sale/models/sale_model.dart';
 import 'package:geapp/modules/sale/repositories/sale_item_repository.dart';
 import 'package:geapp/modules/sale/repositories/sale_repository.dart';
+import 'package:geapp/utils/utils.dart';
 
 class SaleFormProvider extends FormProvider<SaleModel> {
   SaleRepository repository;
   SaleItemRepository itemRepository;
   SaleFormProvider(this.repository, this.itemRepository);
 
-  updateDependencies(SaleRepository repo, SaleItemRepository itemRepo) {
+  void updateDependencies(SaleRepository repo, SaleItemRepository itemRepo) {
     repository = repo;
     itemRepository = itemRepo;
     notifyListeners();
@@ -24,50 +25,31 @@ class SaleFormProvider extends FormProvider<SaleModel> {
 
   @override
   SaleModel item = SaleModel();
+  final formKey = GlobalKey<FormState>();
   CustomerModel customer = CustomerModel();
   List<SaleItemModel> items = <SaleItemModel>[];
-  final formKey = GlobalKey<FormState>();
-
-  bool validateForm() {
-    return formKey.currentState!.validate();
-  }
-
-  void setCustomer(CustomerModel newCustomer) {
-    customer = newCustomer;
-    item.customerCode = newCustomer.code;
-    item.customerName = newCustomer.name;
-    notifyListeners();
-  }
-
-  void updateTotalItems() {
-    final totalItems = items.fold(0.0, (sum, item) => sum + item.totalValue!);
-
-    item.totalItems = totalItems;
-    item.totalValue = totalItems - item.discountValue! + item.additionValue!;
-    notifyListeners();
-  }
+  final Map<String, String> validationErrors = {};
 
   @override
   Future<void> setCreate() async {
-    try {
-      isEditing = false;
-      item = SaleModel();
-      items = <SaleItemModel>[];
-      customer = CustomerModel();
-    } catch (e) {
-      log("SaleFormProvider::setCreate - $e");
-    }
+    isEditing = false;
+    item = SaleModel();
+    items = <SaleItemModel>[];
+    customer = CustomerModel();
   }
 
   @override
   Future<void> setEdit(SaleModel object) async {
-    try {
-      isEditing = true;
-      items = object.items;
-      item = object.copyWith();
-      setCustomer(object.customer);
-    } catch (e) {
-      log("SaleFormProvider::setEdit - $e");
+    isEditing = true;
+    items = object.items;
+    item = object.copyWith();
+    setCustomer(object.customer);
+  }
+
+  Future<void> validateForm() async {
+    if (!isValid) {
+      showValidationErrors();
+      return;
     }
   }
 
@@ -75,10 +57,6 @@ class SaleFormProvider extends FormProvider<SaleModel> {
   Future<bool?> save() async {
     try {
       changeIsSaving();
-
-      final valid = validateForm();
-      if (!valid) return null;
-
       final result = await repository.upsert(item);
       await itemRepository.upsertAll(item.code, items);
       return result != null;
@@ -105,6 +83,13 @@ class SaleFormProvider extends FormProvider<SaleModel> {
     }
   }
 
+  void setCustomer(CustomerModel newCustomer) {
+    customer = newCustomer;
+    item.customerCode = newCustomer.code;
+    item.customerName = newCustomer.name;
+    notifyListeners();
+  }
+
   void addItem(SaleItemModel saleItem) {
     items.add(saleItem);
     updateTotalItems();
@@ -127,5 +112,55 @@ class SaleFormProvider extends FormProvider<SaleModel> {
   void removeItem(SaleItemModel saleItem) {
     items.removeWhere((item) => item.code == saleItem.code);
     updateTotalItems();
+  }
+
+  void updateTotalItems() {
+    final totalItems = items.fold(0.0, (sum, item) => sum + item.totalValue!);
+
+    item.totalItems = totalItems;
+    item.totalValue = totalItems - item.discountValue! + item.additionValue!;
+    notifyListeners();
+  }
+
+  void showValidationErrors() {
+    if (validationErrors.isNotEmpty) {
+      String errorMessages = validationErrors.values.join("\n");
+      Utils.showToast(errorMessages, ToastType.error);
+    }
+  }
+
+  bool get isValid {
+    validationErrors.clear();
+
+    if (customer.code == null) {
+      validationErrors["customer"] = "Selecione um cliente para a venda.";
+    }
+
+    if (items.isEmpty) {
+      validationErrors["items"] = "Adicione pelo menos um item à venda.";
+    }
+
+    if (item.paymentStatus == null) {
+      validationErrors["paymentStatus"] = "Selecione o status do pagamento.";
+    }
+
+    if (item.paymentMethod == null) {
+      validationErrors["paymentMethod"] = "Escolha uma forma de pagamento.";
+    }
+
+    if (item.paymentCondition == null) {
+      validationErrors["paymentCondition"] = "Defina a condição de pagamento.";
+    }
+
+    if (item.deliveryDate == null) {
+      validationErrors["deliveryDate"] = "Informe a data de entrega.";
+    }
+
+    if (formKey.currentState == null || !formKey.currentState!.validate()) {
+      validationErrors["form"] =
+          "Preencha corretamente os campos obrigatórios.";
+    }
+
+    return validationErrors.isEmpty;
   }
 }

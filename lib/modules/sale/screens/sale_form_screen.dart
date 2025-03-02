@@ -16,56 +16,56 @@ class SaleFormScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Consumer<SaleFormProvider>(
-        builder: (context, formProvider, child) {
-          return Layout(
-            withDrawer: false,
-            title: Text(formProvider.title, style: TText.xl),
-            body: Column(
-              children: [
-                TGradient(
-                  child: TabBar(
-                    dividerHeight: 0,
-                    indicatorColor: TColor.text.primary,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    unselectedLabelStyle: TText.md.apply(
-                      color: TColor.text.secondary.withAlpha(150),
+    return Consumer<SaleFormProvider>(
+      builder: (context, formProvider, child) {
+        return Form(
+          key: formProvider.formKey,
+          child: DefaultTabController(
+            length: 2,
+            child: Layout(
+              withDrawer: false,
+              title: Text(formProvider.title, style: TText.xl),
+              body: Column(
+                children: [
+                  TGradient(
+                    child: TabBar(
+                      dividerHeight: 0,
+                      indicatorColor: TColor.text.primary,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      unselectedLabelStyle: TText.md.apply(
+                        color: TColor.text.secondary.withAlpha(150),
+                      ),
+                      labelStyle: TText.md.apply(color: TColor.text.primary),
+                      tabs: const [
+                        Tab(text: 'Dados Principais'),
+                        Tab(text: 'Produtos'),
+                      ],
                     ),
-                    labelStyle: TText.md.apply(color: TColor.text.primary),
-                    tabs: const [
-                      Tab(text: 'Dados Principais'),
-                      Tab(text: 'Produtos'),
-                    ],
                   ),
-                ),
-                Expanded(
-                  child: Form(
-                    key: formProvider.formKey,
+                  Expanded(
                     child: const TabBarView(
                       children: [SaleFormGeneral(), SaleFormItems()],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
+              floating: Floating(
+                isLoading: formProvider.isSaving,
+                onClick: () async {
+                  final value = await formProvider.save();
+                  if (context.mounted && value == true) {
+                    context.pop(true);
+                    Utils.showToast(
+                      "Registro salvo com sucesso",
+                      ToastType.success,
+                    );
+                  }
+                },
+              ),
             ),
-            floating: Floating(
-              isLoading: formProvider.isSaving,
-              onClick: () async {
-                final value = await formProvider.save();
-                if (context.mounted && value == true) {
-                  context.pop(true);
-                  Utils.showToast(
-                    "Registro salvo com sucesso",
-                    ToastType.success,
-                  );
-                }
-              },
-            ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
