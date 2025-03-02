@@ -30,6 +30,12 @@ class SaleFormProvider extends FormProvider<SaleModel> {
   List<SaleItemModel> items = <SaleItemModel>[];
   final Map<String, String> validationErrors = {};
 
+  int getItemIndex(SaleItemModel saleItem) {
+    return items.indexWhere((item) {
+      return item.code == saleItem.code && item.unitCode == saleItem.unitCode;
+    });
+  }
+
   @override
   Future<void> setCreate() async {
     isEditing = false;
@@ -46,17 +52,23 @@ class SaleFormProvider extends FormProvider<SaleModel> {
     setCustomer(object.customer);
   }
 
-  Future<void> validateForm() async {
-    if (!isValid) {
-      showValidationErrors();
-      return;
-    }
+  void setCustomer(CustomerModel newCustomer) {
+    customer = newCustomer;
+    item.customerCode = newCustomer.code;
+    item.customerName = newCustomer.name;
+    notifyListeners();
   }
 
   @override
   Future<bool?> save() async {
     try {
       changeIsSaving();
+
+      if (!isValid) {
+        showValidationErrors();
+        return null;
+      }
+
       final result = await repository.upsert(item);
       await itemRepository.upsertAll(item.code, items);
       return result != null;
@@ -83,30 +95,20 @@ class SaleFormProvider extends FormProvider<SaleModel> {
     }
   }
 
-  void setCustomer(CustomerModel newCustomer) {
-    customer = newCustomer;
-    item.customerCode = newCustomer.code;
-    item.customerName = newCustomer.name;
-    notifyListeners();
-  }
+  Future<bool> upsertItem(SaleItemModel saleItem) async {
+    final canUpsert = await checkUnitStock(saleItem);
+    if (!canUpsert) return false;
 
-  void addItem(SaleItemModel saleItem) {
-    items.add(saleItem);
-    updateTotalItems();
-  }
-
-  void updateItem(SaleItemModel saleItem) {
-    final index = items.indexWhere((item) {
-      return item.code == saleItem.code && item.unitCode == saleItem.unitCode;
-    });
+    final index = getItemIndex(saleItem);
 
     if (index != -1) {
       items[index] = saleItem;
-      updateTotalItems();
-      return;
+    } else {
+      items.add(saleItem);
     }
 
-    addItem(saleItem);
+    updateTotalItems();
+    return true;
   }
 
   void removeItem(SaleItemModel saleItem) {
@@ -120,6 +122,25 @@ class SaleFormProvider extends FormProvider<SaleModel> {
     item.totalItems = totalItems;
     item.totalValue = totalItems - item.discountValue! + item.additionValue!;
     notifyListeners();
+  }
+
+  Future<bool> checkUnitStock(SaleItemModel saleItem) async {
+    try {
+      final unitStock = await itemRepository.searchUnitStock(saleItem.unitCode);
+
+      if (saleItem.quantity! > unitStock) {
+        Utils.showToast(
+          "A quantidade informada é maior que o estoque disponível de ${Utils.formatCurrency(unitStock)} para a unidade ${saleItem.unitName?.toUpperCase()}",
+          ToastType.error,
+        );
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      log("SaleFormProvider::checkUnitStock - $e");
+      return false;
+    }
   }
 
   void showValidationErrors() {

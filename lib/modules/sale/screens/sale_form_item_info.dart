@@ -153,9 +153,12 @@ class SaleFormItemInfo extends StatelessWidget {
               visible: provider.isValid,
               child: Floating(
                 isLoading: false,
-                onClick: () {
-                  formProvider.updateItem(provider.getFilledItem());
-                  context.pop();
+                onClick: () async {
+                  final result = await formProvider.upsertItem(
+                    provider.getFilledItem(),
+                  );
+
+                  if (result == true && context.mounted) context.pop();
                 },
               ),
             ),

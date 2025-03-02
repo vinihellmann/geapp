@@ -1,3 +1,4 @@
+import 'package:geapp/app/database/migrations/product_migration.dart';
 import 'package:geapp/app/database/migrations/sale_item_migration.dart';
 import 'package:geapp/app/models/query_result.dart';
 import 'package:geapp/app/repositories/repository.dart';
@@ -69,6 +70,26 @@ class SaleItemRepository extends Repository<SaleItemModel> {
 
       await batch.commit(noResult: true);
       return true;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<double> searchUnitStock(String? unitCode) async {
+    try {
+      double unitStock = 0;
+
+      final stockQuery = await dbService.query(
+        table: ProductMigration.tableNameUnit,
+        where: "code = ?",
+        whereArgs: [unitCode],
+      );
+
+      if (stockQuery.isNotEmpty) {
+        unitStock = stockQuery[0]['stock'];
+      }
+
+      return unitStock;
     } catch (e) {
       rethrow;
     }
