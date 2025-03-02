@@ -14,8 +14,8 @@ class CustomerModel {
   String? fantasy;
   String? contact;
   String? inscription;
-  int? addressUF;
-  int? addressCity;
+  String? addressUF;
+  String? addressCity;
   String? addressName;
   String? addressNumber;
   String? addressZipCode;
@@ -60,8 +60,8 @@ class CustomerModel {
     String? fantasy,
     String? contact,
     String? inscription,
-    int? addressUF,
-    int? addressCity,
+    String? addressUF,
+    String? addressCity,
     String? addressName,
     String? addressNumber,
     String? addressZipCode,
@@ -140,9 +140,9 @@ class CustomerModel {
       contact: map['contact'] != null ? map['contact'] as String : null,
       inscription:
           map['inscription'] != null ? map['inscription'] as String : null,
-      addressUF: map['addressUF'] != null ? map['addressUF'] as int : null,
+      addressUF: map['addressUF'] != null ? map['addressUF'] as String : null,
       addressCity:
-          map['addressCity'] != null ? map['addressCity'] as int : null,
+          map['addressCity'] != null ? map['addressCity'] as String : null,
       addressName:
           map['addressName'] != null ? map['addressName'] as String : null,
       addressNumber:

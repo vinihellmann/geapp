@@ -17,7 +17,7 @@ class CustomerListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = context.watch<CustomerListProvider>();
     return BaseListLayout<CustomerListProvider, CustomerFormProvider>(
-      title: "Clientes",
+      title: onClick != null ? "Selecione um Cliente" : "Clientes",
       addRoute: Routes.customerForm,
       itemBuilder: (context, i) {
         return CustomerListItem(item: provider.items[i], onClick: onClick);

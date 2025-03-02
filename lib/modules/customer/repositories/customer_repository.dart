@@ -88,30 +88,35 @@ class CustomerRepository extends Repository<CustomerModel> {
     try {
       final result = await dbService.query(table: "ESTADOS");
       return result
-          .map(
-            (uf) => SelectObject(
-              key: int.parse(uf['id'].toString()),
-              value: uf['sigla'],
-            ),
-          )
+          .map((uf) => SelectObject(key: uf['sigla'], value: uf['sigla']))
           .toList();
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<List<SelectObject>> getCities(int id) async {
+  Future<List<SelectObject>> getCities(String state) async {
     try {
-      final result = await dbService.query(
+      final stateQuery = await dbService.query(
+        table: "ESTADOS",
+        where: "sigla = ?",
+        whereArgs: [state],
+      );
+      if (stateQuery.isEmpty) return [];
+
+      final stateId = stateQuery[0]['id'];
+      final cityQuery = await dbService.query(
         table: "CIDADES",
         where: "estado_id = ?",
-        whereArgs: [id],
+        whereArgs: [stateId],
       );
-      return result
+      if (cityQuery.isEmpty) return [];
+
+      return cityQuery
           .map(
             (city) => SelectObject(
-              key: int.parse(city['id_cidade'].toString()),
-              value: city['nomeCidade'],
+              key: city['nomeCidade'].toString().toUpperCase(),
+              value: city['nomeCidade'].toString().toUpperCase(),
             ),
           )
           .toList();

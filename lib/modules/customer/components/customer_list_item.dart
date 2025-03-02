@@ -112,16 +112,23 @@ class _CustomerListItemState extends State<CustomerListItem>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      if (widget.item.addressName != null)
+                        Text(
+                          "Endereço: ${widget.item.addressName}",
+                          style: TText.sm,
+                        ),
+                      if (widget.item.addressNeighborhood != null)
+                        Text(
+                          "Bairro: ${widget.item.addressNeighborhood}",
+                          style: TText.sm,
+                        ),
+                      if (widget.item.addressNumber != null)
+                        Text(
+                          "Número: ${widget.item.addressNumber}",
+                          style: TText.sm,
+                        ),
                       Text(
-                        "Número: ${widget.item.addressNumber}",
-                        style: TText.sm,
-                      ),
-                      Text(
-                        "Bairro: ${widget.item.addressNeighborhood}",
-                        style: TText.sm,
-                      ),
-                      Text(
-                        "Endereço: ${widget.item.addressName}",
+                        "Cidade: ${widget.item.addressCity}/${widget.item.addressUF}",
                         style: TText.sm,
                       ),
                     ],

@@ -37,7 +37,7 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
       isEditing = true;
       item = object.copyWith();
 
-      await getCities(object.addressUF ?? 0);
+      await getCities(object.addressUF!);
     } catch (e) {
       log("CustomerFormProvider::setEdit - $e");
     }
@@ -85,9 +85,9 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
     }
   }
 
-  Future<void> getCities(int ufId) async {
+  Future<void> getCities(String state) async {
     try {
-      cities = await repository.getCities(ufId);
+      cities = await repository.getCities(state);
       notifyListeners();
     } catch (e) {
       log("CustomerFormProvider::getCities - $e");
@@ -98,7 +98,7 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
     return formKey.currentState!.validate();
   }
 
-  void changeUF(int value) async {
+  void changeUF(String value) async {
     item.addressUF = value;
     item.addressCity = null;
     notifyListeners();
@@ -106,7 +106,7 @@ class CustomerFormProvider extends FormProvider<CustomerModel> {
     await getCities(value);
   }
 
-  void changeCity(int value) async {
+  void changeCity(String value) async {
     item.addressCity = value;
     notifyListeners();
   }

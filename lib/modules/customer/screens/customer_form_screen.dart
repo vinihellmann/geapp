@@ -44,61 +44,122 @@ class CustomerFormScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
+                  spacing: 10,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 30),
-                    Text("Dados Principais", style: TText.lg),
-                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Text("Dados Principais", style: TText.lg),
+                    ),
                     TSwitch(
                       title: "Pessoa Jurídica",
                       value: provider.item.isLegal!,
                       onChanged: (_) => provider.changeLegal(),
                     ),
-                    const SizedBox(height: 10),
                     Input(
                       isRequired: true,
                       label: "Razão Social",
                       initialValue: provider.item.name,
                       onChanged: (nv) => provider.item.name = nv,
                     ),
-                    const SizedBox(height: 10),
-                    Visibility(
-                      visible: provider.item.isLegal!,
-                      child: Input(
-                        label: "Nome Fantasia",
-                        initialValue: provider.item.fantasy,
-                        onChanged: (nv) => provider.item.fantasy = nv,
-                      ),
+                    Column(
+                      children: [
+                        Visibility(
+                          visible: provider.item.isLegal!,
+                          child: Input(
+                            label: "Nome Fantasia",
+                            initialValue: provider.item.fantasy,
+                            onChanged: (nv) => provider.item.fantasy = nv,
+                          ),
+                        ),
+                        Visibility(
+                          visible: provider.item.isLegal!,
+                          child: const SizedBox(height: 10),
+                        ),
+                        Visibility(
+                          visible: provider.item.isLegal == false,
+                          child: Input(
+                            label: "CPF",
+                            textInputType: TextInputType.number,
+                            initialValue: provider.item.cpf,
+                            inputFormatters: [InputFormatters.cpfMask],
+                            onChanged: (nv) => provider.item.cpf = nv,
+                            isRequired: provider.item.isLegal == false,
+                          ),
+                        ),
+                        Visibility(
+                          visible: provider.item.isLegal!,
+                          child: Input(
+                            label: "CNPJ",
+                            initialValue: provider.item.cnpj,
+                            inputFormatters: [InputFormatters.cnpjMask],
+                            textInputType: TextInputType.number,
+                            onChanged: (nv) => provider.item.cnpj = nv,
+                            isRequired: provider.item.isLegal!,
+                          ),
+                        ),
+                      ],
                     ),
-                    Visibility(
-                      visible: provider.item.isLegal!,
-                      child: const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Text("Endereço", style: TText.lg),
                     ),
-                    Visibility(
-                      visible: provider.item.isLegal == false,
-                      child: Input(
-                        label: "CPF",
-                        textInputType: TextInputType.number,
-                        initialValue: provider.item.cpf,
-                        inputFormatters: [InputFormatters.cpfMask],
-                        onChanged: (nv) => provider.item.cpf = nv,
-                        isRequired: provider.item.isLegal == false,
-                      ),
+                    Input(
+                      label: "Logradouro",
+                      initialValue: provider.item.addressName,
+                      onChanged: (nv) => provider.item.addressName = nv,
                     ),
-                    Visibility(
-                      visible: provider.item.isLegal!,
-                      child: Input(
-                        label: "CNPJ",
-                        initialValue: provider.item.cnpj,
-                        inputFormatters: [InputFormatters.cnpjMask],
-                        textInputType: TextInputType.number,
-                        onChanged: (nv) => provider.item.cnpj = nv,
-                        isRequired: provider.item.isLegal!,
-                      ),
+                    Row(
+                      spacing: 10,
+                      children: [
+                        Expanded(
+                          child: Input(
+                            label: "Bairro",
+                            initialValue: provider.item.addressNeighborhood,
+                            onChanged:
+                                (nv) => provider.item.addressNeighborhood = nv,
+                          ),
+                        ),
+                        Expanded(
+                          child: Input(
+                            label: "Número",
+                            textInputType: TextInputType.number,
+                            initialValue: provider.item.addressNumber,
+                            onChanged: (nv) => provider.item.addressNumber = nv,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 30),
-                    Text("Contato", style: TText.lg),
-                    const SizedBox(height: 20),
+                    Input(
+                      label: "CEP",
+                      textInputType: TextInputType.number,
+                      inputFormatters: [InputFormatters.cepMask],
+                      initialValue: provider.item.addressZipCode,
+                      onChanged: (nv) => provider.item.addressZipCode = nv,
+                    ),
+                    Select(
+                      isRequired: true,
+                      label: "Estado",
+                      items: provider.ufs,
+                      value: provider.item.addressUF,
+                      onChanged: (nv) => provider.changeUF(nv),
+                    ),
+                    Select(
+                      isRequired: true,
+                      label: "Cidade",
+                      items: provider.cities,
+                      value: provider.item.addressCity,
+                      onChanged: (nv) => provider.changeCity(nv),
+                    ),
+                    Input(
+                      label: "Complemento",
+                      initialValue: provider.item.addressComplement,
+                      onChanged: (nv) => provider.item.addressComplement = nv,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Text("Contato", style: TText.lg),
+                    ),
                     Input(
                       label: "Email",
                       icon: Icons.mail_outline,
@@ -107,7 +168,6 @@ class CustomerFormScreen extends StatelessWidget {
                       inputFormatters: [InputFormatters.emailMask],
                       onChanged: (nv) => provider.item.email = nv,
                     ),
-                    const SizedBox(height: 10),
                     Input(
                       label: "Telefone",
                       icon: Icons.phone_outlined,
@@ -116,69 +176,13 @@ class CustomerFormScreen extends StatelessWidget {
                       inputFormatters: [InputFormatters.phoneMask],
                       onChanged: (nv) => provider.item.phone = nv,
                     ),
-                    const SizedBox(height: 10),
                     Input(
                       icon: Icons.account_circle_outlined,
                       label: "Contato",
                       initialValue: provider.item.contact,
                       onChanged: (nv) => provider.item.contact = nv,
                     ),
-                    const SizedBox(height: 30),
-                    Text("Endereço", style: TText.lg),
-                    const SizedBox(height: 20),
-                    Input(
-                      isRequired: true,
-                      label: "Rua",
-                      initialValue: provider.item.addressName,
-                      onChanged: (nv) => provider.item.addressName = nv,
-                    ),
-                    const SizedBox(height: 10),
-                    Input(
-                      isRequired: true,
-                      label: "Bairro",
-                      initialValue: provider.item.addressNeighborhood,
-                      onChanged: (nv) => provider.item.addressNeighborhood = nv,
-                    ),
-                    const SizedBox(height: 10),
-                    Input(
-                      isRequired: true,
-                      label: "Número",
-                      textInputType: TextInputType.number,
-                      initialValue: provider.item.addressNumber,
-                      onChanged: (nv) => provider.item.addressNumber = nv,
-                    ),
-                    const SizedBox(height: 10),
-                    Input(
-                      isRequired: true,
-                      label: "CEP",
-                      textInputType: TextInputType.number,
-                      inputFormatters: [InputFormatters.cepMask],
-                      initialValue: provider.item.addressZipCode,
-                      onChanged: (nv) => provider.item.addressZipCode = nv,
-                    ),
-                    const SizedBox(height: 10),
-                    Input(
-                      label: "Complemento",
-                      initialValue: provider.item.addressComplement,
-                      onChanged: (nv) => provider.item.addressComplement = nv,
-                    ),
-                    const SizedBox(height: 10),
-                    Select(
-                      isRequired: true,
-                      label: "Estado",
-                      items: provider.ufs,
-                      value: provider.item.addressUF,
-                      onChanged: (nv) => provider.changeUF(nv),
-                    ),
-                    const SizedBox(height: 10),
-                    Select(
-                      isRequired: true,
-                      label: "Cidade",
-                      items: provider.cities,
-                      value: provider.item.addressCity,
-                      onChanged: (nv) => provider.changeCity(nv),
-                    ),
-                    const SizedBox(height: 70),
+                    SizedBox(height: 70),
                   ],
                 ),
               ),
