@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:geapp/app/provider/form_provider.dart';
 import 'package:geapp/modules/customer/models/customer_model.dart';
+import 'package:geapp/modules/finance/models/finance_model.dart';
+import 'package:geapp/modules/finance/repositories/finance_repository.dart';
 import 'package:geapp/modules/sale/models/sale_item_model.dart';
 import 'package:geapp/modules/sale/models/sale_model.dart';
 import 'package:geapp/modules/sale/repositories/sale_item_repository.dart';
@@ -12,11 +14,21 @@ import 'package:geapp/utils/utils.dart';
 class SaleFormProvider extends FormProvider<SaleModel> {
   SaleRepository repository;
   SaleItemRepository itemRepository;
-  SaleFormProvider(this.repository, this.itemRepository);
+  FinanceRepository financeRepository;
+  SaleFormProvider(
+    this.repository,
+    this.itemRepository,
+    this.financeRepository,
+  );
 
-  void updateDependencies(SaleRepository repo, SaleItemRepository itemRepo) {
+  void updateDependencies(
+    SaleRepository repo,
+    SaleItemRepository itemRepo,
+    FinanceRepository financeRepo,
+  ) {
     repository = repo;
     itemRepository = itemRepo;
+    financeRepository = financeRepo;
     notifyListeners();
   }
 
@@ -71,6 +83,7 @@ class SaleFormProvider extends FormProvider<SaleModel> {
 
       final result = await repository.upsert(item);
       await itemRepository.upsertAll(item.code, items);
+      await upsertFinance();
       return result != null;
     } catch (e) {
       log("SaleFormProvider::save - $e");
@@ -122,6 +135,25 @@ class SaleFormProvider extends FormProvider<SaleModel> {
     item.totalItems = totalItems;
     item.totalValue = totalItems - item.discountValue! + item.additionValue!;
     notifyListeners();
+  }
+
+  Future<void> upsertFinance() async {
+    try {
+      final finance = FinanceModel(
+        type: 1,
+        status: 3,
+        saleCode: item.code,
+        value: item.totalValue,
+        dueDate: item.deliveryDate,
+        customerCode: customer.code,
+        customerName: customer.name,
+        description: "VENDA ${item.id}",
+      );
+
+      await financeRepository.upsertBySale(finance);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<bool> checkUnitStock(SaleItemModel saleItem) async {

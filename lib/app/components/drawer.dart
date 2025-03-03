@@ -30,7 +30,7 @@ class TDrawer extends StatelessWidget {
               TDrawerItem(
                 title: "Financeiro",
                 icon: Icons.currency_exchange_outlined,
-                onClick: () {},
+                onClick: () => context.push(Routes.financeList),
               ),
               TDrawerItem(
                 title: "Vendas",

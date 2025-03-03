@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geapp/app/components/floating.dart';
 import 'package:geapp/app/components/gradient.dart';
 import 'package:geapp/app/components/layout.dart';
+import 'package:geapp/modules/finance/providers/finance_list_provider.dart';
 import 'package:geapp/modules/sale/components/sale_form_general.dart';
 import 'package:geapp/modules/sale/components/sale_form_items.dart';
 import 'package:geapp/modules/sale/providers/sale_form_provider.dart';
@@ -55,6 +56,7 @@ class SaleFormScreen extends StatelessWidget {
                   final value = await formProvider.save();
                   if (context.mounted && value == true) {
                     context.pop(true);
+                    context.read<FinanceListProvider>().getData();
                     Utils.showToast(
                       "Registro salvo com sucesso",
                       ToastType.success,

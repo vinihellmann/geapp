@@ -26,7 +26,7 @@ class BackgroundColors {
   final Color main = const Color.fromARGB(255, 31, 34, 41);
   final Color light = const Color.fromARGB(255, 36, 39, 47);
   final Color border = const Color.fromARGB(255, 55, 58, 66);
-  final Color success = const Color.fromARGB(255, 14, 128, 61);
+  final Color success = const Color.fromARGB(255, 15, 146, 70);
 }
 
 class ButtonColors {

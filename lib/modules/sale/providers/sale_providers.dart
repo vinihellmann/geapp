@@ -1,4 +1,5 @@
 import 'package:geapp/app/services/db_service.dart';
+import 'package:geapp/modules/finance/repositories/finance_repository.dart';
 import 'package:geapp/modules/sale/providers/sale_form_provider.dart';
 import 'package:geapp/modules/sale/providers/sale_list_provider.dart';
 import 'package:geapp/modules/sale/repositories/sale_item_repository.dart';
@@ -53,20 +54,22 @@ class SaleProviders {
 
   static List formProviders() {
     return [
-      ChangeNotifierProxyProvider2<
+      ChangeNotifierProxyProvider3<
         SaleRepository,
         SaleItemRepository,
+        FinanceRepository,
         SaleFormProvider
       >(
         create: (ctx) {
           return SaleFormProvider(
             ctx.read<SaleRepository>(),
             ctx.read<SaleItemRepository>(),
+            ctx.read<FinanceRepository>(),
           );
         },
-        update: (ctx, repo, itemRepo, provider) {
-          provider?.updateDependencies(repo, itemRepo);
-          return provider ?? SaleFormProvider(repo, itemRepo);
+        update: (ctx, repo, itemRepo, financeRepo, provider) {
+          provider?.updateDependencies(repo, itemRepo, financeRepo);
+          return provider ?? SaleFormProvider(repo, itemRepo, financeRepo);
         },
       ),
     ];

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:geapp/app/database/migrations/customer_migration.dart';
+import 'package:geapp/app/database/migrations/finance_migration.dart';
 import 'package:geapp/app/database/migrations/location_migration.dart';
 import 'package:geapp/app/database/migrations/product_migration.dart';
 import 'package:geapp/app/database/migrations/sale_item_migration.dart';
@@ -45,6 +46,7 @@ class GEDatabase {
         LocationMigration.execute(db),
         SaleMigration.execute(db),
         SaleItemMigration.execute(db),
+        FinanceMigration.execute(db),
       ]);
     } catch (e) {
       log('GEDatabase::onCreate - $e');

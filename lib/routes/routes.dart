@@ -2,6 +2,7 @@ import 'package:geapp/app/components/transition.dart';
 import 'package:geapp/modules/customer/models/customer_model.dart';
 import 'package:geapp/modules/customer/screens/customer_form_screen.dart';
 import 'package:geapp/modules/customer/screens/customer_list_screen.dart';
+import 'package:geapp/modules/finance/screens/finance_list_screen.dart';
 import 'package:geapp/modules/home/screens/home_screen.dart';
 import 'package:geapp/modules/login/screens/login_screen.dart';
 import 'package:geapp/modules/product/models/product_model.dart';
@@ -32,6 +33,9 @@ class Routes {
   static const String saleFormItemInfo = '/sale-form/item-info';
   static const String saleFormSelectCustomer = '/sale-form/select-customer';
   static const String saleFormSelectProduct = '/sale-form/select-product';
+
+  static const String financeList = '/finance-list';
+  static const String financeForm = '/finance-list';
 
   static final GoRouter router = GoRouter(
     initialLocation: Routes.login,
@@ -121,6 +125,12 @@ class Routes {
             state,
             ProductListScreen(onClick: onClick),
           );
+        },
+      ),
+      GoRoute(
+        path: financeList,
+        pageBuilder: (context, state) {
+          return Transition.pageTransition(state, FinanceListScreen());
         },
       ),
     ],
