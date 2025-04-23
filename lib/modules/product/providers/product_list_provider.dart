@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:geapp/app/provider/list_provider.dart';
+import 'package:geapp/modules/image/models/image_model.dart';
 import 'package:geapp/modules/product/models/product_filter_model.dart';
 import 'package:geapp/modules/product/models/product_model.dart';
 import 'package:geapp/modules/product/repositories/product_repository.dart';
@@ -41,6 +42,7 @@ class ProductListProvider extends ListProvider<ProductModel> {
 
       for (var item in result.data) {
         final object = ProductModel.fromMap(item);
+        object.images = await fetchImages(object.code);
         object.units = await fetchUnits(object.code);
         await object.setUnit();
         itemList.add(object);
@@ -95,5 +97,10 @@ class ProductListProvider extends ListProvider<ProductModel> {
   Future<List<UnitModel>> fetchUnits(String? code) async {
     final result = await repository.fetchUnits(code);
     return result.map((x) => UnitModel.fromMap(x)).toList();
+  }
+
+  Future<List<ImageModel>> fetchImages(String? code) async {
+    final result = await repository.fetchImages(code);
+    return result.map((x) => ImageModel.fromMap(x)).toList();
   }
 }

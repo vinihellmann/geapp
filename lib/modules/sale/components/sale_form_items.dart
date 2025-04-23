@@ -43,10 +43,17 @@ class SaleFormItems extends StatelessWidget {
                       context.push(
                         Routes.saleFormSelectProduct,
                         extra: (ProductModel product) {
-                          context.pushReplacement(
-                            Routes.saleFormItemInfo,
-                            extra: product,
-                          );
+                          if (product.selectedUnit != null) {
+                            context.pushReplacement(
+                              Routes.saleFormItemInfo,
+                              extra: product,
+                            );
+                          } else {
+                            Utils.showToast(
+                              "O item precisa de uma unidade para ser inserido na venda",
+                              ToastType.error,
+                            );
+                          }
                         },
                       );
                     },

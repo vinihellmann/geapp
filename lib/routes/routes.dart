@@ -4,6 +4,7 @@ import 'package:geapp/modules/customer/screens/customer_form_screen.dart';
 import 'package:geapp/modules/customer/screens/customer_list_screen.dart';
 import 'package:geapp/modules/finance/screens/finance_list_screen.dart';
 import 'package:geapp/modules/home/screens/home_screen.dart';
+import 'package:geapp/modules/image/screens/image_list_screen.dart';
 import 'package:geapp/modules/login/screens/login_screen.dart';
 import 'package:geapp/modules/product/models/product_model.dart';
 import 'package:geapp/modules/product/screens/product_form_screen.dart';
@@ -27,6 +28,8 @@ class Routes {
 
   static const String unitList = '/unit-list';
   static const String unitForm = '/unit-form';
+
+  static const String imageList = '/image-list';
 
   static const String saleList = '/sale-list';
   static const String saleForm = '/sale-form';
@@ -86,6 +89,12 @@ class Routes {
         path: unitForm,
         pageBuilder: (context, state) {
           return Transition.pageTransition(state, UnitFormScreen());
+        },
+      ),
+      GoRoute(
+        path: imageList,
+        pageBuilder: (context, state) {
+          return Transition.pageTransition(state, ImageListScreen());
         },
       ),
       GoRoute(

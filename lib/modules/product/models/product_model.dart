@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:geapp/modules/image/models/image_model.dart';
 import 'package:geapp/modules/unit/models/unit_model.dart';
 import 'package:uuid/uuid.dart';
 
@@ -11,7 +12,6 @@ class ProductModel {
   String? name;
   String? brand;
   String? groupName;
-  String? image;
   String createdAt;
   String updatedAt;
 
@@ -20,6 +20,7 @@ class ProductModel {
   double price = 0.0;
   UnitModel? selectedUnit;
   List<UnitModel> units = [];
+  List<ImageModel> images = [];
 
   ProductModel({
     this.id,
@@ -28,8 +29,9 @@ class ProductModel {
     this.name,
     this.brand,
     this.groupName,
-    this.image,
     this.selectedUnit,
+    List<UnitModel>? units,
+    List<ImageModel>? images,
     String? createdAt,
     String? updatedAt,
   }) : createdAt = createdAt ?? DateTime.now().toIso8601String(),
@@ -42,10 +44,10 @@ class ProductModel {
     String? name,
     String? brand,
     String? groupName,
-    String? image,
     String? createdAt,
     String? updatedAt,
     List<UnitModel>? units,
+    List<ImageModel>? images,
     UnitModel? selectedUnit,
   }) {
     return ProductModel(
@@ -55,9 +57,10 @@ class ProductModel {
       name: name ?? this.name,
       brand: brand ?? this.brand,
       groupName: groupName ?? this.groupName,
-      image: image ?? this.image,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      units: units ?? this.units,
+      images: images ?? this.images,
       selectedUnit: selectedUnit ?? this.selectedUnit,
     );
   }
@@ -72,7 +75,6 @@ class ProductModel {
       'name': name,
       'brand': brand,
       'groupName': groupName,
-      'image': image,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
     };
@@ -86,7 +88,6 @@ class ProductModel {
       name: map['name'] != null ? map['name'] as String : null,
       brand: map['brand'] != null ? map['brand'] as String : null,
       groupName: map['groupName'] != null ? map['groupName'] as String : null,
-      image: map['image'] != null ? map['image'] as String : null,
       createdAt: map['createdAt'] as String,
       updatedAt: map['updatedAt'] as String,
     );
@@ -99,7 +100,7 @@ class ProductModel {
 
   @override
   String toString() {
-    return 'ProductModel(id: $id,barCode: $barCode, code: $code, name: $name, brand: $brand, groupName: $groupName, image: $image, units: $units, selectedUnit: $selectedUnit, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'ProductModel(id: $id,barCode: $barCode, code: $code, name: $name, brand: $brand, groupName: $groupName, units: $units, selectedUnit: $selectedUnit, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -111,10 +112,10 @@ class ProductModel {
         other.name == name &&
         other.brand == brand &&
         other.groupName == groupName &&
-        other.image == image &&
         other.createdAt == createdAt &&
         other.updatedAt == updatedAt &&
         listEquals(other.units, units) &&
+        listEquals(other.images, images) &&
         other.selectedUnit == selectedUnit;
   }
 
@@ -125,8 +126,8 @@ class ProductModel {
         name.hashCode ^
         brand.hashCode ^
         groupName.hashCode ^
-        image.hashCode ^
         units.hashCode ^
+        images.hashCode ^
         createdAt.hashCode ^
         updatedAt.hashCode ^
         selectedUnit.hashCode;

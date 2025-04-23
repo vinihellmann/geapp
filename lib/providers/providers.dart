@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geapp/app/services/db_service.dart';
 import 'package:geapp/modules/customer/providers/customer_providers.dart';
 import 'package:geapp/modules/finance/providers/finance_providers.dart';
+import 'package:geapp/modules/image/providers/image_providers.dart';
 import 'package:geapp/modules/product/providers/product_providers.dart';
 import 'package:geapp/modules/sale/providers/sale_providers.dart';
 import 'package:geapp/modules/unit/providers/unit_providers.dart';
@@ -23,6 +24,7 @@ class Providers extends StatelessWidget {
         ...CustomerProviders.all(),
         ...ProductProviders.all(),
         ...UnitProviders.all(),
+        ...ImageProviders.all(),
         ...SaleProviders.all(),
       ],
       child: child,

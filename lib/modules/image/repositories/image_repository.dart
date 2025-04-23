@@ -2,18 +2,18 @@ import 'package:geapp/app/database/migrations/product_migration.dart';
 import 'package:geapp/app/models/query_result.dart';
 import 'package:geapp/app/repositories/repository.dart';
 import 'package:geapp/app/services/db_service.dart';
-import 'package:geapp/modules/product/models/product_model.dart';
+import 'package:geapp/modules/image/models/image_model.dart';
 
-class ProductRepository extends Repository<ProductModel> {
+class ImageRepository extends Repository<ImageModel> {
   DBService dbService;
-  ProductRepository(this.dbService);
+  ImageRepository(this.dbService);
 
   updateDependencies(DBService db) {
     dbService = db;
   }
 
   @override
-  String get tableName => ProductMigration.tableName;
+  String get tableName => ProductMigration.tableNameImage;
 
   @override
   Future<QueryResult> search(
@@ -38,7 +38,7 @@ class ProductRepository extends Repository<ProductModel> {
   }
 
   @override
-  Future<int?> upsert(ProductModel item) async {
+  Future<int?> upsert(ImageModel item) async {
     try {
       if (item.id != null) return await update(item);
       return await create(item);
@@ -48,7 +48,7 @@ class ProductRepository extends Repository<ProductModel> {
   }
 
   @override
-  Future<int?> create(ProductModel item) async {
+  Future<int?> create(ImageModel item) async {
     try {
       return await dbService.insert(tableName: tableName, data: item.toMap());
     } catch (e) {
@@ -57,7 +57,7 @@ class ProductRepository extends Repository<ProductModel> {
   }
 
   @override
-  Future<int?> update(ProductModel item) async {
+  Future<int?> update(ImageModel item) async {
     try {
       return await dbService.update(
         tableName: tableName,
@@ -71,36 +71,12 @@ class ProductRepository extends Repository<ProductModel> {
   }
 
   @override
-  Future<int?> delete(ProductModel item) async {
+  Future<int?> delete(ImageModel item) async {
     try {
       return await dbService.delete(
         tableName: tableName,
         whereClause: "code = ?",
         whereArgs: [item.code],
-      );
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<List<dynamic>> fetchUnits(String? code) async {
-    try {
-      return await dbService.query(
-        table: ProductMigration.tableNameUnit,
-        where: 'productCode = ?',
-        whereArgs: [code],
-      );
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<List<dynamic>> fetchImages(String? code) async {
-    try {
-      return await dbService.query(
-        table: ProductMigration.tableNameImage,
-        where: 'productCode = ?',
-        whereArgs: [code],
       );
     } catch (e) {
       rethrow;

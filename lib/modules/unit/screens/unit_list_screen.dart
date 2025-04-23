@@ -46,7 +46,7 @@ class UnitListScreen extends StatelessWidget {
                         context.read<UnitFormProvider>().init(context);
                         final needUpdate = await context.push(Routes.unitForm);
                         if (needUpdate == true && context.mounted) {
-                          context.read<ProductListProvider>().getData();
+                          await context.read<ProductListProvider>().getData();
                           provider.getData();
                         }
                       },

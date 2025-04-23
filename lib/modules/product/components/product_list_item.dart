@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:geapp/app/components/option_tile.dart';
+import 'package:geapp/modules/image/providers/image_list_provider.dart';
 import 'package:geapp/modules/product/models/product_model.dart';
 import 'package:geapp/modules/product/providers/product_form_provider.dart';
 import 'package:geapp/modules/product/providers/product_list_provider.dart';
@@ -58,6 +61,18 @@ class ProductListItem extends StatelessWidget {
               }
             },
           ),
+          SizedBox(height: 10),
+          OptionTile(
+            title: "Imagens",
+            onPress: () async {
+              await context.read<ImageListProvider>().init(item);
+
+              if (context.mounted) {
+                context.pop();
+                context.push(Routes.imageList);
+              }
+            },
+          ),
         ],
       ),
     );
@@ -74,6 +89,13 @@ class ProductListItem extends StatelessWidget {
             horizontal: 20,
             vertical: 10,
           ),
+          leading:
+              item.images.isNotEmpty
+                  ? Image.memory(
+                    base64Decode(item.images.first.image!),
+                    width: 50,
+                  )
+                  : null,
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
