@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geapp/app/components/option_tile.dart';
+import 'package:geapp/modules/finance/providers/finance_list_provider.dart';
 import 'package:geapp/modules/sale/models/sale_model.dart';
 import 'package:geapp/modules/sale/providers/sale_form_provider.dart';
 import 'package:geapp/modules/sale/providers/sale_list_provider.dart';
@@ -27,10 +28,15 @@ class SaleListItem extends StatelessWidget {
           OptionTile(
             title: "Editar",
             onPress: () async {
-              await context.read<SaleFormProvider>().setEdit(item);
+              context.read<SaleFormProvider>().setEdit(item);
+
               if (context.mounted) {
                 final needUpdate = await context.push(Routes.saleForm);
-                if (needUpdate == true) provider.getData();
+
+                if (needUpdate == true && context.mounted) {
+                  context.read<FinanceListProvider>().getData();
+                  provider.getData();
+                }
               }
             },
           ),

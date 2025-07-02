@@ -139,52 +139,59 @@ class _DateTimeInputState extends State<DateTimeInput> {
         }
       },
       child: AbsorbPointer(
-        child: TextFormField(
-          readOnly: true,
-          controller: _controller,
-          validator:
-              widget.isRequired
-                  ? (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Campo Obrigatório!';
+        child: Theme(
+          data: Theme.of(context).copyWith(
+            textSelectionTheme: TextSelectionThemeData(
+              selectionHandleColor: TColor.primary.light,
+            ),
+          ),
+          child: TextFormField(
+            readOnly: true,
+            controller: _controller,
+            validator:
+                widget.isRequired
+                    ? (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Campo Obrigatório!';
+                      }
+                      return null;
                     }
-                    return null;
-                  }
-                  : null,
-          cursorColor: TColor.primary.light,
-          style: TText.md,
-          decoration: InputDecoration(
-            suffixIcon: Icon(
-              color: TColor.button.primary,
-              widget.type == DateTimeFieldType.date
-                  ? Icons.calendar_month_outlined
-                  : Icons.access_time_outlined,
-            ),
-            labelText: widget.label,
-            labelStyle: TText.ss,
-            filled: true,
-            fillColor: TColor.background.light,
-            floatingLabelStyle: TextStyle(color: TColor.primary.light),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: TColor.background.border),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: TColor.error.main),
-            ),
-            errorStyle: TextStyle(color: TColor.error.main),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: TColor.primary.light),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: TColor.primary.light),
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 16,
+                    : null,
+            cursorColor: TColor.primary.light,
+            style: TText.md,
+            decoration: InputDecoration(
+              suffixIcon: Icon(
+                color: TColor.button.primary,
+                widget.type == DateTimeFieldType.date
+                    ? Icons.calendar_month_outlined
+                    : Icons.access_time_outlined,
+              ),
+              labelText: widget.label,
+              labelStyle: TText.ss,
+              filled: true,
+              fillColor: TColor.background.light,
+              floatingLabelStyle: TextStyle(color: TColor.primary.light),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: TColor.background.border),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: TColor.error.main),
+              ),
+              errorStyle: TextStyle(color: TColor.error.main),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: TColor.primary.light),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: TColor.primary.light),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 16,
+              ),
             ),
           ),
         ),

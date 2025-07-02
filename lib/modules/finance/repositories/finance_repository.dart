@@ -23,7 +23,18 @@ class FinanceRepository extends Repository<FinanceModel> {
         whereArgs: [item.saleCode],
       );
 
-      if (hasFinance.isNotEmpty) return await update(item);
+      if (hasFinance.isNotEmpty) {
+        final finance = FinanceModel.fromMap(hasFinance.first);
+        final formattedFinance = finance.copyWith(
+          value: item.value,
+          dueDate: item.dueDate,
+          customerCode: item.customerCode,
+          customerName: item.customerName,
+        );
+
+        return await update(formattedFinance);
+      }
+
       return await create(item);
     } catch (e) {
       rethrow;

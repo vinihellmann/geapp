@@ -147,7 +147,7 @@ class SaleFormProvider extends FormProvider<SaleModel> {
         dueDate: item.deliveryDate,
         customerCode: customer.code,
         customerName: customer.name,
-        description: "VENDA ${item.id}",
+        description: "VENDA ${item.code}",
       );
 
       await financeRepository.upsertBySale(finance);
