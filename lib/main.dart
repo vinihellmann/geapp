@@ -4,7 +4,6 @@ import 'package:geapp/app/database/database.dart';
 import 'package:geapp/providers/providers.dart';
 import 'package:geapp/routes/routes.dart';
 import 'package:geapp/themes/color.dart';
-import 'package:sqflite/sqflite.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,12 +11,11 @@ void main() async {
   final database = GEDatabase();
   final db = await database.initialize();
 
-  runApp(MainApp(database: db));
+  runApp(Providers(database: db, child: App()));
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key, required this.database});
-  final Database database;
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +28,11 @@ class MainApp extends StatelessWidget {
       ),
     );
 
-    return Providers(
-      database: database,
-      child: MaterialApp.router(
-        title: 'GEApp',
-        themeMode: ThemeMode.dark,
-        routerConfig: Routes.router,
-        debugShowCheckedModeBanner: false,
-      ),
+    return MaterialApp.router(
+      title: 'GEApp',
+      themeMode: ThemeMode.dark,
+      routerConfig: Routes.router,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
